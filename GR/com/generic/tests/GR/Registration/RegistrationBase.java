@@ -21,22 +21,7 @@ public class RegistrationBase extends SelTestCase {
 
 	// possible scenarios
 	public static final String freshUser = "fresh";
-	public static final String existingUser = "existing";
 	public static final String emptyData = "empty";
-	public static final String invalidUserID = "UserID";
-	public static final String passwordMismatch = "Mismatch";
-	public static final String invalidPassword = "UserPassword";
-
-	// messagesValidations
-	public static final String successMessage = "success";
-	public static final String invalidEmail = "invalidEmail";
-	public static final String titleError = "titleError";
-	public static final String firstNameError = "firstNameError";
-	public static final String lastNameError = "lastNameError";
-	public static final String passwordError = "passwordError";
-	public static final String confPasswordError = "confirmPasswordError";
-	public static final String passwordRulesError = "passwordRuleError";
-	public static final String passwordMisatchError = "passwordMismatchError";
 
 	// used sheet in test
 	public static final String testDataSheet = SheetVariables.registrationRegressionSheet;
@@ -61,7 +46,6 @@ public class RegistrationBase extends SelTestCase {
 		return data;
 	}
 
-	@SuppressWarnings("unchecked") // avoid warning from linked hashmap
 	@Test(dataProvider = "Registration")
 	public void registrationRegressionTest(String caseId, String runTest, String desc, String proprties,
 			String password, String fieldsValidation) throws Exception {
@@ -69,10 +53,9 @@ public class RegistrationBase extends SelTestCase {
 		Testlogs.set(new SASLogger("registration " + getBrowserName()));
 		// Important to add this for logging/reporting
 		setTestCaseReportName("Registration Case");
-		// Testlogs.get().debug("Case Browser: " +
-		// testObject.getParameter("browserName") );
-		logCaseDetailds(MessageFormat.format(LoggingMsg.REGISTRATIONDESC, testDataSheet + "." + caseId,
-				this.getClass().getCanonicalName(), desc, proprties.replace("\n", "<br>- ")));
+		String CaseDescription = MessageFormat.format(LoggingMsg.TEST_CASE_DESC, testDataSheet + "." + caseId,
+				this.getClass().getCanonicalName(), desc.replace("\n", "<br>--"));
+		initReportTime();
 
 		String thankUMsg = (fieldsValidation.split("ThankyouValidation:").length > 2)
 				? fieldsValidation.split("ThankyouValidation:")[0].split("\n")[0]
@@ -111,8 +94,6 @@ public class RegistrationBase extends SelTestCase {
 				? fieldsValidation.split("PhoneValidation:")[0].split("\n")[0]
 				: "";
 
-
-
 		// Prepare registration data
 		String email = RandomUtilities.getRandomEmail();
 
@@ -120,16 +101,16 @@ public class RegistrationBase extends SelTestCase {
 			// Positive registration case
 			if (proprties.contains(freshUser)) {
 				String registrationSuccessMsg = Registration.registerFreshUser(email, password);
-				sassert().assertTrue(registrationSuccessMsg.toLowerCase().contains(thankUMsg), "Regestration Success, validation failed Expected to have in message: " + thankUMsg +" but Actual message is: " + registrationSuccessMsg);
+				sassert().assertTrue(registrationSuccessMsg.toLowerCase().contains(thankUMsg),
+						"Regestration Success, validation failed Expected to have in message: " + thankUMsg
+								+ " but Actual message is: " + registrationSuccessMsg);
 			}
-
-
 
 			// Negative registration case
 			if (proprties.contains(emptyData)) {
 
 				Registration.goToRegistrationForm();
-				
+
 				Registration.clickRegisterButton();
 
 				String validationMsg = "";
@@ -201,9 +182,12 @@ public class RegistrationBase extends SelTestCase {
 
 			Thread.sleep(2000);
 			sassert().assertAll();
+			logCaseDetailds(CaseDescription);
 			Common.testPass();
 
 		} catch (Throwable t) {
+			logCaseDetailds(CaseDescription + "<br><b><font color='red'>Failure Reason: </font></b>"
+					+ t.getMessage().replace("\n", "").trim());
 			setTestCaseDescription(getTestCaseDescription());
 			Testlogs.get().debug(MessageFormat.format(LoggingMsg.DEBUGGING_TEXT, t.getMessage()));
 			t.printStackTrace();

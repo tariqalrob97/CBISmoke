@@ -15,7 +15,6 @@ import com.generic.setup.ExceptionMsg;
 import com.generic.setup.LoggingMsg;
 import com.generic.util.SelectorUtil.commands.actions;
 
-
 /**
  * The Class HomePage.
  */
@@ -41,7 +40,7 @@ public class HomePage extends SelTestCase {
 		getCurrentFunctionName(false);
 	}
 
-	//This is to disable Monetate if needed.
+	// This is to disable Monetate if needed.
 	public static void updateMmonetate() throws Exception {
 		getCurrentFunctionName(true);
 		getDriver().get(getURL() + "/?monetate=" + getCONFIG().getProperty("monetateStatus"));
@@ -132,18 +131,9 @@ public class HomePage extends SelTestCase {
 		getCurrentFunctionName(true);
 		logs.debug("Get the account menu items.");
 		List<WebElement> menuItems = new ArrayList<WebElement>();
-		//TODO:: (use getAllElements in selectorUtils instead of this function.
-		menuItems = getElementsList(HomePageSelectors.accountMenuItems.get());
+		menuItems = SelectorUtil.getAllElements(HomePageSelectors.accountMenuItems.get());
 		getCurrentFunctionName(false);
 		return menuItems;
-	}
-
-	//TODO:: No need for this function (use getAllElements in selectorUtils instead of this function.)
-	public static List<WebElement> getElementsList(String selector) throws Exception {
-		getCurrentFunctionName(true);
-		List<WebElement> elementsList = SelectorUtil.getAllElements(selector);
-		getCurrentFunctionName(false);
-		return elementsList;
 	}
 
 	public static boolean validateAccountMenuItemsDisplayed() throws Exception {
@@ -174,8 +164,7 @@ public class HomePage extends SelTestCase {
 		isDisplayed = SelectorUtil.isDisplayed(HomePageSelectors.globalFooter.get());
 		List<WebElement> footerItems = new ArrayList<WebElement>();
 
-		//TODO:: (use getAllElements in selectorUtils instead of this function.
-		footerItems = getElementsList(HomePageSelectors.accordionHeader.get());
+		footerItems = SelectorUtil.getAllElements(HomePageSelectors.accordionHeader.get());
 		for (WebElement element : footerItems) {
 			isDisplayed = element.isDisplayed();
 		}
@@ -511,9 +500,8 @@ public class HomePage extends SelTestCase {
 		logs.debug("Get the menu items first level.");
 		List<WebElement> menuFirstLevelElements = new ArrayList<WebElement>();
 
-		//TODO:: (use getAllElements in selectorUtils instead of this function.
 		// Get the menu items list.
-		menuFirstLevelElements = getElementsList(HomePageSelectors.menuItems.get());
+		menuFirstLevelElements = SelectorUtil.getAllElements(HomePageSelectors.menuItems.get());
 		getCurrentFunctionName(false);
 
 		return menuFirstLevelElements;
@@ -529,7 +517,7 @@ public class HomePage extends SelTestCase {
 
 		logs.debug("Open navigation menu");
 		// Click on navigation menu icon and Navigate to an item in the menu.
-		SelectorUtil.initializeSelectorsAndDoActions(HomePageSelectors.navIcon.get()); 
+		SelectorUtil.initializeSelectorsAndDoActions(HomePageSelectors.navIcon.get());
 		getCurrentFunctionName(false);
 	}
 
@@ -572,21 +560,20 @@ public class HomePage extends SelTestCase {
 			SelectorUtil.clickOnWebElement(element);
 
 			// Get the sub menu header text.
-			WebElement selectedMenuHeader = SelectorUtil.getelement(HomePageSelectors.selectedMenuHeader.get());
+			WebElement selectedMenuHeader = SelectorUtil.getElement(HomePageSelectors.selectedMenuHeader.get());
 			String selectedMenuHeaderText = selectedMenuHeader.getText().toLowerCase();
 
 			// Get the current page URL.
 			String pageUrl = SelectorUtil.getCurrentPageUrl();
-
 			// Check if the sub menu header title is the same of the selected item text.
 			if (!selectedMenuHeaderText.equals(selectedText)) {
 				currentPageMatchNavigated = false;
 				validateSubMenuNavigation = false;
 			} else {
+				SelectorUtil.waitGWTLoadedEventPWA();
 
-				//TODO:: (use getAllElements in selectorUtils instead of this function.
 				// Select the list of leaf items in the menu.
-				List<WebElement> leafMenuItems = getElementsList(HomePageSelectors.leafMenuItems.get());
+				List<WebElement> leafMenuItems = SelectorUtil.getAllElements(HomePageSelectors.leafMenuItems.get());
 
 				// Select a random item from the leaf items list.
 				Random rand = new Random();
@@ -603,6 +590,7 @@ public class HomePage extends SelTestCase {
 				SelectorUtil.clickOnWebElement(randomElement);
 
 				Thread.sleep(1000);
+				SelectorUtil.waitGWTLoadedEventPWA();
 				String currentPageUrl = SelectorUtil.getCurrentPageUrl();
 				// Get the current page URL.
 				logs.debug("Navigated random page path: " + currentPageUrl + "    " + href);
