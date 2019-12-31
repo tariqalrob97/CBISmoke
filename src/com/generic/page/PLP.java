@@ -28,8 +28,20 @@ public class PLP extends SelTestCase {
 			boolean result;
 			if (SelTestCase.getBrowserName().contains(GlobalVariables.browsers.iPad))
 				disableMonetate();
-			clickSearchicon();
+			
+			if (!isGH()) {
+				if (isRY()) {
+					if (isMobile())
+						clickSearchicon();
+				} else
+					clickSearchicon();
+			}
+
 			typeSearch(SearchTerm);
+			
+			if(isRY() && !isMobile())
+			PDP.closeSignUpModalIfDisplayed();
+			
 			if (recommendedOption) {
 				String productName = pickRecommendedOption();
 				result = verifyPickedProduct(productName);
@@ -528,8 +540,17 @@ public class PLP extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			boolean result;
-			String productTitle = PDP.getTitle();
-			result = productTitle.contains(productName);
+			String productTitle;
+
+			if (isRY()) {
+				productTitle = PDP.getImageSrcID();
+			} else {
+				productTitle = PDP.getTitle();
+			}
+			
+			logs.debug(productTitle+"ttttttt"+productName);
+			result = productName.contains(productTitle);
+						
 			getCurrentFunctionName(false);
 			return result;
 		} catch (NoSuchElementException e) {
@@ -561,14 +582,31 @@ public class PLP extends SelTestCase {
 	public static String pickRecommendedOption() throws Exception {
 		try {
 			getCurrentFunctionName(true);
+			String imgID;
+			String itemTitle;
+			String SelectorSS;
+			
+			if (isRY()) {
 
-			String SelectorSS = PLPSelectors.recommendedOption.get();
+			    SelectorSS = PLPSelectors.recommendedOptionRY.get();
+
+			} else {
+				SelectorSS = PLPSelectors.recommendedOption.get();
+			}
+			
 			WebElement recommendedProduct = SelectorUtil.getElement(SelectorSS);
-
-			String itemTitle = recommendedProduct.getText();
+			
+			//Getting id of the target image instead of product name in RY as the suggested products do not have names as of now
+			if (isRY()) {
+				imgID = recommendedProduct.getAttribute("innerHTML");
+				itemTitle = imgID.substring(imgID.indexOf("Ryllace") + 8, imgID.indexOf("Ryllace") + 13);
+			} else {
+				itemTitle = recommendedProduct.getText();
+			}
+			
 			logs.debug("Picked item: " + itemTitle);
 			recommendedProduct.click();
-
+			
 			getCurrentFunctionName(false);
 			return itemTitle;
 		} catch (NoSuchElementException e) {

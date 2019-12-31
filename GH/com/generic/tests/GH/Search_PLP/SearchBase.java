@@ -1,15 +1,16 @@
-package com.generic.tests.GHSearch_PLP;
+
+package com.generic.tests.GH.Search_PLP;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
-
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.xml.XmlTest;
 
+import com.generic.page.PDP;
 import com.generic.page.PLP;
 import com.generic.setup.Common;
 import com.generic.setup.LoggingMsg;
@@ -61,14 +62,18 @@ public class SearchBase extends SelTestCase {
 				this.getClass().getCanonicalName(), desc));
 		try {
 			
-			//validate the suggested items
-			if (proprties.contains(RecommendedProductsCase)) 
-			sassert().assertTrue(PLP.searchAndVerifyResults("glass" , true), "Serach validation failed");
-			
-			//Validate the direct search
-			if (proprties.contains(fullSearchCase)) 
-			sassert().assertTrue(PLP.searchAndVerifyResults("mat" , false), "Serach validation failed");
-			
+			Common.refreshBrowser();
+					
+			PDP.closeSignUpModalIfDisplayed();
+
+			// validate the suggested items only on mobile and desktop, as iPad view doesn't have suggested items
+			if (proprties.contains(RecommendedProductsCase) && !isiPad())
+				sassert().assertTrue(PLP.searchAndVerifyResults("red", true), "Serach validation failed");
+
+			// Validate the direct search
+			if (proprties.contains(fullSearchCase))
+				sassert().assertTrue(PLP.searchAndVerifyResults("mat", false), "Serach validation failed");
+
 			sassert().assertAll();
 			Common.testPass();
 		} catch (Throwable t) {

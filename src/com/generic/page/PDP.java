@@ -881,11 +881,16 @@ public static boolean validateSelectRegistryOrWishListModalIsDisplayed() throws 
 		return isDisplayed;
 	} 
 
-	// done-ocm
+	// done-CBI
 	public static String getTitle() throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.title.get());
+			if (isGHRY()) {
+				SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.titleGH.get());
+
+			} else {
+				SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.title.get());
+			}
 			getCurrentFunctionName(false);
 			return SelectorUtil.textValue.get();
 		} catch (NoSuchElementException e) {
@@ -894,6 +899,28 @@ public static boolean validateSelectRegistryOrWishListModalIsDisplayed() throws 
 			throw e;
 		}
 	}
+	
+	
+	// done-CBI
+	public static String getImageSrcID() throws Exception {
+		try {
+			getCurrentFunctionName(true);
+			WebElement product =SelectorUtil.getElement(PDPSelectors.imgID.get());
+			
+			String imgString = product.getAttribute("src");
+			String imgID = imgString.substring(imgString.indexOf("Ryllace") + 8, imgString.indexOf("Ryllace") + 13);
+			
+			getCurrentFunctionName(false);
+			return imgID;
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
+			}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+	}
+	
+	
+	
 
 		public static void hoverMiniCart() throws Exception {
 		getCurrentFunctionName(true);
