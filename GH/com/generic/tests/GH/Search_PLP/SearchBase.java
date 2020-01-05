@@ -29,7 +29,7 @@ public class SearchBase extends SelTestCase {
 
 	private static ThreadLocal<SASLogger> Testlogs = new ThreadLocal<SASLogger>();
 	private static LinkedHashMap<String, Object> users;
-	
+
 	private String RecommendedProductsCase = "Recommended products";
 	private String fullSearchCase = "full search";
 
@@ -39,7 +39,7 @@ public class SearchBase extends SelTestCase {
 		testObject = test;
 		users = Common.readUsers();
 	}
-	
+
 	@DataProvider(name = "PLP", parallel = true)
 	// concurrency maintenance on sheet reading
 	public static Object[][] loadTestData() throws Exception {
@@ -51,28 +51,28 @@ public class SearchBase extends SelTestCase {
 		return data;
 	}
 
-	
 	@Test(dataProvider = "PLP")
-	public void verifyPLP(String caseId, String runTest,String proprties, String desc) throws Exception {
-		
+	public void verifyPLP(String caseId, String runTest, String proprties, String desc) throws Exception {
+
 		Testlogs.set(new SASLogger("PLP " + getBrowserName()));
 		// Important to add this for logging/reporting
 		setTestCaseReportName("PLP Case");
 		logCaseDetailds(MessageFormat.format(LoggingMsg.TEST_CASE_DESC, testDataSheet + "." + caseId,
 				this.getClass().getCanonicalName(), desc));
 		try {
-			
+
 			Common.refreshBrowser();
-					
+
 			PDP.closeSignUpModalIfDisplayed();
 
-			// validate the suggested items only on mobile and desktop, as iPad view doesn't have suggested items
+			// validate the suggested items only on mobile and desktop, as iPad view doesn't
+			// have suggested items
 			if (proprties.contains(RecommendedProductsCase) && !isiPad())
 				sassert().assertTrue(PLP.searchAndVerifyResults("red", true), "Serach validation failed");
 
 			// Validate the direct search
 			if (proprties.contains(fullSearchCase))
-				sassert().assertTrue(PLP.searchAndVerifyResults("mat", false), "Serach validation failed");
+				sassert().assertTrue(PLP.searchAndVerifyResults("red", false), "Serach validation failed");
 
 			sassert().assertAll();
 			Common.testPass();

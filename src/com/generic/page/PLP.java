@@ -74,7 +74,12 @@ public class PLP extends SelTestCase {
 
 			Thread.sleep(3000);
 			
-			sortByPriceHighToLow();		
+			if (isGR() || isFG())
+				sortByPriceHighToLow();
+
+			else if (isGH() || isRY())
+				sortByProductName();
+
 			List<String> H2LsortedProductsNames = getfirst3ProductsNames();
 			
 			result = result && compareOperationResults(L2HproductsNames, H2LsortedProductsNames);
@@ -169,17 +174,26 @@ public class PLP extends SelTestCase {
 	private static void clickOnFilterBy() throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			if(isFG())
+			
+			if (isFG())
 				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.FilterContainer.get());
 			if (isGR()) {
-				
+
 				if (!isMobile()) {
 					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRFilterContainer.get());
-				}
-				else
+				} else
 					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRFilterContainer.get());
 
 			}
+			if (isGH() && isMobile()) {
+				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.FilterContainerGHRY.get());
+			}	
+			if (isRY()) {
+				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.FilterContainerGHRY.get());
+			
+			}	
+			
+			
 				getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
@@ -192,46 +206,65 @@ public class PLP extends SelTestCase {
 	private static void selectFilterName() throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			if(isFG())
-				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.FilterContainerContents.get() , "ForceAction,click");
-			if (isGR()) {
-				if(!isMobile())
-					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRFilterContainerContents.get(), "ForceAction,click");
-				else
-					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRFilterContainerContents.get(), "ForceAction,click");
-
-			}
 			
-			if(isMobile())
-			{
-				if(isFG()) {
+			Thread.sleep(2000);
+			
+			if (isFG()) {
+				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.FilterContainerContents.get(),"ForceAction,click");
+
+				if (isMobile()) {
 					try {
 						SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.allCatigories.get(),
 								"ForceAction,click");
 					} catch (Exception e) {
-	
-						try {
-							
-							SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.allCatigories2.get(),"ForceAction,click");
 
-						}
-						catch(Exception e2) {
-							List <WebElement> maxPriceField = SelectorUtil.getElementsList(PLPSelectors.filterPrice.get());
+						try {
+
+							SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.allCatigories2.get(),
+									"ForceAction,click");
+
+						} catch (Exception e2) {
+							List<WebElement> maxPriceField = SelectorUtil
+									.getElementsList(PLPSelectors.filterPrice.get());
 							maxPriceField.get(0).clear();
 							maxPriceField.get(0).sendKeys("250");
-							
+
 						}
-						
+
 					}
+
 				}
-				if(isGR())
-					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRallCatigories.get(), "ForceAction,click");
-					
-					
+
 			}
 			
-			Thread.sleep(3000);
+			if (isGR()) {
+
+				if (isMobile()) {
+					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRFilterContainerContents.get(),"ForceAction,click");
+					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRallCatigories.get(),"ForceAction,click");
+				} 
+				else
+					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRFilterContainerContents.get(),"ForceAction,click");
+			}
+
+			if (isGH()) {
+				if (isMobile()) {
+					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.FilterContainerContentsGH.get(),"ForceAction,click");
+					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.clearanceGH.get(), "ForceAction,click");
+				}
+				else
+					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.clearanceGH.get(), "ForceAction,click");
+			}
+			
+			if (isRY()) {
+
+				List<WebElement> filters = SelectorUtil.getAllElements((PLPSelectors.firstFilterRY.get()));
+				filters.get(1).click();
+			}
+			
 			getCurrentFunctionName(false);
+		
+			
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
 			}.getClass().getEnclosingMethod().getName()));
@@ -342,6 +375,29 @@ public class PLP extends SelTestCase {
 				}
 				
 			}
+			if(isGH()) {
+				if (isMobile())
+				{
+					clickOnSortMenu();
+				}
+				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.PriceLowToHighGH.get(),"forceAction,click");
+							
+			}
+			
+			if(isRY()) {
+				clickOnSortMenu();					
+
+				if (isMobile()) {
+
+					List<WebElement> sortingOptions = SelectorUtil.getAllElements(PLPSelectors.PriceLowToHighRYMobile.get());
+					sortingOptions.get(2).click();
+				} else {
+					List<WebElement> sortingOptions = SelectorUtil.getAllElements(PLPSelectors.PriceLowToHighRYDesktop.get());
+					sortingOptions.get(2).click();
+				}
+				
+			}
+			
 			getCurrentFunctionName(false);
 
 		} catch (NoSuchElementException e) {
@@ -379,6 +435,16 @@ public class PLP extends SelTestCase {
 				}
 				
 			}
+			
+			if (isGH()) {
+				if (isMobile()) {
+					clickOnSortMenu();
+				}
+				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.ProductNameGH.get());
+
+			}
+			
+			
 			getCurrentFunctionName(false);
 
 		} catch (NoSuchElementException e) {
@@ -388,6 +454,37 @@ public class PLP extends SelTestCase {
 		}
 	}
 	
+	
+	
+	// CBI
+	private static void sortByProductName() throws Exception {
+
+		try {
+			getCurrentFunctionName(true);
+
+			if (isGH()) {
+				if (isMobile()) {
+					clickOnSortMenu();
+				}
+				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.ProductNameGH.get());
+
+			}
+			
+			if(isRY()) {
+				clickOnSortMenu();
+				List<WebElement> sortingoptions = SelectorUtil.getAllElements(PLPSelectors.ProductNameRY.get());
+				sortingoptions.get(4).click();
+				
+			}
+
+			getCurrentFunctionName(false);
+
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
+			}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+	}
 	
 	
 	// CBI
@@ -465,7 +562,15 @@ public class PLP extends SelTestCase {
 	private static void clickOnSortMenu() throws Exception {
 		try {
 		getCurrentFunctionName(true);
-		SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.mobileSortingMenu.get());
+		
+			if (isRY()) {
+				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.SortingMenuRY.get());
+
+			} else {
+
+				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.mobileSortingMenu.get());
+			}
+			
 		getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
@@ -519,10 +624,14 @@ public class PLP extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			boolean result;
-			Thread.sleep(1000);
+			Thread.sleep(2500);
 
 			if (isGR())
 				result = SelectorUtil.isImgLoaded(PLPSelectors.productsImagesGR.get());
+			
+			if (isGH() || isRY())
+				result = SelectorUtil.isImgLoaded(PLPSelectors.productsImagesGH.get());
+			
 			else
 				result = SelectorUtil.isImgLoaded(PLPSelectors.productsImages.get());
 
@@ -548,7 +657,6 @@ public class PLP extends SelTestCase {
 				productTitle = PDP.getTitle();
 			}
 			
-			logs.debug(productTitle+"ttttttt"+productName);
 			result = productName.contains(productTitle);
 						
 			getCurrentFunctionName(false);
@@ -654,7 +762,7 @@ public class PLP extends SelTestCase {
 			getCurrentFunctionName(true);
 			String SelectorSS;
 			if (isGHRY())
-				SelectorSS = PLPSelectors.GHproductsImages.get();
+				SelectorSS = PLPSelectors.productsImagesGH.get();
 			else if (isGR())
 				SelectorSS = PLPSelectors.productsImagesGR.get();
 			else
