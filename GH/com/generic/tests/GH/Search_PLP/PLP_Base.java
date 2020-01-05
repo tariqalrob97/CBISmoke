@@ -1,17 +1,15 @@
-package com.generic.tests.GHSearch_PLP;
+
+package com.generic.tests.GH.Search_PLP;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
-
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.xml.XmlTest;
-
 import com.generic.page.Registration;
-import com.generic.page.Login;
 import com.generic.setup.Common;
 import com.generic.setup.LoggingMsg;
 import com.generic.setup.PagesURLs;
@@ -63,12 +61,13 @@ public class PLP_Base extends SelTestCase {
 		String emailSubmail = getSubMailAccount((String) userDetails.get(Registration.keys.email));
 
 		try {
-			
+		/*	
 			if (Proprties.contains("Loggedin"))
 			{
-				Login.logIn(emailSubmail, (String) userDetails.get(Registration.keys.password));
+				SignIn.logIn(emailSubmail, (String) userDetails.get(Registration.keys.password));
 
 			}
+			*/
 			String url = PagesURLs.getHomePage()+ PagesURLs.getPLP();
 			getDriver().get(url);
 			Thread.sleep(1000);
