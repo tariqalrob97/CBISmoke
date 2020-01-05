@@ -266,7 +266,7 @@ public class SelTestCase {
 	public static void initReportTime() {
 		logs.debug("Case started: " + Thread.currentThread().getStackTrace()[2]);
 	}
-	
+
 	public static void getBrowserWait(String BrowserName) {
 		try {
 			int waitBrowser = RandomUtils.nextInt(0, 2000);
@@ -391,6 +391,8 @@ public class SelTestCase {
 		try {
 			Common.launchApplication(test.getParameter("browserName"), test.getParameter("Env"),
 					test.getParameter("Brand"));
+			if (isMobile())
+				getDriver().navigate().refresh();
 
 		} catch (Throwable t) {
 			logs.debug(MessageFormat.format(LoggingMsg.DEBUGGING_TEXT, t));
@@ -455,6 +457,8 @@ public class SelTestCase {
 				passedNumber++;
 			} else if (status.get("Status").toLowerCase().contains("fail")) {
 				failedNumber++;
+			} else if (status.get("Status").toLowerCase().contains("skip")) {
+				skippedNumber++;
 			}
 			logs.debug(Arrays.asList(status) + "");
 			if (!(status.get("TestName").equals("") || status.get("StartTime").equals("")
