@@ -40,6 +40,9 @@ public class PLPSelectors {
 
     public static final cselector FilterContainer = new cselector("css,div.text-facets-container-panel div.unbxd-all-options-container span.gwt-InlineLabel.selected-option-span","css,div.c-product-list__container-filter-option.u-flex-1.u-margin-end > div > button > div");
     public static final cselector FilterContainerGHRY = new cselector("css,#text-facets-container-panel .selected-option-span","css,.c-product-list__filters-filter-button");
+    public static final cselector FilterContainerGHRYDesktop = new cselector("css,.unbxd-facet-option-checkbox input","css,");
+
+    
     public static final cselector FilterContainerContents =  new cselector("css,div.unbxd-facet-option.text-facet span.unbxd-facet-option-checkbox input","css,.u-color-neutral-70.u-text-uppercase.u-text-align-center.u-letter-spacing-3");
     public static final cselector FilterContainerContentsGH =  new cselector("css,","css,.pw-sheet__content .pw-accordion__close-icon");
 
@@ -49,7 +52,9 @@ public class PLPSelectors {
 
     
 	public static final cselector allCatigories = new cselector("","css,div.c-custom-accordion__list-of-items-item>div>div>div>input");
-	public static final cselector clearanceGH = new cselector("css,.unbxd-facet-option-checkbox","css,#Clearance");
+	public static final cselector clearanceGH = new cselector("css,.unbxd-facet-option-checkbox input","css,#Clearance");
+	public static final cselector colorFilterGH = new cselector("css,.unbxd-facet-option-checkbox > input","css,.pw-field__inner input");
+	
 	public static final cselector firstFilterRY = new cselector("css,.unbxd-facet-option-checkbox > input","css,.m-product-list__filter-container .m-product-list__filter-items .pw-button");
 
 	 
@@ -86,11 +91,15 @@ public class PLPSelectors {
 			"css,#mainContent > div.genericESpot > div.container.no-padding.grid-subcategories > div > div:nth-child(1) > div > a > img",
 			"css,#app-main > div > div:nth-child(1) > div.u-flexbox.u-direction-row.u-flex-wrap > div:nth-child(1) > a > div.c-lazy-image.u-width-full > div > img");
 	
-	
 	public static final cselector navigatetoPLPGR = new cselector(
 			"css,#mainContent > div.container.no-padding.grid-subcategories > div > div:nth-child(1) > div > a > img",
 			"css,#mainContent > div.container.no-padding.grid-subcategories > div > div:nth-child(1) > div > a > img",
 			"css,#app-main > div > div:nth-child(3) > div:nth-child(1) > a > div.c-lazy-image.u-width-full > div > img");
+	
+	public static final cselector navigatetoPLPGH = new cselector(
+			"css,.gwt-sub-category-image",
+			"css,.gwt-sub-category-image",
+			"css,.c-lazy-image.u-width-full > div > img");
 	
 	public static final cselector navigatetoPLP2GR = new cselector(
 			"css,#mainContent > div.genericESpot > div.container.no-padding.grid-subcategories > div > div:nth-child(1) > div > a > img",

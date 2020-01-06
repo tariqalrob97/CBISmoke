@@ -113,4 +113,27 @@ public class CLP extends SelTestCase {
 			throw e;
 		}
 	}
+	
+
+	public static List<WebElement> menueForGH() throws Exception {
+		try {
+			List<WebElement> items = new ArrayList<WebElement>();
+			items = SelectorUtil.getAllElements(HomePageSelectors.menuItemsGH.get());
+			
+			if (isMobile()) {
+				items.remove(1);// remove sale of the day item
+				items.remove(2);// remove gift cards item
+				items.remove(3);// remove gift cards item
+			} else if (isiPad()) {
+				items.remove(0);// remove waht's new
+
+			}
+			return items;
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
+			}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+	}
+	
 }
