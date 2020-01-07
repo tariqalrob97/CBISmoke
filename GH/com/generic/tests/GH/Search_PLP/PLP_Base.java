@@ -4,22 +4,17 @@ package com.generic.tests.GH.Search_PLP;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
-import org.testng.Assert;
 import org.testng.SkipException;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.xml.XmlTest;
-
 import com.generic.page.PDP;
 import com.generic.page.PLP;
-import com.generic.page.Registration;
 import com.generic.setup.Common;
 import com.generic.setup.LoggingMsg;
-import com.generic.setup.PagesURLs;
 import com.generic.setup.SelTestCase;
 import com.generic.setup.SheetVariables;
-import com.generic.util.ReportUtil;
 import com.generic.util.SASLogger;
 import com.generic.util.dataProviderUtils;
 

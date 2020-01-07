@@ -122,8 +122,8 @@ public class CLP extends SelTestCase {
 			
 			if (isMobile()) {
 				items.remove(1);// remove sale of the day item
-				items.remove(2);// remove gift cards item
-				items.remove(3);// remove gift cards item
+				items.remove(1);// remove gift cards item
+				items.remove(1);// remove gift cards item
 			} else if (isiPad()) {
 				items.remove(0);// remove waht's new
 

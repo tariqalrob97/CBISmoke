@@ -36,6 +36,10 @@ public class PLPSelectors {
     public static final cselector ProductNameRY = new cselector("css,.unbxd-sort-by-option-anchor","css,.m-product-sort-modal .pw-button__inner");
 
     public static final cselector PriceLowToHighPLP = new cselector("Price: Low to High","css,#unbxd_prime_sort_price-asc > div");
+    public static final cselector PriceLowToHighPLPGH = new cselector("Price: Low to High","css,#unbxd_prime_sort_price-asc");
+    public static final cselector PriceLowToHighPLPGHUNBXD = new cselector("Price: Low to High","css,#unbxd_liquidation_sort_price-asc");
+
+    
     public static final cselector PriceHighToLowPLP = new cselector("Price: High to Low","css,#unbxd_prime_sort_price-desc > div");
 
     public static final cselector FilterContainer = new cselector("css,div.text-facets-container-panel div.unbxd-all-options-container span.gwt-InlineLabel.selected-option-span","css,div.c-product-list__container-filter-option.u-flex-1.u-margin-end > div > button > div");

@@ -8,6 +8,7 @@ import java.util.Random;
 
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 
 import com.generic.selector.HomePageSelectors;
 import com.generic.selector.PLPSelectors;
@@ -547,6 +548,37 @@ public class PLP extends SelTestCase {
 				}
 
 			}
+			
+			if (isGH()) {
+				if (isMobile()) {
+					clickOnSortMenu();
+				}
+				try {
+					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.PriceLowToHighPLPGH.get(),
+							"forceAction,click");
+				} catch (Exception e) {
+					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.PriceLowToHighPLPGHUNBXD.get(),
+							"forceAction,click");
+
+				}
+			}
+			
+			if(isRY()) {
+				clickOnSortMenu();					
+				PDP.closeSignUpModalIfDisplayed();
+
+				if (isMobile()) {
+
+					List<WebElement> sortingOptions = SelectorUtil.getAllElements(PLPSelectors.PriceLowToHighRYMobile.get());
+					sortingOptions.get(2).click();
+				} else {
+					List<WebElement> sortingOptions = SelectorUtil.getAllElements(PLPSelectors.PriceLowToHighRYDesktop.get());
+					sortingOptions.get(2).click();
+				}
+				
+			}
+			
+			
 			getCurrentFunctionName(false);
 
 		} catch (NoSuchElementException e) {
@@ -938,6 +970,48 @@ public class PLP extends SelTestCase {
 
 	}
 	
+	
+	// CBI
+	public static void navigateToRandomPLPRY() throws Exception {
+		try {
+			getCurrentFunctionName(true);
+			List<WebElement> menuFirstLevelElements;
+			
+			if (isMobile() || isiPad()) {
+				SelectorUtil.initializeSelectorsAndDoActions(HomePageSelectors.shopMenuRY.get());
+
+				if (isMobile()) { // Expand the menu options on mobile
+					List<WebElement> expandIcons= SelectorUtil.getAllElements(HomePageSelectors.expandShopMenuRY.get());
+					expandIcons.get(4).click();
+				}
+					
+				menuFirstLevelElements = SelectorUtil.getAllElements(HomePageSelectors.menuItemsRY.get());
+				Random randomGenerator = new Random();
+				WebElement randomElement = menuFirstLevelElements
+						.get(randomGenerator.nextInt(menuFirstLevelElements.size() - 1));
+				SelectorUtil.clickOnWebElement(randomElement);
+
+			} else {
+				Actions actions = new Actions(getDriver());
+				WebElement shopMenu = SelectorUtil.getElement(HomePageSelectors.shopMenuRY.get());
+				actions.moveToElement(shopMenu).perform(); // Hover on shop menu
+
+				menuFirstLevelElements = SelectorUtil.getAllElements(HomePageSelectors.menuItemsRY.get());
+				Random randomGenerator = new Random();
+				WebElement randomElement = menuFirstLevelElements
+						.get(randomGenerator.nextInt(menuFirstLevelElements.size() - 1));
+				SelectorUtil.clickOnWebElement(randomElement);
+
+			}
+			
+			getCurrentFunctionName(false);
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
+			}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+
+	}
 	
 
 	// CBI
