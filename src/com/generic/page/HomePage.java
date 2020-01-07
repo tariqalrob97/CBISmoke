@@ -501,7 +501,14 @@ public class HomePage extends SelTestCase {
 		List<WebElement> menuFirstLevelElements = new ArrayList<WebElement>();
 
 		// Get the menu items list.
-		menuFirstLevelElements = SelectorUtil.getAllElements(HomePageSelectors.menuItems.get());
+		if (isGH()) {
+
+			menuFirstLevelElements = SelectorUtil.getAllElements(HomePageSelectors.menuItemsGH.get());
+
+		} else {
+			menuFirstLevelElements = SelectorUtil.getAllElements(HomePageSelectors.menuItems.get());
+
+		}	
 		getCurrentFunctionName(false);
 
 		return menuFirstLevelElements;

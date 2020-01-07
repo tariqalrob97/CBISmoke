@@ -8,7 +8,10 @@ public class HomePageSelectors
   	public static final cselector accountMenu = new cselector ("css,.gwt-MenuItem > a#accountMenu","css,#pwa-my-account-button .pw-button");
 	public static final cselector accountMenuItems = new cselector ("css,.gwt-MenuItem > div > a","css,div.pw-list-tile > a");
 	public static final cselector navIcon = new cselector("css,.nav-toggle", "css,div#pwa-shop-nav-button .pw-button");
-
+	public static final cselector shopMenuRY = new cselector("css,.gwt-MenuItem a", "css,.t-header__menu-button .pw-button");
+	public static final cselector expandShopMenuRY = new cselector("css,.pw-accordion__inner-header .pw-accordion__icon");
+	public static final cselector menuItemsRY = new cselector("css,.subcat-level-1","css,.container .gwt-MenuItem a" ,"css,.pw-accordion__content .pw-list-tile__content");
+	
 	public static final cselector countrySelector = new cselector("css,#gwt_country_changer", "css,div.t-footer-links  > div > div > button");
 	public static final cselector accordionHeader =  new cselector("css,div.footerInner > div > div > div > h3","css,div.pw-accordion > div.pw-accordion__item"); 
 	public static final cselector globalFooter =  new cselector("css,div.footerInner","css,footer > div.c-custom-accordion"); 
@@ -44,6 +47,8 @@ public class HomePageSelectors
 	// Header navigation menu selectors.
 	public static final cselector navigationIcon = new cselector("css,.nav-toggle", "css,.t-header__menu-icon .pw-button");
 	public static final cselector menuItems = new cselector("css,#css-top-navigation #flyout>.menuItem>a","css,#gwt-top-navigation .active>.gwt-nav-item-has-submenu>.gwt-HTML", "css,.navigation-modal_class .pw-link");
+	public static final cselector menuItemsGH = new cselector("css,#css-top-navigation #flyout>.menuItem>a","css,.nav .dropdown >a", "css,.pw-accordion__icon");
+
 	public static final cselector selectedMenuHeader = new cselector("", "css,#gwt-top-navigation .active>.gwt-nav-item-has-submenu.opened>.gwt-HTML", "css,.m-navigation__fades-in .pw-header-bar .c-sheet__title");
 	public static final cselector leafMenuItems = new cselector("", "css,.active-menu-item>:not(.gwt-nav-item-has-submenu)", "css,.navigation-modal_class .pw-list-tile:not(.pw--has-child) .pw-link");
 	public static final String sideBoxHeader = "css,#sideBoxHeader";
