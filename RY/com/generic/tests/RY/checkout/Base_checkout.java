@@ -1,4 +1,4 @@
-package com.generic.tests.GH.checkout;
+package com.generic.tests.RY.checkout;
 
 import java.text.MessageFormat;
 import java.util.Arrays;

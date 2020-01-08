@@ -209,18 +209,22 @@ public class CheckOut extends SelTestCase {
 		// Done CBI
 		public static void typeCVV(String CVV) throws Exception {
 			try {
-				getCurrentFunctionName(true);
-				// WebDriverWait wait = new WebDriverWait(getDriver(), 15);
+				getCurrentFunctionName(true);				
+				if (isFG() || isGR()) {
+					// Switch to cvv iframe
+					Thread.sleep(2800);
 
-				// Switch to cvv iframe
-				Thread.sleep(2800);
+					// wait for cvv iframe to load
+					waitforCvvFrame();
 
-				// wait for cvv iframe to load
-				waitforCvvFrame();
+					getDriver().switchTo().frame(GlobalVariables.CVV_Iframe_ID);
+					SelectorUtil.initializeSelectorsAndDoActions(CheckOutSelectors.cvv.get(), CVV);
 
-				getDriver().switchTo().frame(GlobalVariables.CVV_Iframe_ID);
+				} else if(isGH() || isRY()) {
+					SelectorUtil.initializeSelectorsAndDoActions(CheckOutSelectors.cvvGH.get(), CVV);
+
+				}
 				Thread.sleep(2000);
-				SelectorUtil.initializeSelectorsAndDoActions(CheckOutSelectors.cvv.get(), CVV);
 
 				// WebElement cvvField =
 				// wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(CheckOutSelectors.cvv.get())));
@@ -285,6 +289,10 @@ public class CheckOut extends SelTestCase {
 		private static void typeExpireMonth(String month) throws Exception {
 			try {
 				getCurrentFunctionName(true);
+				
+				if(isGH() || isRY())
+					month=month.substring(1);//Remove 0 from 06 
+				
 				SelectorUtil.initializeSelectorsAndDoActions(CheckOutSelectors.monthField.get(), month);
 				getCurrentFunctionName(false);
 			} catch (NoSuchElementException e) {
@@ -298,9 +306,7 @@ public class CheckOut extends SelTestCase {
 		public static void typeExpireYear(String expireYear) throws Exception {
 			try {
 				getCurrentFunctionName(true);
-				getCurrentFunctionName(true);
 				SelectorUtil.initializeSelectorsAndDoActions(CheckOutSelectors.yearField.get(), expireYear);
-				getCurrentFunctionName(false);
 				getCurrentFunctionName(false);
 			} catch (NoSuchElementException e) {
 				logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
@@ -338,8 +344,6 @@ public class CheckOut extends SelTestCase {
 				}
 
 				PDP.addProductsToCart();
-				if (!getBrowserName().contains(GlobalVariables.browsers.iPhone))
-					PDP.clickAddToCartCloseBtn();
 
 				URI url = new URI(getURL());
 				getDriver().get("https://" + url.getHost());

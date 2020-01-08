@@ -1,4 +1,4 @@
-package com.generic.tests.GH.checkout;
+package com.generic.tests.RY.checkout;
 
 import java.text.MessageFormat;
 import java.util.LinkedHashMap;
@@ -9,7 +9,8 @@ import com.generic.setup.GlobalVariables;
 import com.generic.setup.LoggingMsg;
 import com.generic.setup.SelTestCase;
 
-public class GuestCheckoutMultipleAddress extends SelTestCase {
+public class GuestCheckoutSingleAddress extends SelTestCase {
+
 
 	public static void startTest(int productsCount, LinkedHashMap<String, String> addressDetails,
 			LinkedHashMap<String, String> paymentDetails) throws Exception {
@@ -21,9 +22,7 @@ public class GuestCheckoutMultipleAddress extends SelTestCase {
 			String orderShipping;
 
 			// Add products to cart
-			//CheckOut.searchForProductsandAddToCart(productsCount);
-			
-			Thread.sleep(70000);
+			CheckOut.searchForProductsandAddToCart(productsCount);
 
 			// Navigating to Cart by URL
 			CheckOut.navigatetoCart();
@@ -34,21 +33,16 @@ public class GuestCheckoutMultipleAddress extends SelTestCase {
 			// Clicking begin secure checkout
 			CheckOut.clickGuestCheckoutButton();
 
-			Thread.sleep(1500);
-
-			// Clicking multiple addresses tab
-			CheckOut.clickMultipleAddressesTab();
-
 			Thread.sleep(1000);
 
 			// Add addresses for each product and save them
-			CheckOut.fillCheckoutFirstStepAndSave(productsCount, addressDetails);
+			CheckOut.fillCheckoutFirstStepAndSave(addressDetails);
 
 			// Proceed to step 2
 			CheckOut.proceedToStepTwo();
 
 			// Check number of products in step 2
-			sassert().assertTrue(CheckOut.checkProductsinStepTwo() >= productsCount, "Some products are missing in step 2 ,in step 2"+ CheckOut.checkProductsinStepTwo()+" ,But added "+productsCount);
+			sassert().assertTrue(CheckOut.checkProductsinStepTwo() == productsCount, "Some products are missing in step 2 ");
 
 			// Proceed to step 3
 			CheckOut.proceedToStepThree();
@@ -81,16 +75,16 @@ public class GuestCheckoutMultipleAddress extends SelTestCase {
 			CheckOut.closeRegisterButton();
 
 			// Check number of products in confirmation page
-			sassert().assertTrue(CheckOut.checkProductsinConfirmationPage() == productsCount,"Some products are missing in confirmation page, in confirmation page"+ CheckOut.checkProductsinConfirmationPage()+"But added:"+productsCount);
+			sassert().assertTrue(CheckOut.checkProductsinConfirmationPage() == productsCount,"Some products are missing in confirmation page ");
 
 			// Check if shipping costs match
-			sassert().assertTrue(CheckOut.getShippingCosts().equals(orderShipping), "Shipping cost value issue "+CheckOut.getShippingCosts() + "vs" + orderShipping);
+			sassert().assertTrue(CheckOut.getShippingCosts().equals(orderShipping), "Shipping cost value issue ");
 
 			// Check if tax cost match
-			sassert().assertTrue(CheckOut.getTaxCosts(GlobalVariables.FG_TAX_CONFIRMATION).equals(orderTax), "Tax value issue " +CheckOut.getTaxCosts(GlobalVariables.FG_TAX_CONFIRMATION) +"vs" + orderTax);
+			sassert().assertTrue(CheckOut.getTaxCosts(GlobalVariables.FG_TAX_CONFIRMATION).equals(orderTax), "Tax value issue ");
 
 			// Check if subtotal value match
-			sassert().assertTrue(CheckOut.getSubTotal().equals(orderSubTotal), "Subtotal value issue " + CheckOut.getSubTotal() +"vs" + orderSubTotal);
+			sassert().assertTrue(CheckOut.getSubTotal().equals(orderSubTotal), "Subtotal value issue ");
 
 			getCurrentFunctionName(false);
 
@@ -101,6 +95,5 @@ public class GuestCheckoutMultipleAddress extends SelTestCase {
 		}
 
 	}
-
 	
 }
