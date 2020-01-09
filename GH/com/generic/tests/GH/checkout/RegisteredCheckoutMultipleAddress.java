@@ -11,6 +11,7 @@ import com.generic.setup.ExceptionMsg;
 import com.generic.setup.GlobalVariables;
 import com.generic.setup.LoggingMsg;
 import com.generic.setup.SelTestCase;
+import com.generic.util.RandomUtilities;
 
 public class RegisteredCheckoutMultipleAddress extends SelTestCase  {
 	
@@ -22,18 +23,20 @@ public class RegisteredCheckoutMultipleAddress extends SelTestCase  {
 			String orderSubTotal;
 			String orderTax;
 			String orderShipping;
-			
-			String userMail = getSubMailAccount(userDetalis.get(Registration.keys.email));
-			String userPassword = userDetalis.get(Registration.keys.password);
+			String fName = "FirstVisa";
+			String lName = "LastVisa";
+			String userMail = RandomUtilities.getRandomEmail();
+			String userPassword = "TestITG226";
 
-			int productsCountStepTWO=0;
+			int productsCountStepTWO = 0;
 
-			//Perform login
-			Login.fillLoginFormAndClickSubmit(userMail, userPassword);		
+
+			//Perform Registratin
+			Registration.registerFreshUser(userMail, userPassword, fName, lName);
 
 			// Add products to cart
 			CheckOut.searchForProductsandAddToCart(productsCount);
-
+			
 			// Navigating to Cart by URL
 			CheckOut.navigatetoCart();
 
@@ -48,12 +51,14 @@ public class RegisteredCheckoutMultipleAddress extends SelTestCase  {
 			// Add addresses for each product and save them
 			CheckOut.fillCheckoutFirstStepAndSave(productsCount, addressDetails);
 
-			if (!CheckOut.checkIfInStepTwo()) {
-				// Proceed to step 2
-				CheckOut.proceedToStepTwo();
-			}
+			Thread.sleep(2500);
+
+			CheckOut.proceedToStepTwo();
+
+			Thread.sleep(1500);
+
 			// Check number of products in step 2
-			sassert().assertTrue(CheckOut.checkProductsinStepTwo() == productsCount, "Some products are missing in step 2 ");
+			sassert().assertTrue(CheckOut.checkProductsinStepTwo() >= productsCount, "Some products are missing in step 2 ");
 			productsCountStepTWO =CheckOut.checkProductsinStepTwo();
 
 			// Proceed to step 3

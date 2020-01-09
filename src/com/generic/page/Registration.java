@@ -4,6 +4,7 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 import java.util.NoSuchElementException;
 import com.generic.selector.RegistrationSelectors;
+import com.generic.setup.Common;
 import com.generic.setup.ExceptionMsg;
 import com.generic.setup.LoggingMsg;
 import com.generic.setup.SelTestCase;
@@ -41,7 +42,10 @@ public class Registration extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			logs.debug(MessageFormat.format(LoggingMsg.TYPING_ELEMENT_VALUE, "firstname ", firstName));
-			SelectorUtil.initializeSelectorsAndDoActions(RegistrationSelectors.firstName.get(), firstName);
+			if (isGH())
+				SelectorUtil.initializeSelectorsAndDoActions(RegistrationSelectors.firstNameGH.get(), firstName);
+			else
+				SelectorUtil.initializeSelectorsAndDoActions(RegistrationSelectors.firstName.get(), firstName);
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
@@ -56,7 +60,10 @@ public class Registration extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			logs.debug(MessageFormat.format(LoggingMsg.TYPING_ELEMENT_VALUE, "lastname ", lastName));
-			SelectorUtil.initializeSelectorsAndDoActions(RegistrationSelectors.lastName.get(), lastName);
+			if (isGH())
+				SelectorUtil.initializeSelectorsAndDoActions(RegistrationSelectors.lastNameGH.get(), lastName);
+			else
+				SelectorUtil.initializeSelectorsAndDoActions(RegistrationSelectors.lastName.get(), lastName);
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
@@ -71,6 +78,10 @@ public class Registration extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			logs.debug(MessageFormat.format(LoggingMsg.TYPING_ELEMENT_VALUE, "emailAddress ", address));
+			if(isGH()) {
+				SelectorUtil.initializeSelectorsAndDoActions(RegistrationSelectors.emailAddressGH.get(), address);
+			}
+			else
 			SelectorUtil.initializeSelectorsAndDoActions(RegistrationSelectors.emailAddress.get(), address);
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
@@ -86,6 +97,10 @@ public class Registration extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			logs.debug(MessageFormat.format(LoggingMsg.TYPING_ELEMENT_VALUE, "password ", password));
+			if(isGH()) {
+				SelectorUtil.initializeSelectorsAndDoActions(RegistrationSelectors.passwordGH.get(), password);
+			}
+			else
 			SelectorUtil.initializeSelectorsAndDoActions(RegistrationSelectors.password.get(), password);
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
@@ -100,6 +115,10 @@ public class Registration extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			logs.debug(MessageFormat.format(LoggingMsg.TYPING_ELEMENT_VALUE, "confirmPassword", confPassword));
+			if(isGH()) {
+				SelectorUtil.initializeSelectorsAndDoActions(RegistrationSelectors.confirmPasswordGH.get(), confPassword);
+			}
+			else
 			SelectorUtil.initializeSelectorsAndDoActions(RegistrationSelectors.confirmPassword.get(), confPassword);
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
@@ -115,7 +134,11 @@ public class Registration extends SelTestCase {
 			getCurrentFunctionName(true);
 			if (!isRY()) {
 				logs.debug(MessageFormat.format(LoggingMsg.TYPING_ELEMENT_VALUE, "companyName", comapnyName));
-				SelectorUtil.initializeSelectorsAndDoActions(RegistrationSelectors.companyName.get(), comapnyName);
+				if (isGH())
+					SelectorUtil.initializeSelectorsAndDoActions(RegistrationSelectors.companyNameGH.get(),
+							comapnyName);
+				else
+					SelectorUtil.initializeSelectorsAndDoActions(RegistrationSelectors.companyName.get(), comapnyName);
 			}
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
@@ -145,9 +168,10 @@ public class Registration extends SelTestCase {
 			throws Exception {
 		try {
 			getCurrentFunctionName(true);
+			Thread.sleep(1500);
 			if (!"".equals(email))
 				typeEmailAddress(email);
-
+			
 			if (!"".equals(confEmail))
 				typeconfEmailAddress(confEmail);
 
@@ -271,7 +295,10 @@ public class Registration extends SelTestCase {
 	private static void typeAddressLine1(String address) throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			SelectorUtil.initializeSelectorsAndDoActions(RegistrationSelectors.AddressLine1.get(), address);
+			if (isGH())
+				SelectorUtil.initializeSelectorsAndDoActions(RegistrationSelectors.AddressLine1GH.get(), address);
+			else
+				SelectorUtil.initializeSelectorsAndDoActions(RegistrationSelectors.AddressLine1.get(), address);
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
@@ -285,7 +312,10 @@ public class Registration extends SelTestCase {
 	private static void typeCity(String city) throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			SelectorUtil.initializeSelectorsAndDoActions(RegistrationSelectors.city.get(), city);
+			if (isGH())
+				SelectorUtil.initializeSelectorsAndDoActions(RegistrationSelectors.cityGH.get(), city);
+			else
+				SelectorUtil.initializeSelectorsAndDoActions(RegistrationSelectors.city.get(), city);
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
@@ -299,7 +329,10 @@ public class Registration extends SelTestCase {
 	private static void typeState(String state) throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			SelectorUtil.initializeSelectorsAndDoActions(RegistrationSelectors.state.get(), state);
+			if (isGH())
+				SelectorUtil.initializeSelectorsAndDoActions(RegistrationSelectors.stateGH.get(), state);
+			else
+				SelectorUtil.initializeSelectorsAndDoActions(RegistrationSelectors.state.get(), state);
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
@@ -313,7 +346,10 @@ public class Registration extends SelTestCase {
 	private static void typeZipcode(String zipcode) throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			SelectorUtil.initializeSelectorsAndDoActions(RegistrationSelectors.Zipcode.get(), zipcode);
+			if (isGH())
+				SelectorUtil.initializeSelectorsAndDoActions(RegistrationSelectors.ZipcodeGH.get(), zipcode);
+			else
+				SelectorUtil.initializeSelectorsAndDoActions(RegistrationSelectors.Zipcode.get(), zipcode);
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
@@ -727,7 +763,6 @@ public class Registration extends SelTestCase {
 
 		// click on register new user button
 		Registration.goToRegistrationForm();
-
 		// prepare random address details
 		LinkedHashMap<String, String> addressDetails = (LinkedHashMap<String, String>) addresses.get("A3");
 
@@ -746,5 +781,7 @@ public class Registration extends SelTestCase {
 		String registrationSuccessMsg = Registration.getRegistrationSuccessMessage();
 		return registrationSuccessMsg;
 	}
+	
+
 
 }

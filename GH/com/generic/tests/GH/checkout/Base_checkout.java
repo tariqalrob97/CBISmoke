@@ -74,6 +74,7 @@ public class Base_checkout extends SelTestCase {
 		int productsCount = Integer.parseInt(productsNumber);
 
 		try {
+			Common.refreshBrowser();
 
 			// Guest user with multiple addresses
 			if (proprties.contains(freshUserMultipleAddresses)) {

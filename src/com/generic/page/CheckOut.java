@@ -337,12 +337,15 @@ public class CheckOut extends SelTestCase {
 			getCurrentFunctionName(true);
 			// Add products to cart
 			for (int i = 0; i < productsNo; i++) {
+				Thread.sleep(2000);
+
 				PDP.NavigateToPDP();
 
 				if (PDP.bundleProduct()) {
 					PDP.clickBundleItems();
 				}
-
+				
+				Thread.sleep(2000);
 				PDP.addProductsToCart();
 
 				URI url = new URI(getURL());
@@ -439,11 +442,13 @@ public class CheckOut extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			for (int buttonIndex = 0; buttonIndex < productsCount; buttonIndex++) {
+				Thread.sleep(2000);
 				// Add new address
 				logs.debug(MessageFormat.format(LoggingMsg.SEL_TEXT, "Clicking add new address button "));
 				SelectorUtil.initializeSelectorsAndDoActions(CheckOutSelectors.addAddressButton.get(),
 						"index," + buttonIndex);
-
+				
+				Thread.sleep(3000);
 				// Filling address fields
 				logs.debug(MessageFormat.format(LoggingMsg.SEL_TEXT, "filling address att index " + buttonIndex));
 				shippingAddress.typeFirstName(addressDetalis.get(CheckOut.shippingAddress.keys.firstName), false);
