@@ -7,13 +7,14 @@
 		<parameter name="browserName" value="chrome"></parameter>
 		<parameter name="Env" value="stagewcs"></parameter>
 		<parameter name="Brand" value="GH"></parameter>
-
 		<classes>
 			<class name="com.generic.tests.GH.checkout.Base_checkout" />
 		</classes>
 	</test>
 
+
 	<test name="Registration Tests_iPad">
+
 		<parameter name="browserName" value="mobile_iPad"></parameter>
 		<parameter name="Env" value="stagewcs"></parameter>
 		<parameter name="Brand" value="GH"></parameter>
@@ -31,7 +32,6 @@
 			<class name="com.generic.tests.GH.checkout.Base_checkout" />
 		</classes>
 	</test>
-
 
 
 </suite> <!-- Suite -->
