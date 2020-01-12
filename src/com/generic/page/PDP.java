@@ -857,6 +857,9 @@ public class PDP extends SelTestCase {
 	public static String getTitle() throws Exception {
 		try {
 			getCurrentFunctionName(true);
+			if(isBD())
+				SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.BDtitle.get());
+			else
 			SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.title.get());
 			getCurrentFunctionName(false);
 			return SelectorUtil.textValue.get();

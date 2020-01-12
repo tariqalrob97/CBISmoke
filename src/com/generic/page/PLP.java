@@ -28,12 +28,19 @@ public class PLP extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			boolean result;
-			if (SelTestCase.getBrowserName().contains(GlobalVariables.browsers.iPad))
+			String productName;
+			if (isiPad())
 				disableMonetate();
+			if(!isBD() || (isBD()&&isMobile()))
 			clickSearchicon();
 			typeSearch(SearchTerm);
 			if (recommendedOption) {
-				String productName = pickRecommendedOption();
+				if(isBD() &&  isiPad()) {
+				PLP.clickSearch(SearchTerm);
+			    productName = PLP.pickPLPFirstProduct();
+				}else {		
+			     productName = pickRecommendedOption();
+				}
 				result = verifyPickedProduct(productName);
 			} else {
 				clickSearch(SearchTerm);
@@ -64,7 +71,10 @@ public class PLP extends SelTestCase {
 
 			Thread.sleep(3000);
 
-			sortByPriceHighToLow();
+			if(isBD())
+				sortByCustomerRating();
+			else
+			    sortByPriceHighToLow();
 			List<String> H2LsortedProductsNames = getfirst3ProductsNames();
 
 			result = result && compareOperationResults(L2HproductsNames, H2LsortedProductsNames);
@@ -157,14 +167,10 @@ public class PLP extends SelTestCase {
 			getCurrentFunctionName(true);
 			if (isFG())
 				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.FilterContainer.get());
-			if (isGR()) {
-
-				if (!isMobile()) {
-					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRFilterContainer.get());
-				} else
-					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRFilterContainer.get());
-
-			}
+			if (isGR()) 
+				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRFilterContainer.get());
+			if(isBD())
+				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.BDFilterContainer.get());
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
@@ -180,16 +186,14 @@ public class PLP extends SelTestCase {
 			if (isFG())
 				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.FilterContainerContents.get(),
 						"ForceAction,click");
-			if (isGR()) {
-				if (!isMobile())
-					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRFilterContainerContents.get(),
-							"ForceAction,click");
-				else
+			if (isGR()) 
 					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRFilterContainerContents.get(),
 							"ForceAction,click");
 
-			}
-
+			
+			if(isBD())
+				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.BDFilterContainerContents.get(),
+						"ForceAction,click");
 			if (isMobile()) {
 				if (isFG()) {
 					try {
@@ -212,7 +216,7 @@ public class PLP extends SelTestCase {
 
 					}
 				}
-				if (isGR())
+				if (isGRBD())
 					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRallCatigories.get(),
 							"ForceAction,click");
 
@@ -325,6 +329,15 @@ public class PLP extends SelTestCase {
 				}
 
 			}
+			if(isBD()) {
+				if (isMobile()) {
+					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.BDMobileSorting.get(), "FFF2");
+				} else {
+					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRDeskTopSorting.get());
+					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.BDDeskTopSortingLowToHigh.get());
+
+				}
+			}
 			getCurrentFunctionName(false);
 
 		} catch (NoSuchElementException e) {
@@ -353,6 +366,28 @@ public class PLP extends SelTestCase {
 					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRDeskTopSorting.get());
 					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRDeskTopSortingHighToLow.get());
 
+				}
+
+			}
+			getCurrentFunctionName(false);
+
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
+			}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+	}
+	
+	private static void sortByCustomerRating() throws Exception {
+
+		try {
+			getCurrentFunctionName(true);
+			if (isBD()) {
+				if (isMobile()) {
+					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.BDMobileSorting.get(), "FFF3");
+				} else {
+					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRDeskTopSorting.get());
+					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.BDDeskTopSortingCustomerRating.get());
 				}
 
 			}
@@ -483,7 +518,7 @@ public class PLP extends SelTestCase {
 			boolean result;
 			Thread.sleep(1000);
 
-			if (isGR())
+			if (isGRBD())
 				result = SelectorUtil.isImgLoaded(PLPSelectors.productsImagesGR.get());
 			else
 				result = SelectorUtil.isImgLoaded(PLPSelectors.productsImages.get());
@@ -503,7 +538,7 @@ public class PLP extends SelTestCase {
 			getCurrentFunctionName(true);
 			boolean result;
 			String productTitle = PDP.getTitle();
-			result = productTitle.contains(productName);
+			result = (productTitle.toLowerCase().contains(productName.toLowerCase()));
 			getCurrentFunctionName(false);
 			return result;
 		} catch (NoSuchElementException e) {
@@ -583,10 +618,13 @@ public class PLP extends SelTestCase {
 	public static void clickSearchicon() throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			if (!isRY())
-				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.SearchIcon.get());
-			else
+			if (isRY())
 				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.RYSearchIcon.get());
+			else if (isBD())
+				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.BDSearchIcon.get());
+			else
+			    SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.SearchIcon.get());
+
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
@@ -601,13 +639,15 @@ public class PLP extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			String SelectorSS;
-			if (isGHRY())
+			if (isGHRY() || isBD())
 				SelectorSS = PLPSelectors.GHproductsImages.get();
 			else if (isGR())
 				SelectorSS = PLPSelectors.productsImagesGR.get();
 			else
 				SelectorSS = PLPSelectors.productsImages.get();
 			String itemTitle = SelectorUtil.getAttrString(SelectorSS, "alt");
+			if(isBD())
+				 itemTitle = SelectorUtil.getElement(PLPSelectors.BDproductTitle.get()).getText();
 			SelectorUtil.initializeSelectorsAndDoActions(SelectorSS);
 			getCurrentFunctionName(false);
 			return itemTitle;
