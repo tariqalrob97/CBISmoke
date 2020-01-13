@@ -22,9 +22,8 @@ public class GuestCheckoutSingleAddress extends SelTestCase {
 			String orderShipping;
 
 			// Add products to cart
-			//CheckOut.searchForProductsandAddToCart(productsCount);
+			CheckOut.searchForProductsandAddToCart(productsCount);
 
-			Thread.sleep(60000);
 			// Navigating to Cart by URL
 			CheckOut.navigatetoCart();
 

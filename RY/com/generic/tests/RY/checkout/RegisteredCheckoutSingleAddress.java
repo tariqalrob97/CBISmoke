@@ -34,9 +34,8 @@ public class RegisteredCheckoutSingleAddress extends SelTestCase {
 			Registration.registerFreshUser(userMail, userPassword, fName, lName);
 
 			// Add products to cart
-			//CheckOut.searchForProductsandAddToCart(productsCount);
-
-			Thread.sleep(65000);
+			CheckOut.searchForProductsandAddToCart(productsCount);
+			
 			// Navigating to Cart by URL
 			CheckOut.navigatetoCart();
 
