@@ -1,4 +1,4 @@
-package com.generic.tests.FG.e2e;
+package com.generic.tests.RY.e2e;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
@@ -16,22 +16,35 @@ import com.generic.tests.RY.e2e.Cart_e2e;
 import com.generic.tests.RY.e2e.Checkout_e2e;
 import com.generic.tests.RY.e2e.HomePage_e2e;
 import com.generic.tests.RY.e2e.PDP_e2e;
-import com.generic.tests.RY.e2e.Registeration_e2e;
 import com.generic.tests.RY.e2e.Search_PLP_e2e;
 import com.generic.util.dataProviderUtils;
 import com.generic.util.SASLogger;
 
-public class SmokeTest_Registered_e2e extends SelTestCase {
+public class SmokeTest_Guest_e2e extends SelTestCase {
+
+	// user types
+	public static final String guestUser = "guest";
+	public static final String freshUserMultipleAddresses = "fresh-multiple"; // Needs to be updated in the excel sheet
+																				// to fresh-multiple-2 where 2 is the
+																				// number of products
+	public static final String freshUserSingleAddress = "fresh-single";
+	public static final String registeredUserMultipleAddresses = "registered-multiple";
+	public static final String registeredUserSingleAddress = "registered-single";
+
+	public static final String loggedDuringChcOt = "logging During Checkout";
+
+	public static boolean external = false; // change this value will pass through logging
 
 	// used sheet in test
 	public static final String testDataSheet = SheetVariables.smokeTesting;
+
 	private static XmlTest testObject;
+
 	private static ThreadLocal<SASLogger> Testlogs = new ThreadLocal<SASLogger>();
-	public static boolean external = false; // change this value will pass through logging
 
 	@BeforeTest
 	public static void initialSetUp(XmlTest test) throws Exception {
-		Testlogs.set(new SASLogger("checkout_setup"));
+		Testlogs.set(new SASLogger("Guest_e2e_setup"));
 		testObject = test;
 	}
 
@@ -66,12 +79,11 @@ public class SmokeTest_Registered_e2e extends SelTestCase {
 
 		try {
 
-			Registeration_e2e.Validate();
 			HomePage_e2e.Validate();
 			Search_PLP_e2e.Validate();
 			PDP_e2e.Validate();
 			Cart_e2e.Validate();
-			Checkout_e2e.ValidateRegistered(productsCount, addressDetails, paymentDetails, userdetails);
+			Checkout_e2e.ValidateGuest(productsCount, addressDetails, paymentDetails, userdetails);
 
 			sassert().assertAll();
 

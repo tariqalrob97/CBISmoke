@@ -12,8 +12,11 @@ import com.generic.setup.Common;
 import com.generic.setup.LoggingMsg;
 import com.generic.setup.SelTestCase;
 import com.generic.setup.SheetVariables;
-import com.generic.tests.FG.e2e.HomePage_e2e;
-import com.generic.tests.FG.e2e.Search_PLP_e2e;
+import com.generic.tests.RY.e2e.Cart_e2e;
+import com.generic.tests.RY.e2e.Checkout_e2e;
+import com.generic.tests.RY.e2e.HomePage_e2e;
+import com.generic.tests.RY.e2e.PDP_e2e;
+import com.generic.tests.RY.e2e.Search_PLP_e2e;
 import com.generic.util.dataProviderUtils;
 import com.generic.util.SASLogger;
 

@@ -1,4 +1,4 @@
-package com.generic.tests.FG.e2e;
+package com.generic.tests.RY.e2e;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
