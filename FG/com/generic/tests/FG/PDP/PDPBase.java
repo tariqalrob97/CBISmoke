@@ -8,6 +8,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.xml.XmlTest;
 
+import com.generic.page.PDP;
 import com.generic.setup.Common;
 import com.generic.setup.LoggingMsg;
 import com.generic.setup.SelTestCase;
@@ -63,13 +64,16 @@ public class PDPBase extends SelTestCase {
 		try {
 
 			if (proprties.contains(singlePDP)) {
-				PDPValidation.validate(singlePDPSearchTerm, false);
+				PDP.NavigateToPDP(singlePDPSearchTerm);
+				PDPValidation.validate(false);
 			}
 			if (proprties.contains(bundlePDP)) {
-				PDPValidation.validate(BundlePDPSearchTerm, false);
+				PDP.NavigateToPDP(BundlePDPSearchTerm);
+				PDPValidation.validate(false);
 			}
 			if (proprties.contains(personalizedPDP)) {
-				PDPValidation.validate(personalizedPDPSearchTerm, true);
+				PDP.NavigateToPDP(personalizedPDPSearchTerm);
+				PDPValidation.validate(true);
 			}
 
 			if (proprties.contains(wishListGuestValidation)) {

@@ -2,20 +2,17 @@ package com.generic.tests.GH.PDP;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
-import org.testng.Assert;
 import org.testng.SkipException;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.xml.XmlTest;
 
+import com.generic.page.PDP;
 import com.generic.setup.Common;
 import com.generic.setup.LoggingMsg;
 import com.generic.setup.SelTestCase;
 import com.generic.setup.SheetVariables;
-import com.generic.tests.GH.PDP.PDPValidation;
-import com.generic.tests.GH.PDP.WistListGuestValidation;
-import com.generic.util.ReportUtil;
 import com.generic.util.SASLogger;
 import com.generic.util.dataProviderUtils;
 
@@ -55,7 +52,7 @@ public class PDPBase extends SelTestCase {
 	}
 
 	@Test(dataProvider = "PDP_SC")
-	public void PDPTest(String caseId, String runTest, String desc, String proprties)
+	public void PDPTest(String caseId, String runTest, String desc, String proprties, String PID)
 			throws Exception {
 		Testlogs.set(new SASLogger("PDP_SC " + getBrowserName()));
 		// Important to add this for logging/reporting
@@ -68,13 +65,16 @@ public class PDPBase extends SelTestCase {
 		try {
 
 			if (proprties.contains(singlePDP)) {
-				PDPValidation.validate(singlePDPSearchTerm);
+				PDP.NavigateToPDP(singlePDPSearchTerm);
+				PDPValidation.validate(false);
 			}
 			if (proprties.contains(bundlePDP)) {
-				PDPValidation.validate(BundlePDPSearchTerm);
+				PDP.NavigateToPDP(BundlePDPSearchTerm);
+				PDPValidation.validate(false);
 			}
 			if (proprties.contains(personalizedPDP)) {
-				PDPValidation.validate(personalizedPDPSearchTerm);
+				PDP.NavigateToPDP(personalizedPDPSearchTerm);
+				PDPValidation.validate(true);
 			}
 
 			if (proprties.contains(wishListGuestValidation)) {

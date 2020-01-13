@@ -18,6 +18,7 @@ import org.openqa.selenium.support.ui.Wait;
 
 import com.generic.selector.HomePageSelectors;
 import com.generic.selector.PDPSelectors;
+import com.generic.setup.Common;
 import com.generic.setup.ExceptionMsg;
 import com.generic.setup.GlobalVariables;
 import com.generic.setup.LoggingMsg;
@@ -36,14 +37,9 @@ public class PDP extends SelTestCase {
 	public static String NavigateToPDP(String SearchTerm) throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			// This is to handle production Monetate issue on iPad for search field.
-			if (SelTestCase.isFGGR() && SelTestCase.isiPad())
-				HomePage.updateMmonetate();
-			if (SelTestCase.isFGGR() || (isRY() && isMobile()))
+			if ((!isiPad() && SelTestCase.isFGGR()) || (isRY() && isMobile()))
 				PLP.clickSearchicon();
 			String itemName;
-			// This is to handle iPad behavior for search modal.
-			// TODO: to use this process on all brands
 			if (isGHRY() && isiPad()) {
 				PLP.clickSearch(SearchTerm);
 				itemName = PLP.pickPLPFirstProduct();
@@ -60,18 +56,36 @@ public class PDP extends SelTestCase {
 		}
 
 	}
+	
+	public static String getBrandRandomPLP() throws Exception {
+		try {
+			getCurrentFunctionName(true);
+			String BrandURL;
+			if (isFG())
+				BrandURL = GlobalVariables.randomPLP.FG;
+			else if (isGR())
+				BrandURL = GlobalVariables.randomPLP.GR;
+			else if (isGH())
+				BrandURL = GlobalVariables.randomPLP.GH;
+			else if (isRY())
+				BrandURL = GlobalVariables.randomPLP.RY;
+			else
+				BrandURL = GlobalVariables.randomPLP.BD;
+			getCurrentFunctionName(false);
+			return BrandURL;
+		} catch (Exception e) {
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
+			}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+
+	}
 
 	// done - SMK
 	public static void NavigateToPDP() throws Exception {
 		getCurrentFunctionName(true);
-		String SearchTerm;
-		if (SelTestCase.isFGGR())
-			SearchTerm = "Rugs";
-		else if (SelTestCase.isGHRY())
-			SearchTerm = "shirt";
-		else
-			SearchTerm = "lighting";
-		NavigateToPDP(SearchTerm);
+		getDriver().get(getURL() + getBrandRandomPLP());
+		PLP.pickPLPRandomProduct();
 		getCurrentFunctionName(false);
 	}
 
@@ -217,6 +231,9 @@ public class PDP extends SelTestCase {
 					logs.debug(PDPSelectors.topPriceBundle);
 					selector = MessageFormat.format(PDPSelectors.topPriceBundle, ProductID);
 				}
+			} else if (isRY()) {
+				selector = PDPSelectors.RYtopPriceSingle.get();
+
 			} else {
 //				if(SelTestCase.isGH() || SelTestCase.isRY()) 
 				selector = PDPSelectors.GHtopPriceSingle.get();
@@ -310,8 +327,11 @@ public class PDP extends SelTestCase {
 		// here it will pass if the button exist regardless if it is enabled or
 		// disabled.
 		// because there is no attribute to verify if it is enabled.
-		String selectorEnabled = PDPSelectors.addToWLGRBtnEnabledSingle.get();
-		PDPSelectors.addToCartBtnDisabledSingle.get();
+		String selectorEnabled;
+		if (isFGGR())
+			selectorEnabled = PDPSelectors.addToWLGRBtnEnabledSingle.get();
+		else
+			selectorEnabled = PDPSelectors.RYAddToWLGRBtnEnabledSingle.get();
 		if (!isMobile() && Bundle) {
 			logs.debug(PDPSelectors.addToWLGRBtnEnabledBundle);
 			selectorEnabled = MessageFormat.format(PDPSelectors.addToWLGRBtnEnabledBundle, ProductID);
@@ -357,11 +377,13 @@ public class PDP extends SelTestCase {
 		// here it will pass if the button exist regardless if it is enabled or
 		// disabled.
 		// because there is no attribute to verify if it is enabled.
-		String selectorEnabled = PDPSelectors.addToCartBtnEnabledSingle.get();
-		PDPSelectors.addToCartBtnDisabledSingle.get();
+		String selectorEnabled;
+		if (isFGGR())
+			selectorEnabled = PDPSelectors.addToCartBtnEnabledSingle.get();
+		else
+			selectorEnabled = PDPSelectors.RYAddToCartBtnEnabledSingle.get();
 
 		if (!isMobile() && Bundle) {
-
 			logs.debug(PDPSelectors.addToCartBtnEnabledBundle);
 			selectorEnabled = MessageFormat.format(PDPSelectors.addToCartBtnEnabledBundle, ProductID);
 			logs.debug(PDPSelectors.addToCartBtnDisabledBundle);
@@ -391,7 +413,11 @@ public class PDP extends SelTestCase {
 	public static String getBottomPrice(Boolean bundle, String ProductID) throws Exception {
 		getCurrentFunctionName(true);
 		logs.debug("Validate if bottom price is updated after seleting options");
-		String selector = PDPSelectors.bottomPriceSingle.get();
+		String selector;
+		if (isFGGR())
+			selector = PDPSelectors.bottomPriceSingle.get();
+		else
+			selector = PDPSelectors.RYBottomPriceSingle.get();
 		if (!isMobile() && bundle) {
 			selector = MessageFormat.format(PDPSelectors.bottomPriceBundle, ProductID);
 		}
@@ -1224,42 +1250,8 @@ public class PDP extends SelTestCase {
 		}
 	}
 
-	public static String getTotalPriceAfterAddedPersonalized(Boolean Bundle, String ProductID) throws Exception {// in
-																													// GR
-																													// :
-																													// total
-																													// bottom
-																													// price
-																													// doesn't
-																													// change
-																													// after
-																													// added
-																													// personalized
-																													// .based
-																													// on
-																													// the
-																													// discussion
-																													// with
-																													// Emad
-																													// ,
-																													// I
-																													// compare
-																													// the
-																													// total
-																													// price
-																													// in
-																													// personalized
-																													// details
-																													// with
-																													// bottom
-																													// price
-																													// to
-																													// make
-																													// sure
-																													// the
-																													// price
-																													// is
-																													// changed
+	public static String getTotalPriceAfterAddedPersonalized(Boolean Bundle, String ProductID) throws Exception {
+																											
 		try {
 			getCurrentFunctionName(true);
 			String addedPersonlizedDetailsSelector = PDPSelectors.addedPersonlizedDetails.get();
@@ -1316,10 +1308,17 @@ public class PDP extends SelTestCase {
 				}
 			}
 			getCurrentFunctionName(false);
-		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
-			throw e;
+		} catch (Exception e) {
+			if (!(e.getMessage() == null) && e.getMessage().contains("element click intercepted")) {
+				logs.debug(MessageFormat.format(LoggingMsg.FORMATTED_ERROR_MSG, e.getMessage()));
+				logs.debug("Refresh the browser to close the Intercepted windows");
+				Common.refreshBrowser();
+				GHRYselectColor();
+			} else {
+				logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
+				}.getClass().getEnclosingMethod().getName()));
+				throw e;
+			}
 		}
 	}
 
@@ -1344,10 +1343,18 @@ public class PDP extends SelTestCase {
 				}
 			}
 			getCurrentFunctionName(false);
-		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
-			throw e;
+		} catch (Exception e) {
+			logs.debug("e.getMessage()" + e.getMessage());
+			if (!(e.getMessage() == null) && e.getMessage().contains("element click intercepted")) {
+				logs.debug(MessageFormat.format(LoggingMsg.FORMATTED_ERROR_MSG, e.getMessage()));
+				logs.debug("Refresh the browser to close the Intercepted windows");
+				Common.refreshBrowser();
+				GHRYselectSize();
+			} else {
+				logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
+				}.getClass().getEnclosingMethod().getName()));
+				throw e;
+			}
 		}
 	}
 
@@ -1370,7 +1377,7 @@ public class PDP extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			if (SelTestCase.isGHRY()) {
-				closeSignUpModalIfDisplayed();
+//				closeSignUpModalIfDisplayed();
 			}
 			int numberOfPanels = getNumberOfOptions();
 			GHRYselectColor();
@@ -1386,22 +1393,22 @@ public class PDP extends SelTestCase {
 	}
 
 	// done - SMK
-	public static void closeSignUpModalIfDisplayed() throws Exception {
-		try {
-			getCurrentFunctionName(true);
-			String subStrArr = PDPSelectors.offerControlClose.get();
-			logs.debug("Closing the offer modal");
-			if (SelTestCase.isGH())
-				getDriver().switchTo().frame(PDPSelectors.GHOfferControlClose.get());
-			if (SelTestCase.isRY())
-				getDriver().switchTo().frame(PDPSelectors.RYOfferControlClose.get());
-			SelectorUtil.initializeSelectorsAndDoActions(subStrArr);
-			// getDriver().switchTo().parentFrame();
-			getCurrentFunctionName(false);
-		} catch (NoSuchFrameException e) {
-			logs.debug("Sign up modal is not displayed");
-		}
-	}
+//	public static void closeSignUpModalIfDisplayed() throws Exception {
+//		try {
+//			getCurrentFunctionName(true);
+//			String subStrArr = PDPSelectors.offerControlClose.get();
+//			logs.debug("Closing the offer modal");
+//			if (SelTestCase.isGH())
+//				getDriver().switchTo().frame(PDPSelectors.GHOfferControlClose.get());
+//			if (SelTestCase.isRY())
+//				getDriver().switchTo().frame(PDPSelectors.RYOfferControlClose.get());
+//			SelectorUtil.initializeSelectorsAndDoActions(subStrArr);
+//			// getDriver().switchTo().parentFrame();
+//			getCurrentFunctionName(false);
+//		} catch (NoSuchFrameException e) {
+//			logs.debug("Sign up modal is not displayed");
+//		}
+//	}
 
 	// done - SMK
 	public static int getNumberofSwatchContainers() throws Exception {

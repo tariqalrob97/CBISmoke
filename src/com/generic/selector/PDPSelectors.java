@@ -38,10 +38,13 @@ public class PDPSelectors {
 	public  final static cselector topPriceSingle = new cselector("css,.gwt-product-content-panel>.gwt-product-right-content-panel>.gwt-product-right-center-content-panel>.gwt-product-price-container","css,.t-product-details-heading__price.t-product-details__price>div");
 	public static final cselector addPersonalizationSingle = new cselector("css,.gwt-product-content-panel>.gwt-product-right-content-panel>.gwt-product-detail-widget-personalization-panel>.gwt-personalize-link-style");
 	public static final cselector addToWLGRBtnEnabledSingle = new cselector("css,.gwt-product-content-panel>.gwt-product-right-content-panel>.gwt-product-bottom-content-panel>.product-bottom-gift-regestry-panel","css,.t-product-details>div>.pw-button.u-width-full.u-text-uppercase");
+	public static final cselector RYAddToWLGRBtnEnabledSingle = new cselector("css,button.button.secondary","css,.pw-link icon.t-product-details__wishlist-button");
 	public static final cselector addToWLGRBtnDisabledSingle = new cselector("css,.gwt-product-content-panel>.gwt-product-right-content-panel>.gwt-product-bottom-content-panel.disabled>.product-bottom-gift-regestry-panel","css,.u-wishlist-gift-disable");
 	public static final cselector addToCartBtnEnabledSingle = new cselector("css,.gwt-product-content-panel>.gwt-product-right-content-panel>.gwt-product-bottom-content-panel>.product-bottom-qty-atc-panel>div>button#gwt-add-to-cart-btn.button.primary","css,.c-add-to-cart");
+	public static final cselector RYAddToCartBtnEnabledSingle = new cselector("css,.gwt-product-detail-buttons-container>button.button.primary","css,.c-add-to-cart");
 	public static final cselector addToCartBtnDisabledSingle = new cselector("css,.gwt-product-content-panel>.gwt-product-right-content-panel>.gwt-product-bottom-content-panel>.product-bottom-qty-atc-panel>div>button#gwt-add-to-cart-btn.button.primary.disabled","css,.u-bg-disabled-color-add-to-cart");
 	public static final cselector bottomPriceSingle = new cselector("css,.gwt-product-content-panel>.gwt-product-right-content-panel>.gwt-product-bottom-content-panel>.product-bottom-total-price-panel>div>.gwt-product-detail-widget-total-price-amount","css,.t-product-details-price>span");
+	public static final cselector RYBottomPriceSingle = new cselector("css,.c-product-option-items__container>div>div>.t-product-details-heading__price");
 	public static final cselector bundleItems = new cselector("u-widget-product-icon u-position-absolute");
 	public static final cselector bundleItem = new cselector("css,#container");
 
@@ -107,11 +110,13 @@ public class PDPSelectors {
 
 	public static final cselector GHRYaddToCartBtn = new cselector("css,.gwt-product-detail-buttons-container>button.button.primary","css,.c-add-to-cart");
 	public static final cselector GHfirstSwatchInOptions = new cselector("css,div> .gwt-product-option-panel-widget-panel > div  > div > div:nth-child(1)","css,div.c-product-options> div:nth-child({0})> div.u-margin-top > div > div:nth-child(1) > div > button > div > div > div > div > div");
-	public  final static cselector GHtopPriceSingle = new cselector("css,.gwt-product-detail-quantity-price-column>.gwt-product-detail-widget-price-holder", ".t-product-details-heading__price-and-tag>.t-product-details-heading__price.t-product-details__price>div");
+	public  final static cselector GHtopPriceSingle = new cselector("css,.gwt-product-detail-quantity-price-column>.gwt-product-detail-widget-price-holder", "css,.t-product-details-heading__price-and-tag>.t-product-details-heading__price.t-product-details__price>div");
+	public  final static cselector RYtopPriceSingle = new cselector("css,.gwt-product-detail-top-price", "css,.t-product-details-heading__price.t-product-details__price");
 	public static final cselector GHRYColorOptions = new cselector("css,.gwt-product-detail-widget-options-column>div>div>.gwt-product-option-panel-swatchbox>.gwt-product-option-panel-widget-panel>.gwt-image-picker>.gwt-image-picker-option-holder>.gwt-image-picker-option","css,.gwt-image-picker-option>div");
 	public static final cselector GHRYSizeOptions = new cselector("css,.gwt-product-detail-widget-options-column>div>div>div>div>.gwt-product-option-panel-widget-panel>.gwt-selection-chip-picker>div>.gwt-selection-chip-picker-option","css,.pw-swatch__chip-inner>div>.c-product-option-items__item-normal");
 	public static final cselector offerControlClose = new cselector("css,body>form>div>.offer-control.close");
-	public static final cselector GHOfferControlClose = new cselector("fcopt-offer-35642-content","fcopt-offer-35745-content");
+	public static final cselector GHOfferControlClose = new cselector("fcopt-offer-35642-content","fcopt-offer-35745-content"
+			+ "");
 	public static final cselector RYOfferControlClose = new cselector("fcopt-offer-94684-content","fcopt-offer-94688-content");
 
 	public static final cselector FGGRSwatchesOptions = new cselector("css,.gwt-product-content-panel>.gwt-product-right-content-panel>#gwt-option-panel>div","css,.c-product-options>div>div>div" );

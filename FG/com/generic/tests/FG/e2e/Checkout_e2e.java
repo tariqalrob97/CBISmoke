@@ -156,7 +156,7 @@ public class Checkout_e2e extends SelTestCase {
 
 			// Check number of products in confirmation page
 			sassert().assertTrue(CheckOut.checkProductsinConfirmationPage() == productsCountStepTWO,
-					"Some products are missing in confirmation page ");
+					"Some products are missing in confirmation page, current products: " + CheckOut.checkProductsinConfirmationPage() + "products Count Step TWO: " + productsCountStepTWO);
 
 			// Check if shipping costs match
 			sassert().assertTrue(CheckOut.getShippingCosts().equals(orderShipping), "Shipping cost value issue ");

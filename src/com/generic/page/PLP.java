@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Random;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
@@ -608,7 +609,7 @@ public class PLP extends SelTestCase {
 			else
 				SelectorSS = PLPSelectors.productsImages.get();
 			String itemTitle = SelectorUtil.getAttrString(SelectorSS, "alt");
-			SelectorUtil.initializeSelectorsAndDoActions(SelectorSS);
+			SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.productName.get());
 			getCurrentFunctionName(false);
 			return itemTitle;
 		} catch (NoSuchElementException e) {
@@ -618,7 +619,39 @@ public class PLP extends SelTestCase {
 		}
 
 	}
+	
+	// CBI
+	public static void pickPLPRandomProduct() throws Exception {
+		try {
+			getCurrentFunctionName(true);
+			List<WebElement> items = new ArrayList<WebElement>();
+			items = getPLPItems();
+			WebElement item =  SelectorUtil.getRandomWebElement(items);
+			JavascriptExecutor jse = (JavascriptExecutor) getDriver();
+			jse.executeScript("arguments[0].scrollIntoView(false)", item);
+			((JavascriptExecutor) getDriver()).executeScript("arguments[0].click()", item);
+			SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.productName.get());
+			getCurrentFunctionName(false);
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
+			}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
 
+	}
+	
+	public static List<WebElement> getPLPItems() throws Exception {
+		try {
+			List<WebElement> items = new ArrayList<WebElement>();
+			items = SelectorUtil.getAllElements(PLPSelectors.productName.get());
+			items.remove(items.size() - 1);
+			return items;
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
+			}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+	}
 	// CBI
 	public static void navigateToRandomPLPMobileIpad() throws Exception {
 		try {
