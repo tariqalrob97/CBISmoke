@@ -3,10 +3,8 @@ package com.generic.tests.GH.checkout;
 import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 import java.util.NoSuchElementException;
-
 import com.generic.page.CheckOut;
 import com.generic.page.Registration;
-import com.generic.page.Login;
 import com.generic.setup.ExceptionMsg;
 import com.generic.setup.GlobalVariables;
 import com.generic.setup.LoggingMsg;
@@ -23,6 +21,7 @@ public class RegisteredCheckoutMultipleAddress extends SelTestCase  {
 			String orderSubTotal;
 			String orderTax;
 			String orderShipping;
+			
 			String fName = "FirstVisa";
 			String lName = "LastVisa";
 			String userMail = RandomUtilities.getRandomEmail();
@@ -31,7 +30,7 @@ public class RegisteredCheckoutMultipleAddress extends SelTestCase  {
 			int productsCountStepTWO = 0;
 
 
-			//Perform Registratin
+			//Perform Registration
 			Registration.registerFreshUser(userMail, userPassword, fName, lName);
 
 			// Add products to cart
@@ -66,6 +65,8 @@ public class RegisteredCheckoutMultipleAddress extends SelTestCase  {
 
 			// Proceed to step 4
 			CheckOut.proceedToStepFour();
+			
+			Thread.sleep(4000);
 
 			// Saving tax and shipping costs to compare them in the confirmation page
 			orderShipping = CheckOut.getShippingCosts();

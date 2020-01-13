@@ -337,7 +337,7 @@ public class CheckOut extends SelTestCase {
 			getCurrentFunctionName(true);
 			// Add products to cart
 			for (int i = 0; i < productsNo; i++) {
-				Thread.sleep(2000);
+				Thread.sleep(4000);
 
 				PDP.NavigateToPDP();
 
@@ -529,9 +529,12 @@ public class CheckOut extends SelTestCase {
 			} else if (isGR()) {
 				state = SelectorUtil.isDisplayed(CheckOutSelectors.stepTwoIdentifierGR.get());
 			}
+			else if (isRY()) {
+				state = SelectorUtil.isDisplayed(CheckOutSelectors.productContainerInStepTwo.get());
+			}
 
 			getCurrentFunctionName(false);
-
+			logs.debug("In step 2 state is ---- " + state+ " ----");
 			return state;
 
 		} catch (NoSuchElementException e) {
@@ -621,9 +624,26 @@ public class CheckOut extends SelTestCase {
 			getCurrentFunctionName(true);
 			int shppingIndex = 0;
 
-			if (getBrowserName().contains(GlobalVariables.browsers.iPhone)) {
+			if (isMobile()) {
 				shppingIndex = 1;
 			}
+			getCurrentFunctionName(false);
+			return SelectorUtil.getNthElement(CheckOutSelectors.shippingAndTaxCost.get(), shppingIndex).getText();
+
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
+			}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+	}
+	
+	
+	// Done CBI
+	public static String getShippingCostsRYInStep4() throws Exception {
+		try {
+			getCurrentFunctionName(true);
+			int shppingIndex = 1;
+
 			getCurrentFunctionName(false);
 			return SelectorUtil.getNthElement(CheckOutSelectors.shippingAndTaxCost.get(), shppingIndex).getText();
 
@@ -640,10 +660,34 @@ public class CheckOut extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			int taxIndex = 1;
-
-			if (getBrowserName().contains(GlobalVariables.browsers.iPhone)) {
+			
+			if (isRY() && !isMobile()) {
+				taxIndex = 1 + grTaxIndex;
+			}
+			
+			if (isMobile()) {
 				taxIndex = 2 + grTaxIndex;
 			}
+			getCurrentFunctionName(false);
+			return SelectorUtil.getNthElement(CheckOutSelectors.shippingAndTaxCost.get(), taxIndex).getText();
+
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
+			}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+	}
+	
+	
+	
+	// Done CBI
+	public static String getTaxCostsRYInStep4() throws Exception {
+
+		try {
+			getCurrentFunctionName(true);
+
+			int taxIndex = 2;
+
 			getCurrentFunctionName(false);
 			return SelectorUtil.getNthElement(CheckOutSelectors.shippingAndTaxCost.get(), taxIndex).getText();
 
