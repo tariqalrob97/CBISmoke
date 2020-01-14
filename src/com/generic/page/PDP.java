@@ -236,6 +236,7 @@ public class PDP extends SelTestCase {
 	public static void addProductsToCart() throws Exception {
 		getCurrentFunctionName(true);
 		selectSwatches();
+		Thread.sleep(2000);
 		clickAddToCartButton();
 		if (PDP.bundleProduct() && SelTestCase.isMobile()) {
 			closeModalforBundleItem();
@@ -600,8 +601,7 @@ public class PDP extends SelTestCase {
 	public static boolean bundleProduct(int tries) throws Exception {
 		getCurrentFunctionName(true);
 		try {
-			if (isMobile())
-				Thread.sleep(5500);
+			Thread.sleep(4500);
 			String PDPChecker = "return gwtDynamic.coremetrics.isSingleProduct;";
 			Boolean bundle = false;
 			JavascriptExecutor jse = (JavascriptExecutor) getDriver();
@@ -1592,9 +1592,11 @@ public class PDP extends SelTestCase {
 			if (SelTestCase.isGHRY()) {
 				closeSignUpModalIfDisplayed();
 			}
+
 			GHRYselectColor(bundle);
 			int numberOfPanels = GHRYNumberOfOptions(bundle);
 			logs.debug("numberOfPanels: " + numberOfPanels);
+
 			if (numberOfPanels > 1)
 				GHRYselectSize(bundle);
 			getCurrentFunctionName(false);

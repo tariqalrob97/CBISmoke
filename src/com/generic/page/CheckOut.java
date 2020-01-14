@@ -209,18 +209,22 @@ public class CheckOut extends SelTestCase {
 		// Done CBI
 		public static void typeCVV(String CVV) throws Exception {
 			try {
-				getCurrentFunctionName(true);
-				// WebDriverWait wait = new WebDriverWait(getDriver(), 15);
+				getCurrentFunctionName(true);				
+				if (isFG() || isGR()) {
+					// Switch to cvv iframe
+					Thread.sleep(2800);
 
-				// Switch to cvv iframe
-				Thread.sleep(2800);
+					// wait for cvv iframe to load
+					waitforCvvFrame();
 
-				// wait for cvv iframe to load
-				waitforCvvFrame();
+					getDriver().switchTo().frame(GlobalVariables.CVV_Iframe_ID);
+					SelectorUtil.initializeSelectorsAndDoActions(CheckOutSelectors.cvv.get(), CVV);
 
-				getDriver().switchTo().frame(GlobalVariables.CVV_Iframe_ID);
+				} else if(isGH() || isRY()) {
+					SelectorUtil.initializeSelectorsAndDoActions(CheckOutSelectors.cvvGH.get(), CVV);
+
+				}
 				Thread.sleep(2000);
-				SelectorUtil.initializeSelectorsAndDoActions(CheckOutSelectors.cvv.get(), CVV);
 
 				// WebElement cvvField =
 				// wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(CheckOutSelectors.cvv.get())));
@@ -285,6 +289,10 @@ public class CheckOut extends SelTestCase {
 		private static void typeExpireMonth(String month) throws Exception {
 			try {
 				getCurrentFunctionName(true);
+				
+				if(isGH() || isRY())
+					month=month.substring(1);//Remove 0 from 06 
+				
 				SelectorUtil.initializeSelectorsAndDoActions(CheckOutSelectors.monthField.get(), month);
 				getCurrentFunctionName(false);
 			} catch (NoSuchElementException e) {
@@ -298,9 +306,7 @@ public class CheckOut extends SelTestCase {
 		public static void typeExpireYear(String expireYear) throws Exception {
 			try {
 				getCurrentFunctionName(true);
-				getCurrentFunctionName(true);
 				SelectorUtil.initializeSelectorsAndDoActions(CheckOutSelectors.yearField.get(), expireYear);
-				getCurrentFunctionName(false);
 				getCurrentFunctionName(false);
 			} catch (NoSuchElementException e) {
 				logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
@@ -331,15 +337,16 @@ public class CheckOut extends SelTestCase {
 			getCurrentFunctionName(true);
 			// Add products to cart
 			for (int i = 0; i < productsNo; i++) {
+				Thread.sleep(4000);
+
 				PDP.NavigateToPDP();
 
 				if (PDP.bundleProduct()) {
 					PDP.clickBundleItems();
 				}
-
+				
+				Thread.sleep(2000);
 				PDP.addProductsToCart();
-				if (!getBrowserName().contains(GlobalVariables.browsers.iPhone))
-					PDP.clickAddToCartCloseBtn();
 
 				URI url = new URI(getURL());
 				getDriver().get("https://" + url.getHost());
@@ -435,11 +442,13 @@ public class CheckOut extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			for (int buttonIndex = 0; buttonIndex < productsCount; buttonIndex++) {
+				Thread.sleep(2000);
 				// Add new address
 				logs.debug(MessageFormat.format(LoggingMsg.SEL_TEXT, "Clicking add new address button "));
 				SelectorUtil.initializeSelectorsAndDoActions(CheckOutSelectors.addAddressButton.get(),
 						"index," + buttonIndex);
-
+				
+				Thread.sleep(3000);
 				// Filling address fields
 				logs.debug(MessageFormat.format(LoggingMsg.SEL_TEXT, "filling address att index " + buttonIndex));
 				shippingAddress.typeFirstName(addressDetalis.get(CheckOut.shippingAddress.keys.firstName), false);
@@ -520,9 +529,12 @@ public class CheckOut extends SelTestCase {
 			} else if (isGR()) {
 				state = SelectorUtil.isDisplayed(CheckOutSelectors.stepTwoIdentifierGR.get());
 			}
+			else if (isRY()) {
+				state = SelectorUtil.isDisplayed(CheckOutSelectors.productContainerInStepTwo.get());
+			}
 
 			getCurrentFunctionName(false);
-
+			logs.debug("In step 2 state is ---- " + state+ " ----");
 			return state;
 
 		} catch (NoSuchElementException e) {
@@ -612,9 +624,26 @@ public class CheckOut extends SelTestCase {
 			getCurrentFunctionName(true);
 			int shppingIndex = 0;
 
-			if (getBrowserName().contains(GlobalVariables.browsers.iPhone)) {
+			if (isMobile()) {
 				shppingIndex = 1;
 			}
+			getCurrentFunctionName(false);
+			return SelectorUtil.getNthElement(CheckOutSelectors.shippingAndTaxCost.get(), shppingIndex).getText();
+
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
+			}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+	}
+	
+	
+	// Done CBI
+	public static String getShippingCostsRYInStep4() throws Exception {
+		try {
+			getCurrentFunctionName(true);
+			int shppingIndex = 1;
+
 			getCurrentFunctionName(false);
 			return SelectorUtil.getNthElement(CheckOutSelectors.shippingAndTaxCost.get(), shppingIndex).getText();
 
@@ -631,10 +660,34 @@ public class CheckOut extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			int taxIndex = 1;
-
-			if (getBrowserName().contains(GlobalVariables.browsers.iPhone)) {
+			
+			if (isRY() && !isMobile()) {
+				taxIndex = 1 + grTaxIndex;
+			}
+			
+			if (isMobile()) {
 				taxIndex = 2 + grTaxIndex;
 			}
+			getCurrentFunctionName(false);
+			return SelectorUtil.getNthElement(CheckOutSelectors.shippingAndTaxCost.get(), taxIndex).getText();
+
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
+			}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+	}
+	
+	
+	
+	// Done CBI
+	public static String getTaxCostsRYInStep4() throws Exception {
+
+		try {
+			getCurrentFunctionName(true);
+
+			int taxIndex = 2;
+
 			getCurrentFunctionName(false);
 			return SelectorUtil.getNthElement(CheckOutSelectors.shippingAndTaxCost.get(), taxIndex).getText();
 

@@ -280,6 +280,19 @@ public class SelectorUtil extends SelTestCase {
 
 	}
 
+	
+	public static void writeToFieldPWA(WebElement field, String value) {
+		getCurrentFunctionName(true);
+
+		int index = 0;
+		for (index = 0; index < value.length(); index++) {
+			String character = String.valueOf(value.charAt(index));
+			field.sendKeys(character);
+		}
+		getCurrentFunctionName(false);
+
+	}
+	
 	public static String getStringSelectorForElements(Elements foundElements, String selType) {
 		getCurrentFunctionName(true);
 

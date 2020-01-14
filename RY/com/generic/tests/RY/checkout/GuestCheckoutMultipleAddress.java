@@ -1,4 +1,4 @@
-package com.generic.tests.GH.checkout;
+package com.generic.tests.RY.checkout;
 
 import java.text.MessageFormat;
 import java.util.LinkedHashMap;
@@ -22,7 +22,7 @@ public class GuestCheckoutMultipleAddress extends SelTestCase {
 
 			// Add products to cart
 			CheckOut.searchForProductsandAddToCart(productsCount);
-			
+
 			// Navigating to Cart by URL
 			CheckOut.navigatetoCart();
 
@@ -41,14 +41,12 @@ public class GuestCheckoutMultipleAddress extends SelTestCase {
 
 			// Add addresses for each product and save them
 			CheckOut.fillCheckoutFirstStepAndSave(productsCount, addressDetails);
-			
-			Thread.sleep(2000);
 
 			// Proceed to step 2
 			CheckOut.proceedToStepTwo();
 
 			// Check number of products in step 2
-			sassert().assertTrue(CheckOut.checkProductsinStepTwo() >= productsCount, "Some products are missing in step 2 ,in step 2"+ CheckOut.checkProductsinStepTwo()+" ,But added "+productsCount);
+			sassert().assertTrue(CheckOut.checkProductsinStepTwo() >= productsCount, "Some products are missing in step 2 ");
 
 			// Proceed to step 3
 			CheckOut.proceedToStepThree();
@@ -58,10 +56,12 @@ public class GuestCheckoutMultipleAddress extends SelTestCase {
 
 			// Proceed to step 4
 			CheckOut.proceedToStepFour();
-
+			
+			Thread.sleep(3500);
+			
 			// Saving tax and shipping costs to compare them in the confirmation page
-			orderShipping = CheckOut.getShippingCosts();
-			orderTax = CheckOut.getTaxCosts(GlobalVariables.FG_TAX_CART);
+			orderShipping = CheckOut.getShippingCostsRYInStep4();
+			orderTax = CheckOut.getTaxCostsRYInStep4();
 			orderSubTotal = CheckOut.getSubTotal();
 
 			logs.debug(MessageFormat.format(LoggingMsg.SEL_TEXT, "Shippping cost is: " + orderShipping + " ---- Tax cost is:" + orderTax + " ---- Subtotal is:" + orderSubTotal));
