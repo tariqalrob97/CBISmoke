@@ -671,7 +671,6 @@ public class PLP extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			String imgID;
-			String itemTitle;
 			String SelectorSS;
 
 			if (isRY()) {
@@ -684,7 +683,7 @@ public class PLP extends SelTestCase {
 				SelectorSS = PLPSelectors.recommendedOption.get();
 			}
 			
-			WebElement recommendedProduct;
+			WebElement recommendedProduct = SelectorUtil.getElement(SelectorSS);
 			if (isGH() && isiPad()) {
 				// The GH option didn't contains suggestion product so submit search.
 				// (The unbxd redirect the site to PDP if the search for product id).
@@ -693,8 +692,7 @@ public class PLP extends SelTestCase {
 				imgID = recommendedProduct.getAttribute("innerHTML");
 				itemTitle = imgID.substring(imgID.indexOf("Ryllace") + 8, imgID.indexOf("Ryllace") + 13);
 			} else {
-				recommendedProduct = SelectorUtil.getElement(SelectorSS);
-
+				
 				itemTitle = recommendedProduct.getText();
 				logs.debug("Picked item: " + itemTitle);
 				recommendedProduct.click();
