@@ -20,18 +20,18 @@ public class PDPValidation extends SelTestCase {
 		// for bundle PDP mobile and desktop,validate the prices are displayed in bundle
 		// landing page for all items.
 
-//		if (!bundle) 
+		if (!bundle) {
 			priceErrorMessage = "Top price is not dispayed";
 
-//		} else if (!isMobile() && bundle) {
-//			sassert().assertTrue(PDP.validateBundlePriceIsDisplayed(), "Bundle Price is not dispayed");
-//			priceErrorMessage = "Top price for the bundle items are not dispayed";
-//		} else {
-//			priceErrorMessage = "Price for the bundle items are not dispayed";
-//		}
+		} else if (!isMobile() && bundle) {
+			sassert().assertTrue(PDP.validateBundlePriceIsDisplayed(), "Bundle Price is not dispayed");
+			priceErrorMessage = "Top price for the bundle items are not dispayed";
+		} else {
+			priceErrorMessage = "Price for the bundle items are not dispayed";
+		}
 		sassert().assertTrue(PDP.validatePriceIsDisplayed(bundle, ProductID), priceErrorMessage);
 
-		// for bundle PDP mobile, validate the price is displayed in mini PDP page
+//		 for bundle PDP mobile, validate the price is displayed in mini PDP page
 		if (isMobile() && bundle) {
 			PDP.clickBundleItems();
 			sassert().assertTrue(PDP.validateMobileBundlePriceIsDisplayed(),
@@ -39,10 +39,7 @@ public class PDPValidation extends SelTestCase {
 		}
 
 		PDP.selectSwatches(bundle, ProductID);
-		String bottomPrice = PDP.getBottomPrice(bundle, ProductID);
-		sassert().assertTrue(!bottomPrice.equals("$0.00"),
-				"Bottom price is not updated correctly, Current price: " + bottomPrice);
-		Thread.sleep(2500);
+		String bottomPrice = "";
 		// click add personalized button
 		if (Personalized && PDP.PersonalizedItem(bundle, ProductID)) {
 			String initialPrice = bottomPrice;

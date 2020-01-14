@@ -897,11 +897,19 @@ public class SelectorUtil extends SelTestCase {
 
 			Thread.sleep(500);
 		} catch (Exception e) {
-			if (!(e.getMessage() == null) && e.getMessage().contains("element click intercepted")) {
+			if ((e.getMessage() != null) && e.getMessage().contains("element click intercepted")) {
 					logs.debug(MessageFormat.format(LoggingMsg.FORMATTED_ERROR_MSG, e.getMessage()));
 					logs.debug("Refresh the browser to close the Intercepted windows");
 					Common.refreshBrowser();
-					initializeSelectorsAndDoActions(subStrArr, valuesArr, false);
+					logs.debug(MessageFormat.format(LoggingMsg.DEBUGGING_TEXT, Arrays.asList(webElementsInfo)));
+					SelectorUtil.initializeElementsSelectorsMaps(webElementsInfo, isValidationStep);
+					logs.debug(MessageFormat.format(LoggingMsg.DEBUGGING_TEXT, Arrays.asList(webElementsInfo)));
+
+					for (String key : webElementsInfo.keySet()) {
+						LinkedHashMap<String, Object> webElementInfo = webElementsInfo.get(key);
+						SelectorUtil.doAppropriateAction(webElementInfo, action);
+					}
+
 					Thread.sleep(500);
 			} else {
 				logs.debug(MessageFormat.format(LoggingMsg.FORMATTED_ERROR_MSG, e.getMessage()));

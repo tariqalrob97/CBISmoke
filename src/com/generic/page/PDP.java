@@ -330,8 +330,11 @@ public class PDP extends SelTestCase {
 		String selectorEnabled;
 		if (isFGGR())
 			selectorEnabled = PDPSelectors.addToWLGRBtnEnabledSingle.get();
-		else
+		else if (isRY())
 			selectorEnabled = PDPSelectors.RYAddToWLGRBtnEnabledSingle.get();
+		else
+			selectorEnabled = PDPSelectors.GHAddToWLGRBtnEnabledSingle.get();
+		
 		if (!isMobile() && Bundle) {
 			logs.debug(PDPSelectors.addToWLGRBtnEnabledBundle);
 			selectorEnabled = MessageFormat.format(PDPSelectors.addToWLGRBtnEnabledBundle, ProductID);
@@ -1288,6 +1291,27 @@ public class PDP extends SelTestCase {
 
 	// done - SMK
 	public static void GHRYselectColor() throws Exception {
+	
+		try {
+			getCurrentFunctionName(true);
+			GHRYselectColorTemplate();
+			getCurrentFunctionName(false);
+		} catch (Exception e) {
+			if (!(e.getMessage() == null) && e.getMessage().contains("element click intercepted")) {
+				logs.debug(MessageFormat.format(LoggingMsg.FORMATTED_ERROR_MSG, e.getMessage()));
+				logs.debug("Refresh the browser to close the Intercepted windows");
+				Common.refreshBrowser();
+				GHRYselectColorTemplate();
+			} else {
+				logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
+				}.getClass().getEnclosingMethod().getName()));
+				throw e;
+			}
+		}
+	}
+	
+	public static void GHRYselectColorTemplate() throws Exception {
+		
 		try {
 			getCurrentFunctionName(true);
 			String subStrArr = (PDPSelectors.GHRYColorOptions.get());
@@ -1309,16 +1333,9 @@ public class PDP extends SelTestCase {
 			}
 			getCurrentFunctionName(false);
 		} catch (Exception e) {
-			if (!(e.getMessage() == null) && e.getMessage().contains("element click intercepted")) {
-				logs.debug(MessageFormat.format(LoggingMsg.FORMATTED_ERROR_MSG, e.getMessage()));
-				logs.debug("Refresh the browser to close the Intercepted windows");
-				Common.refreshBrowser();
-				GHRYselectColor();
-			} else {
 				logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-				}.getClass().getEnclosingMethod().getName()));
+				}.getClass().getEnclosingMethod().getName() + "was failed, Selenium could not find the selector for the color option, please check the attached screenshot"));
 				throw e;
-			}
 		}
 	}
 
