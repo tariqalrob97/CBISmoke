@@ -530,33 +530,31 @@ public class PLP extends SelTestCase {
 			throw e;
 		}
 	}
-
-	// CBI
-	public static String pickRecommendedOption() throws Exception {
+    
+    // CBI
+		public static String pickRecommendedOption() throws Exception {
 		String itemTitle = "";
 		try {
 			getCurrentFunctionName(true);
 
 			String SelectorSS = PLPSelectors.recommendedOption.get();
-			WebElement recommendedProduct = SelectorUtil.getElement(SelectorSS);
-
-			itemTitle = recommendedProduct.getText();
-			logs.debug("Picked item: " + itemTitle);
-			if(isMobile() && isGHRY()) {
-				WebElement recommendedProductLink = SelectorUtil.getElement(PLPSelectors.recommendedOption.get()+">a");
-				String href = recommendedProductLink.getAttribute("href");
-				String currentPageUrl = SelectorUtil.getCurrentPageUrl();
-                if( href.equalsIgnoreCase(currentPageUrl)) {
-				logs.debug("Navigated random page path: " + currentPageUrl + "    " + href);
-				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GHsearchClose.get());
-				Common.refreshBrowser();
-				}else {
-					recommendedProduct.click();
-				}
-			}else {
-				recommendedProduct.click();
+			if (isGH()) {
+				SelectorSS = PLPSelectors.GHRecommendedOption.get();
 			}
-			getCurrentFunctionName(false);
+
+			if (isGH() && isiPad()) {
+				// The GH option didn't contains suggestion product so submit search.
+				// (The unbxd redirect the site to PDP if the search for product id).
+				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GHSearchButton.get());
+			} else {
+				WebElement recommendedProduct = SelectorUtil.getElement(SelectorSS);
+
+				itemTitle = recommendedProduct.getText();
+				logs.debug("Picked item: " + itemTitle);
+				recommendedProduct.click();
+
+				getCurrentFunctionName(false);
+			}
 			return itemTitle;
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
@@ -565,7 +563,7 @@ public class PLP extends SelTestCase {
 		}
 
 	}
-
+  
 	// CBI
 	public static void typeSearch(String searchTerm) throws Exception {
 		try {

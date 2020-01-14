@@ -11,22 +11,27 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.xml.XmlTest;
 
-import com.generic.page.Registration;
 import com.generic.page.Login;
+import com.generic.page.Registration;
+
 import com.generic.setup.Common;
 import com.generic.setup.LoggingMsg;
 import com.generic.setup.SelTestCase;
 import com.generic.setup.SheetVariables;
+
+import com.generic.util.RandomUtilities;
+import com.generic.util.ReportUtil;
+import com.generic.util.SASLogger;
 import com.generic.tests.GR.Registration.RegistrationBase;
 import com.generic.util.RandomUtilities;
 import com.generic.util.ReportUtil;
 import com.generic.util.SASLogger;
 import com.generic.util.SelectorUtil;
+
 import com.generic.util.dataProviderUtils;
 
 public class LoginBase extends SelTestCase {
 
-	private static int testCaseID;
 	// used sheet in test
 	public static final String testDataSheet = SheetVariables.loginSheet;
 	private static XmlTest testObject;
@@ -53,15 +58,16 @@ public class LoginBase extends SelTestCase {
 	@Test(dataProvider = "Login")
 	public void LoginRegressionTest(String caseId, String runTest, String desc, String proprties, String email,
 			String fieldsValidation) {
-		String CaseDescription = MessageFormat.format(LoggingMsg.TEST_CASE_DESC, testDataSheet + "." + caseId,
-				this.getClass().getCanonicalName(), desc.replace("\n", "<br>--"));
-		initReportTime();
+
 		Testlogs.set(new SASLogger("Login " + getBrowserName()));
 		// Important to add this for logging/reporting
 		setTestCaseReportName("Login Case");
 		Testlogs.get().debug("Case Browser: " + testObject.getParameter("browserName"));
-		logCaseDetailds(MessageFormat.format(LoggingMsg.TEST_CASE_DESC, testDataSheet + "." + caseId,
-				this.getClass().getCanonicalName(), desc, proprties.replace("\n", "<br>- ")));
+
+		String CaseDescription = MessageFormat.format(LoggingMsg.TEST_CASE_DESC, testDataSheet + "." + caseId,
+				this.getClass().getCanonicalName(), desc, proprties.replace("\n", "<br>- "));
+		initReportTime();
+
 
 		String userMail = "";
 		String userPassword = "";
