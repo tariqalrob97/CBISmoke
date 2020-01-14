@@ -7,9 +7,11 @@ import java.util.NoSuchElementException;
 import java.util.Random;
 
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 
 import com.generic.selector.HomePageSelectors;
 import com.generic.selector.PLPSelectors;
+import com.generic.setup.Common;
 import com.generic.setup.ExceptionMsg;
 import com.generic.setup.GlobalVariables;
 import com.generic.setup.SelTestCase;
@@ -662,37 +664,43 @@ public class PLP extends SelTestCase {
 			throw e;
 		}
 	}
-
-	// CBI
-	public static String pickRecommendedOption() throws Exception {
+    
+// CBI
+		public static String pickRecommendedOption() throws Exception {
+		String itemTitle = "";
 		try {
 			getCurrentFunctionName(true);
 			String imgID;
 			String itemTitle;
 			String SelectorSS;
-			
-			if (isRY()) {
 
+			if (isRY()) {
+	
 			    SelectorSS = PLPSelectors.recommendedOptionRY.get();
 
+			}else if(isGH()) {
+				SelectorSS = PLPSelectors.GHRecommendedOption.get();
 			} else {
 				SelectorSS = PLPSelectors.recommendedOption.get();
 			}
 			
-			WebElement recommendedProduct = SelectorUtil.getElement(SelectorSS);
-			
-			//Getting id of the target image instead of product name in RY as the suggested products do not have names as of now
-			if (isRY()) {
+			WebElement recommendedProduct;
+			if (isGH() && isiPad()) {
+				// The GH option didn't contains suggestion product so submit search.
+				// (The unbxd redirect the site to PDP if the search for product id).
+				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GHSearchButton.get());
+			}else if (isRY()) {
 				imgID = recommendedProduct.getAttribute("innerHTML");
 				itemTitle = imgID.substring(imgID.indexOf("Ryllace") + 8, imgID.indexOf("Ryllace") + 13);
 			} else {
+				recommendedProduct = SelectorUtil.getElement(SelectorSS);
+
 				itemTitle = recommendedProduct.getText();
+				logs.debug("Picked item: " + itemTitle);
+				recommendedProduct.click();
+
+				getCurrentFunctionName(false);
 			}
-			
-			logs.debug("Picked item: " + itemTitle);
-			recommendedProduct.click();
-			
-			getCurrentFunctionName(false);
 			return itemTitle;
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
@@ -701,7 +709,7 @@ public class PLP extends SelTestCase {
 		}
 
 	}
-
+  
 	// CBI
 	public static void typeSearch(String searchTerm) throws Exception {
 		try {

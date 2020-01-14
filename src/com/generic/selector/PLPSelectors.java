@@ -4,10 +4,11 @@ import com.generic.setup.cselector;
 
 public class PLPSelectors {
 
+	public static final cselector RYSearchIcon = new cselector("css,.t-header__search-button>button");
 	//CBI
 	public static final cselector SearchIcon = new cselector("css,#uNavTop button.searchboxAsButton", "css,.t-header__fades-in>button");
-	public static final cselector RYSearchIcon = new cselector("css,.t-header__search-button>button");
 	
+	public static final cselector GHsearchClose = new cselector("css,button.pw-search__close");
 	public static final cselector searchBox = new cselector("css,#searchBox input#headerBox","css,form>div>div>input");
 	public static final cselector recommendedOption =new cselector("css,li.unbxd-as-popular-product.unbxd-as-popular-product-grid .unbxd-as-popular-product-info","css,.c-arrange.u-flexbox.c--align-middle.u-align-center");
 	public static final cselector recommendedOptionRY =new cselector("css,.unbxd-as-popular-product-image-container","css,.pw-image");
@@ -70,33 +71,31 @@ public class PLPSelectors {
 	public static final cselector GRFilterContainerContents = new cselector("css,.unbxd-facet-option-checkbox input","css,.u-text-letter-spacing-0 > div");
 	public static final cselector GRallCatigories = new cselector("","css,.pw-field__label-wrap.pw--end > label > div > div > div");
 
-	
-	
-	//Random PLP 
+	//Random PLP
 	public static final cselector desktopMenuItem = new cselector("css,a.gwt-MenuItem");
 	public static final cselector PLPIdentifier = new cselector("css,.product-details-main-container","css,.c-product-item__price");
-	
+
 	public static final cselector navigatetoPLP = new cselector(
 			"css,#mainContent > div.container.no-padding.grid-subcategories > div > div:nth-child(1) > div > a > img",
 			"css,#mainContent > div.container.no-padding.grid-subcategories > div > div:nth-child(1) > div > a > img",
 			"css,#app-main > div > div:nth-child(1) > div.u-flexbox.u-direction-row.u-flex-wrap > div:nth-child(1) > a > div.c-lazy-image.u-width-full > div > img");
-	
+
 	public static final cselector navigatetoPLP2 = new cselector(
 			"css,#mainContent > div.genericESpot > div.container.no-padding.grid-subcategories > div > div:nth-child(1) > div > a > img",
 			"css,#mainContent > div.genericESpot > div.container.no-padding.grid-subcategories > div > div:nth-child(1) > div > a > img",
 			"css,#app-main > div > div:nth-child(1) > div.u-flexbox.u-direction-row.u-flex-wrap > div:nth-child(1) > a > div.c-lazy-image.u-width-full > div > img");
-	
-	
+
 	public static final cselector navigatetoPLPGR = new cselector(
 			"css,#mainContent > div.container.no-padding.grid-subcategories > div > div:nth-child(1) > div > a > img",
 			"css,#mainContent > div.container.no-padding.grid-subcategories > div > div:nth-child(1) > div > a > img",
 			"css,#app-main > div > div:nth-child(3) > div:nth-child(1) > a > div.c-lazy-image.u-width-full > div > img");
-	
+
 	public static final cselector navigatetoPLP2GR = new cselector(
 			"css,#mainContent > div.genericESpot > div.container.no-padding.grid-subcategories > div > div:nth-child(1) > div > a > img",
 			"css,#mainContent > div.genericESpot > div.container.no-padding.grid-subcategories > div > div:nth-child(1) > div > a > img",
 			"css,#app-main > div > div:nth-child(1) > div.u-flexbox.u-direction-row.u-flex-wrap > div:nth-child(1) > a > div.c-lazy-image.u-width-full > div > img");
 	
-	
-	
+	public static final cselector GHRecommendedOption =new cselector("css,.unbxd-as-popular-product-info","css,.c--align-middle a.pw-link.c-arrange.u-flexbox.c--align-middle.u-align-center", "css,.c-search-suggestions-products__product");
+	public static final cselector GHSearchButton = new cselector("css,#searchButton");
+	public static final cselector PLPPageSelector = new cselector("css,.view-UnbxdBodyView");
 }
