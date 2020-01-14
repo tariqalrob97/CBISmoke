@@ -30,8 +30,20 @@ public class PLP extends SelTestCase {
 			boolean result;
 			if (SelTestCase.getBrowserName().contains(GlobalVariables.browsers.iPad))
 				disableMonetate();
-			clickSearchicon();
+			
+			if (!isGH()) {
+				if (isRY()) {
+					if (isMobile())
+						clickSearchicon();
+				} else
+					clickSearchicon();
+			}
+
 			typeSearch(SearchTerm);
+			
+			if(isRY() && !isMobile())
+			PDP.closeSignUpModalIfDisplayed();
+			
 			if (recommendedOption) {
 				String productName = pickRecommendedOption();
 				result = verifyPickedProduct(productName);
@@ -63,6 +75,13 @@ public class PLP extends SelTestCase {
 			List<String> L2HproductsNames = getfirst3ProductsNames();
 
 			Thread.sleep(3000);
+
+			
+			if (isGR() || isFG())
+				sortByPriceHighToLow();
+
+			else if (isGH() || isRY())
+				sortByProductName();
 
 			sortByPriceHighToLow();
 			List<String> H2LsortedProductsNames = getfirst3ProductsNames();
@@ -150,11 +169,14 @@ public class PLP extends SelTestCase {
 			throw e;
 		}
 	}
+	
+	
 
 	// CBI
 	private static void clickOnFilterBy() throws Exception {
 		try {
 			getCurrentFunctionName(true);
+
 			if (isFG())
 				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.FilterContainer.get());
 			if (isGR()) {
@@ -165,7 +187,17 @@ public class PLP extends SelTestCase {
 					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRFilterContainer.get());
 
 			}
+
+			if (isGH() && isMobile()) {
+				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.FilterContainerGHRY.get());
+			}
+			if (isRY()) {
+				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.FilterContainerGHRY.get());
+
+			}
+
 			getCurrentFunctionName(false);
+
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
 			}.getClass().getEnclosingMethod().getName()));
@@ -177,21 +209,14 @@ public class PLP extends SelTestCase {
 	private static void selectFilterName() throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			if (isFG())
+
+			Thread.sleep(2000);
+
+			if (isFG()) {
 				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.FilterContainerContents.get(),
 						"ForceAction,click");
-			if (isGR()) {
-				if (!isMobile())
-					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRFilterContainerContents.get(),
-							"ForceAction,click");
-				else
-					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRFilterContainerContents.get(),
-							"ForceAction,click");
 
-			}
-
-			if (isMobile()) {
-				if (isFG()) {
+				if (isMobile()) {
 					try {
 						SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.allCatigories.get(),
 								"ForceAction,click");
@@ -211,15 +236,40 @@ public class PLP extends SelTestCase {
 						}
 
 					}
+
 				}
-				if (isGR())
-					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRallCatigories.get(),
-							"ForceAction,click");
 
 			}
 
-			Thread.sleep(3000);
+			if (isGR()) {
+
+				if (isMobile()) {
+					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRFilterContainerContents.get(),
+							"ForceAction,click");
+					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRallCatigories.get(),
+							"ForceAction,click");
+				} else
+					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRFilterContainerContents.get(),
+							"ForceAction,click");
+			}
+
+			if (isGH()) {
+				if (isMobile()) {
+					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.FilterContainerContentsGH.get(),
+							"ForceAction,click");
+					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.clearanceGH.get(), "ForceAction,click");
+				} else
+					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.clearanceGH.get(), "ForceAction,click");
+			}
+
+			if (isRY()) {
+
+				List<WebElement> filters = SelectorUtil.getAllElements((PLPSelectors.firstFilterRY.get()));
+				filters.get(1).click();
+			}
+
 			getCurrentFunctionName(false);
+
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
 			}.getClass().getEnclosingMethod().getName()));
@@ -325,6 +375,29 @@ public class PLP extends SelTestCase {
 				}
 
 			}
+			if(isGH()) {
+				if (isMobile())
+				{
+					clickOnSortMenu();
+				}
+				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.PriceLowToHighGH.get(),"forceAction,click");
+							
+			}
+			
+			if(isRY()) {
+				clickOnSortMenu();					
+
+				if (isMobile()) {
+
+					List<WebElement> sortingOptions = SelectorUtil.getAllElements(PLPSelectors.PriceLowToHighRYMobile.get());
+					sortingOptions.get(2).click();
+				} else {
+					List<WebElement> sortingOptions = SelectorUtil.getAllElements(PLPSelectors.PriceLowToHighRYDesktop.get());
+					sortingOptions.get(2).click();
+				}
+				
+			}
+			
 			getCurrentFunctionName(false);
 
 		} catch (NoSuchElementException e) {
@@ -356,6 +429,16 @@ public class PLP extends SelTestCase {
 				}
 
 			}
+			
+			if (isGH()) {
+				if (isMobile()) {
+					clickOnSortMenu();
+				}
+				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.ProductNameGH.get());
+
+			}
+			
+			
 			getCurrentFunctionName(false);
 
 		} catch (NoSuchElementException e) {
@@ -365,6 +448,37 @@ public class PLP extends SelTestCase {
 		}
 	}
 
+	// CBI
+	private static void sortByProductName() throws Exception {
+
+		try {
+			getCurrentFunctionName(true);
+
+			if (isGH()) {
+				if (isMobile()) {
+					clickOnSortMenu();
+				}
+				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.ProductNameGH.get());
+
+			}
+			
+			if(isRY()) {
+				clickOnSortMenu();
+				List<WebElement> sortingoptions = SelectorUtil.getAllElements(PLPSelectors.ProductNameRY.get());
+				sortingoptions.get(4).click();
+				
+			}
+
+			getCurrentFunctionName(false);
+
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
+			}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+	}
+	
+	
 	// CBI
 	private static void sortByPriceLowToHighPLP() throws Exception {
 
@@ -427,12 +541,20 @@ public class PLP extends SelTestCase {
 		}
 	}
 
-	// CBI
+	//CBI
 	private static void clickOnSortMenu() throws Exception {
 		try {
-			getCurrentFunctionName(true);
-			SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.mobileSortingMenu.get());
-			getCurrentFunctionName(false);
+		getCurrentFunctionName(true);
+		
+			if (isRY()) {
+				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.SortingMenuRY.get());
+
+			} else {
+
+				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.mobileSortingMenu.get());
+			}
+			
+		getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
 			}.getClass().getEnclosingMethod().getName()));
@@ -481,10 +603,14 @@ public class PLP extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			boolean result;
-			Thread.sleep(1000);
+			Thread.sleep(2500);
 
 			if (isGR())
 				result = SelectorUtil.isImgLoaded(PLPSelectors.productsImagesGR.get());
+			
+			if (isGH() || isRY())
+				result = SelectorUtil.isImgLoaded(PLPSelectors.productsImagesGH.get());
+			
 			else
 				result = SelectorUtil.isImgLoaded(PLPSelectors.productsImages.get());
 
@@ -502,8 +628,16 @@ public class PLP extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			boolean result;
-			String productTitle = PDP.getTitle();
-			result = productTitle.contains(productName);
+			String productTitle;
+
+			if (isRY()) {
+				productTitle = PDP.getImageSrcID();
+			} else {
+				productTitle = PDP.getTitle();
+			}
+			
+			result = productName.contains(productTitle);
+						
 			getCurrentFunctionName(false);
 			return result;
 		} catch (NoSuchElementException e) {
@@ -531,23 +665,35 @@ public class PLP extends SelTestCase {
 		}
 	}
     
-    // CBI
+// CBI
 		public static String pickRecommendedOption() throws Exception {
 		String itemTitle = "";
 		try {
 			getCurrentFunctionName(true);
+			String imgID;
+			String itemTitle;
+			String SelectorSS;
 
-			String SelectorSS = PLPSelectors.recommendedOption.get();
-			if (isGH()) {
+			if (isRY()) {
+	
+			    SelectorSS = PLPSelectors.recommendedOptionRY.get();
+
+			}else if(isGH()) {
 				SelectorSS = PLPSelectors.GHRecommendedOption.get();
+			} else {
+				SelectorSS = PLPSelectors.recommendedOption.get();
 			}
-
+			
+			WebElement recommendedProduct;
 			if (isGH() && isiPad()) {
 				// The GH option didn't contains suggestion product so submit search.
 				// (The unbxd redirect the site to PDP if the search for product id).
 				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GHSearchButton.get());
+			}else if (isRY()) {
+				imgID = recommendedProduct.getAttribute("innerHTML");
+				itemTitle = imgID.substring(imgID.indexOf("Ryllace") + 8, imgID.indexOf("Ryllace") + 13);
 			} else {
-				WebElement recommendedProduct = SelectorUtil.getElement(SelectorSS);
+				recommendedProduct = SelectorUtil.getElement(SelectorSS);
 
 				itemTitle = recommendedProduct.getText();
 				logs.debug("Picked item: " + itemTitle);
@@ -601,7 +747,7 @@ public class PLP extends SelTestCase {
 			getCurrentFunctionName(true);
 			String SelectorSS;
 			if (isGHRY())
-				SelectorSS = PLPSelectors.GHproductsImages.get();
+				SelectorSS = PLPSelectors.productsImagesGH.get();
 			else if (isGR())
 				SelectorSS = PLPSelectors.productsImagesGR.get();
 			else
