@@ -232,7 +232,7 @@ public class Registration extends SelTestCase {
 			getCurrentFunctionName(true);
 			if (isGH() || isRY()) {
 				SelectorUtil.initializeSelectorsAndDoActions(RegistrationSelectors.phoneGH.get(), phone);
-			} else if (isGR() || isFG()) {
+			} else if (isGR() || isFG() || isBD()) {
 				SelectorUtil.initializeSelectorsAndDoActions(RegistrationSelectors.phone.get(), phone);
 			}
 			getCurrentFunctionName(false);
@@ -252,7 +252,7 @@ public class Registration extends SelTestCase {
 				if (!isMobile())
 					SelectorUtil.initializeSelectorsAndDoActions(RegistrationSelectors.confirmEmailAddress.get(),
 							email);
-			} else if (isGR() || isFG() || isRY()) {
+			} else if (isGR() || isFG() || isRY() ||isBD()) {
 				SelectorUtil.initializeSelectorsAndDoActions(RegistrationSelectors.confirmEmailAddress.get(), email);
 
 			}
@@ -646,7 +646,7 @@ public class Registration extends SelTestCase {
 					.toString());
 
 			// GH
-			if (isGH()) {
+			if (isGH() || isBD()) {
 
 				if (!isMobile()) {
 					logs.debug(
@@ -655,12 +655,12 @@ public class Registration extends SelTestCase {
 
 				} else {
 					logs.debug(MessageFormat.format(LoggingMsg.GETTING_TEXT, "Clicking Register Tab for mobile... GH"));
-					SelectorUtil.getAllElements(RegistrationSelectors.mobileRegistrationTabGH.get()).get(1).click();
+					SelectorUtil.getAllElements(RegistrationSelectors.mobileRegistrationTabGHBD.get()).get(1).click();
 
 					logs.debug(MessageFormat.format(LoggingMsg.GETTING_TEXT,
 							"Clicking Register Button for mobile...  GH"));
 					SelectorUtil
-							.initializeSelectorsAndDoActions(RegistrationSelectors.mobileRegistrationButtonGH.get());
+							.initializeSelectorsAndDoActions(RegistrationSelectors.mobileRegistrationButtonGHBD.get());
 				}
 
 				// RY
