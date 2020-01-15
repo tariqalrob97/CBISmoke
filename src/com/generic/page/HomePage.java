@@ -8,6 +8,7 @@ import java.util.Random;
 import java.util.NoSuchElementException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import com.generic.selector.HomePageSelectors;
 import com.generic.setup.SelTestCase;
 import com.generic.util.SelectorUtil;
@@ -29,7 +30,12 @@ public class HomePage extends SelTestCase {
 		getCurrentFunctionName(true);
 		boolean isDisplayed;
 		logs.debug("Validate if logo exist");
-		isDisplayed = SelectorUtil.isDisplayed(HomePageSelectors.logo.get());
+		if(isGH()) {
+			isDisplayed = SelectorUtil.isDisplayed(HomePageSelectors.GHlogo.get());
+		}else {
+			isDisplayed = SelectorUtil.isDisplayed(HomePageSelectors.logo.get());
+		}
+		logs.debug("Validate if logo exist"+isDisplayed);
 		getCurrentFunctionName(false);
 		return isDisplayed;
 	}
@@ -50,10 +56,14 @@ public class HomePage extends SelTestCase {
 	public static void clickOnLogo() throws Exception {
 		getCurrentFunctionName(true);
 		logs.debug("Clicking on Site logo");
-		SelectorUtil.initializeSelectorsAndDoActions(HomePageSelectors.logo.get());
+		if(isGH()) {
+		SelectorUtil.initializeSelectorsAndDoActions(HomePageSelectors.GHlogo.get());
+		}else {
+	    SelectorUtil.initializeSelectorsAndDoActions(HomePageSelectors.logo.get());
+	    }
 		getCurrentFunctionName(false);
 	}
-
+	
 	public static boolean validateHomePageLink() throws Exception {
 		getCurrentFunctionName(true);
 		String CurrentURL = getDriver().getCurrentUrl().replace("www.", "");
@@ -91,10 +101,13 @@ public class HomePage extends SelTestCase {
 		getCurrentFunctionName(true);
 		boolean isDisplayed;
 		logs.debug("Validate if Account menu exist");
-			if(isBD()){
+
+		if (isBD()) {
 			isDisplayed = SelectorUtil.isDisplayed(HomePageSelectors.accountMenuBD.get());
-		}
-		else{
+		} else if (isRY()) {
+			isDisplayed = SelectorUtil.isDisplayed(HomePageSelectors.RYaccountMenu.get());
+		} else {
+
 			isDisplayed = SelectorUtil.isDisplayed(HomePageSelectors.accountMenu.get());
 		}
 		getCurrentFunctionName(false);
@@ -147,7 +160,7 @@ public class HomePage extends SelTestCase {
 		getCurrentFunctionName(true);
 		List<WebElement> accountMenuElements = getAccountMenuItems();
 		Random random = new Random();
-		int randomIndex = random.nextInt(accountMenuElements.size());
+		int randomIndex = random.nextInt(accountMenuElements.size()-1);
 		WebElement element = accountMenuElements.get(randomIndex);
 		SelectorUtil.clickOnWebElement(element);
 		getCurrentFunctionName(false);
@@ -183,15 +196,11 @@ public class HomePage extends SelTestCase {
 		getCurrentFunctionName(true);
 		boolean isDisplayed;
 		logs.debug("Validate if country selector  exist");
-		
-		if(isMobile() && isBD()){
-			isDisplayed = SelectorUtil.isDisplayed(HomePageSelectors.countrySelectorBDforMobile.get());
-			}
-		else if(isBD()){
-		isDisplayed = SelectorUtil.isDisplayed(HomePageSelectors.countrySelectorBD.get());
-		}
-		else
-		isDisplayed = SelectorUtil.isDisplayed(HomePageSelectors.countrySelector.get());
+
+		if (isBD()) {
+			isDisplayed = SelectorUtil.isDisplayed(HomePageSelectors.countrySelectorBD.get());
+		} else
+			isDisplayed = SelectorUtil.isDisplayed(HomePageSelectors.countrySelector.get());
 		getCurrentFunctionName(false);
 		return isDisplayed;
 	}
@@ -200,35 +209,24 @@ public class HomePage extends SelTestCase {
 		getCurrentFunctionName(true);
 		boolean isDisplayed = true;
 		logs.debug("Validate if global footer  exist");
-		
-		if(isMobile() && isBD()){
-			isDisplayed = SelectorUtil.isDisplayed(HomePageSelectors.globalFooterBDforMobile.get());
-			}
-		else if(isBD()){
-		isDisplayed = SelectorUtil.isDisplayed(HomePageSelectors.globalFooterBD.get());
-		}
-		else
-		isDisplayed = SelectorUtil.isDisplayed(HomePageSelectors.globalFooter.get());
-		List<WebElement> footerItems = new ArrayList<WebElement>();
 
-		if(isMobile() && isBD()){
-			footerItems = SelectorUtil.getAllElements(HomePageSelectors.accordionHeaderBDforMobile.get());
-			for (WebElement element : footerItems) {
-				isDisplayed = element.isDisplayed();
+		List<WebElement> footerItems = new ArrayList<WebElement>();
+		if(isBD()){
+			isDisplayed = SelectorUtil.isDisplayed(HomePageSelectors.globalFooterBD.get());
+			footerItems = SelectorUtil.getAllElements(HomePageSelectors.accordionHeaderBD.get());
 			}
-			}
-		else if(isBD()){
-		footerItems = SelectorUtil.getAllElements(HomePageSelectors.accordionHeaderBD.get());
+
+		else if(isGH() || isRY()) {
+			isDisplayed = SelectorUtil.isDisplayed(HomePageSelectors.GHglobalFooter.get());
+			footerItems = SelectorUtil.getAllElements(HomePageSelectors.GHaccordionHeader.get());
+		}else {
+			isDisplayed = SelectorUtil.isDisplayed(HomePageSelectors.globalFooter.get());
+			footerItems = SelectorUtil.getAllElements(HomePageSelectors.accordionHeader.get());
+		}
 		for (WebElement element : footerItems) {
 			isDisplayed = element.isDisplayed();
 		}
-		}
-		else{
-			footerItems = SelectorUtil.getAllElements(HomePageSelectors.accordionHeader.get());
-			for (WebElement element : footerItems) {
-				isDisplayed = element.isDisplayed();
-			}	
-		}
+
 		getCurrentFunctionName(false);
 		return isDisplayed;
 	}
@@ -249,15 +247,17 @@ public class HomePage extends SelTestCase {
 
 	public static String getMiniCartText() throws Exception {
 		getCurrentFunctionName(true);
-		String subStrArr;
-		if(isBD() && isMobile()){
-		subStrArr = HomePageSelectors.miniCartTextBD.get();
-		SelectorUtil.initializeSelectorsAndDoActions(subStrArr);
+		if(isBD()){
+		SelectorUtil.initializeSelectorsAndDoActions(HomePageSelectors.miniCartTextBD.get());
 		}
-		else{
-		subStrArr = HomePageSelectors.miniCartText.get();
-		SelectorUtil.initializeSelectorsAndDoActions(subStrArr);
+		else if(isGH()) {
+			SelectorUtil.initializeSelectorsAndDoActions(HomePageSelectors.GHminiCartText.get());
+		}else if(isRY()) {
+			SelectorUtil.initializeSelectorsAndDoActions(HomePageSelectors.RYminiCartText.get());
+		}else {
+			SelectorUtil.initializeSelectorsAndDoActions(HomePageSelectors.miniCartText.get());
 		}
+		
 		String cartText = SelectorUtil.textValue.get();
 		logs.debug("The cart text is:" + cartText);
 		getCurrentFunctionName(false);
@@ -266,16 +266,22 @@ public class HomePage extends SelTestCase {
 
 	public static void clickOnMiniCartCloseBtn() throws Exception {
 		getCurrentFunctionName(true);
+
 		String subStrArr;
 		if(isBD()){
 		subStrArr = HomePageSelectors.miniCartCloseBD.get();
 		logs.debug("Clicking on Mini Cart clsoe icon");
 		SelectorUtil.initializeSelectorsAndDoActions(subStrArr);
-		}else{
-			subStrArr = HomePageSelectors.miniCartClose.get();
-			logs.debug("Clicking on Mini Cart clsoe icon");
-			SelectorUtil.initializeSelectorsAndDoActions(subStrArr);	
 		}
+		else if(isGH() || isRY()) {
+			WebElement element = SelectorUtil.getElement(HomePageSelectors.GHminiCartClose.get());
+			Actions actions = new Actions(SelTestCase.getDriver());
+			actions.moveToElement(element).click().perform();
+		}else {
+			SelectorUtil.initializeSelectorsAndDoActions(HomePageSelectors.miniCartClose.get());
+		}
+
+
 		getCurrentFunctionName(false);
 	}
 
@@ -292,9 +298,12 @@ public class HomePage extends SelTestCase {
 	public static boolean validateMiniCartProductIsDsiplayed() throws Exception {
 		getCurrentFunctionName(true);
 		boolean isDisplayed;
-		String subStrArr = HomePageSelectors.miniCartProductContainer.get();
 		logs.debug("Validate if Mini cart products are displayed");
-		isDisplayed = SelectorUtil.isDisplayed(subStrArr);
+		if(isRY()) {
+			isDisplayed = SelectorUtil.isDisplayed(HomePageSelectors.RYminiCartProductContainer.get());
+		}else {
+			isDisplayed = SelectorUtil.isDisplayed(HomePageSelectors.miniCartProductContainer.get());
+		}
 		getCurrentFunctionName(false);
 		return isDisplayed;
 	}
@@ -302,9 +311,13 @@ public class HomePage extends SelTestCase {
 	public static boolean validateMiniCartCheckoutBtnIsDisplayed() throws Exception {
 		getCurrentFunctionName(true);
 		boolean isDisplayed;
-		String subStrArr = HomePageSelectors.miniCartCheckoutBtn.get();
 		logs.debug("Validate if Mini Cart Checkout Btn Is Displayed");
-		isDisplayed = SelectorUtil.isDisplayed(subStrArr);
+		if(isRY()) {
+			isDisplayed = SelectorUtil.isDisplayed(HomePageSelectors.RYminiCartCheckoutBtn.get());
+		}else {
+			isDisplayed = SelectorUtil.isDisplayed(HomePageSelectors.miniCartCheckoutBtn.get());
+
+		}	
 		getCurrentFunctionName(false);
 		return isDisplayed;
 	}
@@ -312,10 +325,16 @@ public class HomePage extends SelTestCase {
 	public static void searchIconClick() throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			List<String> subStrArr = new ArrayList<String>();
-			logs.debug(MessageFormat.format(LoggingMsg.CLICKING_SEL, HomePageSelectors.searchIconOpen));
-			subStrArr.add(HomePageSelectors.searchIconOpen.get());
-			SelectorUtil.initializeSelectorsAndDoActions(subStrArr);
+			if(isRY()) {
+				logs.debug(MessageFormat.format(LoggingMsg.CLICKING_SEL, HomePageSelectors.searchIconOpenRY));
+				SelectorUtil.initializeSelectorsAndDoActions(HomePageSelectors.searchIconOpenRY.get());
+			}else {
+				logs.debug(MessageFormat.format(LoggingMsg.CLICKING_SEL, HomePageSelectors.searchIconOpen));
+				WebElement  element = SelectorUtil.getElement(HomePageSelectors.searchIconOpen.get());
+				Actions actions = new Actions(SelTestCase.getDriver());
+				actions.moveToElement(element).click().perform();
+			}
+			
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
@@ -389,12 +408,12 @@ public class HomePage extends SelTestCase {
 		return placeHolderText;
 	}
 
-	public static boolean validateSearchFieldPlaceHolderText() throws Exception {
-		if (searchPlacholder.equals(readSearchFieldPlaceHolderText()))
+	public static boolean validateSearchFieldPlaceHolderText(String placeHolder) throws Exception {
+		if (placeHolder.equals(readSearchFieldPlaceHolderText()))
 			return true;
-		else
+		else 
 			return false;
-	}
+    }
 
 	public static boolean isDisplayedModuleHeroImg() throws Exception {
 		getCurrentFunctionName(true);
@@ -497,15 +516,17 @@ public class HomePage extends SelTestCase {
 
 	public static List<WebElement> getEspots() throws Exception {
 		getCurrentFunctionName(true);
+		List<WebElement> espots = new ArrayList<WebElement>();
+		if (isBD()) {
+			espots = SelectorUtil.getAllElements(HomePageSelectors.espotsBD.get());
+		} else if (isGH()) {
+			espots = SelectorUtil.getAllElements(HomePageSelectors.GHespots.get());
+		} else if (isRY()) {
+			espots = SelectorUtil.getAllElements(HomePageSelectors.RYespots.get());
+		} else {
+			espots = SelectorUtil.getAllElements(HomePageSelectors.espots.get());
+		}
 
-		List<String> subStrArr = new ArrayList<String>();
-		if(isBD()&&isMobile()){
-			subStrArr.add(HomePageSelectors.espotsforMobileBD.get());
-		}
-		else{
-			subStrArr.add(HomePageSelectors.espots.get());
-		}
-		List<WebElement> espots = SelectorUtil.getAllElements(subStrArr);
 		getCurrentFunctionName(false);
 		return espots;
 	}
@@ -588,23 +609,32 @@ public class HomePage extends SelTestCase {
 		for (menuItemIndex = 0; menuItemIndex < numberOfMenuItems; menuItemIndex++) {
 			// The elements should be selected at each iteration because the page will
 			// navigate and lose the reference to the elements dom.
-			List<WebElement> elements = getFirstLevelMenuItems();
+	     	List<WebElement> elements = getFirstLevelMenuItems();
 			WebElement element = elements.get(menuItemIndex);
 
 			// Save the text and href for the selected menu item.
 			String href = element.getAttribute("href");
-
+			
 			// Navigate to an item in the menu.
+			if(isGH()) {
+				Actions actions = new Actions(SelTestCase.getDriver());
+				actions.moveToElement(element).click().perform();
+			}else {
 			SelectorUtil.clickOnWebElement(element);
-
+			}
 			// Get the current page URL.
 			String currentPageUrl = SelectorUtil.getCurrentPageUrl();
 			logs.debug("Current page path: " + currentPageUrl);
 
 			// Check if the current page title is the same as selected navigation title.
-			if (!href.equalsIgnoreCase(currentPageUrl)) {
+			if (!href.toLowerCase().contains(currentPageUrl.toLowerCase())) {
 				validateSubMenuNavigation = false;
 			}
+			
+			if(isGH()) {
+				Thread.sleep(3000);
+			}
+			 
 		}
 		getCurrentFunctionName(false);
 		return validateSubMenuNavigation;
@@ -623,11 +653,15 @@ public class HomePage extends SelTestCase {
 		List<WebElement> menuFirstLevelElements = new ArrayList<WebElement>();
 
 		// Get the menu items list.
-		if(isBD()){
+
+		if (isBD()) {
 			menuFirstLevelElements = SelectorUtil.getAllElements(HomePageSelectors.menuItemsBD.get());
-			}
-		else {
-		menuFirstLevelElements = SelectorUtil.getAllElements(HomePageSelectors.menuItems.get());
+		} else if (isGH()) {
+			menuFirstLevelElements = SelectorUtil.getAllElements(HomePageSelectors.GHmenuItems.get());
+		} else if (isRY()) {
+			menuFirstLevelElements = SelectorUtil.getAllElements(HomePageSelectors.RYmenuItems.get());
+		} else {
+			menuFirstLevelElements = SelectorUtil.getAllElements(HomePageSelectors.menuItems.get());
 		}
 		getCurrentFunctionName(false);
 
@@ -644,10 +678,12 @@ public class HomePage extends SelTestCase {
 
 		logs.debug("Open navigation menu");
 		// Click on navigation menu icon and Navigate to an item in the menu.
-		if(isBD()){
-		SelectorUtil.initializeSelectorsAndDoActions(HomePageSelectors.navIconBD.get());
-		}
-		else{
+
+		if (isBD()) {
+			SelectorUtil.initializeSelectorsAndDoActions(HomePageSelectors.navIconBD.get());
+		} else if (isGH()) {
+			SelectorUtil.initializeSelectorsAndDoActions(HomePageSelectors.GHnavigationIcon.get());
+		} else {
 			SelectorUtil.initializeSelectorsAndDoActions(HomePageSelectors.navIcon.get());
 		}
 		getCurrentFunctionName(false);
@@ -692,14 +728,17 @@ public class HomePage extends SelTestCase {
 			SelectorUtil.clickOnWebElement(element);
 
 			// Get the sub menu header text.
-			String selectedMenuHeaderText = null;
-			if(isBD()){
-			WebElement selectedMenuHeader = SelectorUtil.getElement(HomePageSelectors.selectedMenuHeaderBD.get());
-			selectedMenuHeaderText = selectedMenuHeader.getText().toLowerCase();
-			}else{
-				WebElement selectedMenuHeader = SelectorUtil.getElement(HomePageSelectors.selectedMenuHeader.get());
-				selectedMenuHeaderText = selectedMenuHeader.getText().toLowerCase();	
+			WebElement selectedMenuHeader;
+			if (isBD()) {
+				selectedMenuHeader = SelectorUtil.getElement(HomePageSelectors.selectedMenuHeaderBD.get());
 			}
+
+			else if (isGH() || isRY()) {
+				selectedMenuHeader = SelectorUtil.getElement(HomePageSelectors.GHselectedMenuHeader.get());
+			} else {
+				selectedMenuHeader = SelectorUtil.getElement(HomePageSelectors.selectedMenuHeader.get());
+			}
+			String selectedMenuHeaderText = selectedMenuHeader.getText().toLowerCase();
 
 			// Get the current page URL.
 			String pageUrl = SelectorUtil.getCurrentPageUrl();
@@ -721,7 +760,7 @@ public class HomePage extends SelTestCase {
 
 				// Select a random item from the leaf items list.
 				Random rand = new Random();
-				int randomIndex = rand.nextInt(leafMenuItems.size());
+				int randomIndex = rand.nextInt(leafMenuItems.size()-1);
 				WebElement randomElement = leafMenuItems.get(randomIndex);
 
 				logs.debug("Random selected item from: " + randomIndex);
