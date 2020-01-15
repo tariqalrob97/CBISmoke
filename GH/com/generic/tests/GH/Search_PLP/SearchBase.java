@@ -1,19 +1,20 @@
-package com.generic.tests.GHSearch_PLP;
+
+package com.generic.tests.GH.Search_PLP;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
-import org.testng.Assert;
+import org.testng.SkipException;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.xml.XmlTest;
+
 
 import com.generic.page.PLP;
 import com.generic.setup.Common;
 import com.generic.setup.LoggingMsg;
 import com.generic.setup.SelTestCase;
 import com.generic.setup.SheetVariables;
-import com.generic.util.ReportUtil;
 import com.generic.util.SASLogger;
 import com.generic.util.dataProviderUtils;
 
@@ -25,7 +26,7 @@ public class SearchBase extends SelTestCase {
 	private static XmlTest testObject;
 
 	private static ThreadLocal<SASLogger> Testlogs = new ThreadLocal<SASLogger>();
-	
+
 	private String RecommendedProductsCase = "Recommended products";
 	private String fullSearchCase = "full search";
 
@@ -33,8 +34,9 @@ public class SearchBase extends SelTestCase {
 	public static void initialSetUp(XmlTest test) throws Exception {
 		Testlogs.set(new SASLogger(test.getName() + test.getIndex()));
 		testObject = test;
+		users = Common.readUsers();
 	}
-	
+
 	@DataProvider(name = "PLP", parallel = true)
 	// concurrency maintenance on sheet reading
 	public static Object[][] loadTestData() throws Exception {
@@ -46,37 +48,41 @@ public class SearchBase extends SelTestCase {
 		return data;
 	}
 
-	
 	@Test(dataProvider = "PLP")
-	public void verifyPLP(String caseId, String runTest,String proprties, String desc) throws Exception {
-		
+	public void verifyPLP(String caseId, String runTest, String proprties, String desc) throws Exception {
+
 		Testlogs.set(new SASLogger("PLP " + getBrowserName()));
 		// Important to add this for logging/reporting
 		setTestCaseReportName("PLP Case");
-		logCaseDetailds(MessageFormat.format(LoggingMsg.TEST_CASE_DESC, testDataSheet + "." + caseId,
-				this.getClass().getCanonicalName(), desc));
+		String CaseDescription = MessageFormat.format(LoggingMsg.TEST_CASE_DESC, testDataSheet + "." + caseId,
+				this.getClass().getCanonicalName(), desc.replace("\n", "<br>--"));
+		initReportTime();
 		try {
-			
-			//validate the suggested items
-			if (proprties.contains(RecommendedProductsCase)) 
-			sassert().assertTrue(PLP.searchAndVerifyResults("glass" , true), "Serach validation failed");
-			
-			//Validate the direct search
-			if (proprties.contains(fullSearchCase)) 
-			sassert().assertTrue(PLP.searchAndVerifyResults("mat" , false), "Serach validation failed");
-			
+
+			Common.refreshBrowser();
+
+//			PDP.closeSignUpModalIfDisplayed();
+
+			// validate the suggested items only on mobile and desktop, as iPad view doesn't
+			// have suggested items
+			if (proprties.contains(RecommendedProductsCase) && !isiPad())
+				sassert().assertTrue(PLP.searchAndVerifyResults("red", true), "Serach validation failed");
+
+			// Validate the direct search
+			if (proprties.contains(fullSearchCase))
+				sassert().assertTrue(PLP.searchAndVerifyResults("red", false), "Serach validation failed");
+
 			sassert().assertAll();
-			Common.testPass();
-		} catch (Throwable t) {
-			setTestCaseDescription(getTestCaseDescription());
-			Testlogs.get().debug(MessageFormat.format(LoggingMsg.DEBUGGING_TEXT, t.getMessage()));
-			t.printStackTrace();
-			String temp = getTestCaseReportName();
-			Common.testFail(t, temp);
-			ReportUtil.takeScreenShot(getDriver(), testDataSheet + "_" + caseId);
-			Assert.assertTrue(false, t.getMessage());
+			Common.testPass(CaseDescription);
+
+			} catch (Throwable t) {
+				if ((getTestStatus() != null) && getTestStatus().equalsIgnoreCase("skip")) {
+					throw new SkipException("Skipping this exception");
+				} else {
+					Common.testFail(t, CaseDescription, testDataSheet + "_" + caseId);
+				}
+			}
+
 		}
 
 	}
-
-}
