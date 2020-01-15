@@ -94,8 +94,11 @@ public class GiftRegistry extends SelTestCase {
 
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed
+							+ "Gift registrey Validation has failed, a selector is not found by selelnium ",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -139,8 +142,11 @@ public class GiftRegistry extends SelTestCase {
 
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed
+							+ "Create a new gift registrey has failed, a selector is not found by selelnium ",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -179,8 +185,11 @@ public class GiftRegistry extends SelTestCase {
 
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed
+							+ "Filling gift registrey form has failed, a selector is not found by selelnium ",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 
@@ -204,8 +213,10 @@ public class GiftRegistry extends SelTestCase {
 			}
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Navigating fo gift registrey page by URL has failed",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -226,8 +237,11 @@ public class GiftRegistry extends SelTestCase {
 			SelectorUtil.initializeSelectorsAndDoActions(GiftRegistrySelectors.manageRegistryButton.get());
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed
+							+ "Confirmation modal for creating a new registrey selector was not found by selelnium ",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -265,8 +279,9 @@ public class GiftRegistry extends SelTestCase {
 					"Error gift card section not displayed at manage gift card page.");
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
+					+ "Validate created registrey, a selector is not found by selelnium ", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -408,8 +423,11 @@ public class GiftRegistry extends SelTestCase {
 			validateProductAddedFromGR(numberOfItemAddedToCart);
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed
+							+ "Validating manage registrey has failed, a selector is not found by selelnium ",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -431,8 +449,10 @@ public class GiftRegistry extends SelTestCase {
 
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Actions in PDP failed, a selector is not found by selelnium ",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -456,8 +476,9 @@ public class GiftRegistry extends SelTestCase {
 					"Error: Product container contain in added to gift registry modal.");
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
+					+ "Added to gift registrey modal selector is not found by selelnium ", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -475,8 +496,9 @@ public class GiftRegistry extends SelTestCase {
 			sassert().assertTrue(productAddedToGRContainer != null, "Error: Items in gift registry.");
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
+					+ "Items container in gift registrey selector is not found by selelnium ", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -521,8 +543,10 @@ public class GiftRegistry extends SelTestCase {
 			}
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
+					+ "Confirmation page for adding from gift registrey to cart selector is not found by selelnium ",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -540,8 +564,9 @@ public class GiftRegistry extends SelTestCase {
 			sassert().assertTrue(selectGRModal != null, "Error: Select gift registry modal displayed.");
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
+					+ "Modal for selecting gift registrey selector is not found by selelnium ", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -583,8 +608,10 @@ public class GiftRegistry extends SelTestCase {
 			sassert().assertTrue(selectGRModal != null, "Error: Item added from Gift registry label.");
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
+					+ "Validating product from gift registrey in cart has failed, a selector is not found by selelnium ",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -597,8 +624,9 @@ public class GiftRegistry extends SelTestCase {
 			Registration.registerFreshUser(userMail, userPassword);
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
+					+ "Registring a new user has failed, a selector is not found by selelnium ", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}

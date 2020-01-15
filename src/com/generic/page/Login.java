@@ -3,9 +3,7 @@ package com.generic.page;
 import java.net.URI;
 import java.text.MessageFormat;
 import java.util.NoSuchElementException;
-
 import org.openqa.selenium.WebElement;
-
 import com.generic.selector.LoginSelectors;
 import com.generic.setup.ExceptionMsg;
 import com.generic.setup.LoggingMsg;
@@ -29,8 +27,10 @@ public class Login extends SelTestCase {
 			}
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + " Login has failed, a selector can't be found by selenium ",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -54,8 +54,9 @@ public class Login extends SelTestCase {
 			clickLogin();
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
+					+ " Fill Login form has failed, a selector can't be found by selenium ", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -73,8 +74,10 @@ public class Login extends SelTestCase {
 			SelectorUtil.waitingLoadingButton(LoginSelectors.loadingButton);
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + " Login button selector can't be found by selenium ",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 
@@ -93,8 +96,10 @@ public class Login extends SelTestCase {
 			SelectorUtil.initializeSelectorsAndDoActions(LoginSelectors.signInEmailPasswordInput.get(), password);
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + " Password field selector can't be found by selenium ",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -112,8 +117,10 @@ public class Login extends SelTestCase {
 			SelectorUtil.initializeSelectorsAndDoActions(LoginSelectors.signInEmailInput.get(), email);
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + " Email field selector can't be found by selenium ",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -131,8 +138,10 @@ public class Login extends SelTestCase {
 			getCurrentFunctionName(false);
 			return errorMessage;
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + " Email error message selector can't be found by selenium ",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -151,8 +160,10 @@ public class Login extends SelTestCase {
 			getCurrentFunctionName(false);
 			return errorMessage;
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Login error message selector can't be found by selenium ",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -170,8 +181,10 @@ public class Login extends SelTestCase {
 			getCurrentFunctionName(false);
 			return errorMessage;
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + " Password error message selector can't be found by selenium ",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -187,10 +200,9 @@ public class Login extends SelTestCase {
 			boolean isUserLogedIn = false;
 
 			// Check if the device is mobile(PWA site) or (desktop, tablet).
-			boolean isPWAMobile = getBrowserName().contains(GlobalVariables.browsers.iPhone);
 
 			// Validate the welcome message if it is exist.
-			if (isPWAMobile) {
+			if (isMobile()) {
 				Thread.sleep(1000);
 				SelectorUtil.waitGWTLoadedEventPWA();
 				WebElement welcomeMessageElement = SelectorUtil.getMenuLinkMobilePWA(logoffhref);
@@ -210,8 +222,10 @@ public class Login extends SelTestCase {
 
 			return isUserLogedIn;
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + " Welcome message selector can't be found by selenium ",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -228,11 +242,10 @@ public class Login extends SelTestCase {
 			boolean isUserLogedIn = false;
 
 			// Check if the device is mobile(PWA site) or (desktop, tablet).
-			boolean isPWAMobile = getBrowserName().contains(GlobalVariables.browsers.iPhone);
 			WebElement myAccountLink;
 
 			// Get my account link.
-			if (isPWAMobile) {
+			if (isMobile()) {
 				myAccountLink = SelectorUtil.getMenuLinkMobilePWA(myAccountPageLink);
 			} else {
 				myAccountLink = SelectorUtil.getElement(LoginSelectors.myAccountLink);
@@ -252,8 +265,10 @@ public class Login extends SelTestCase {
 
 			return isUserLogedIn;
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + " Account link selector can't be found by selenium ",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -306,8 +321,7 @@ public class Login extends SelTestCase {
 			Registration.registerFreshUser(userMail, userPassword);
 
 			if (logOut) {
-				boolean isPWAMobile = getBrowserName().contains(GlobalVariables.browsers.iPhone);
-				if (isPWAMobile) {
+				if (isMobile()) {
 					WebElement logoffLink = SelectorUtil.getMenuLinkMobilePWA(logoffhref);
 					SelectorUtil.clickOnWebElement(logoffLink);
 					Thread.sleep(1500);
@@ -323,4 +337,4 @@ public class Login extends SelTestCase {
 			throw e;
 		}
 	}
-}
+}// End of class
