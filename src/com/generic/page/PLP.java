@@ -43,10 +43,7 @@ public class PLP extends SelTestCase {
 			}
 
 			typeSearch(SearchTerm);
-			
-			if(isRY() && !isMobile())
-			PDP.closeSignUpModalIfDisplayed();
-			
+						
 			if (recommendedOption) {
 				if(isBD() &&  isiPad()) {
 				PLP.clickSearch(SearchTerm);
@@ -640,8 +637,7 @@ private static void sortByCustomerRating() throws Exception {
 			}
 			
 			if(isRY()) {
-				clickOnSortMenu();					
-				PDP.closeSignUpModalIfDisplayed();
+				clickOnSortMenu();
 
 				if (isMobile()) {
 
