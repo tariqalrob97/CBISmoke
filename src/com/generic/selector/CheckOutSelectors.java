@@ -53,9 +53,12 @@ public class CheckOutSelectors
 	public static final cselector shippingAndTaxCost = new cselector("css,.costs-holder .gwt-InlineLabel", "css,.pw-ledger__value");
 	public static final cselector subTotalValue = new cselector("css,.costs-holder .subtotal-value"); 
 	public static final cselector creditCardField = new cselector("css,#accountcc", "css,#accountcc"); 
-	public static final cselector monthField = new cselector("css,#exp-month", "css,.c-custom-select");  
+	public static final cselector monthField = new cselector("css,#exp-month", "css,.t-checkout-payment__card-month .c-custom-select");  
 	public static final cselector yearField = new cselector("css,#exp-year", "css,.t-checkout-payment__card-year .c-custom-select"); 
-	public static final cselector cvv = new cselector("css,#cvv", "css,#cvv","css,html body.cvv-provider-body div.animated-label-textbox-panel input#cvv"); 
+	public static final cselector cvv = new cselector("css,#cvv", "css,#cvv","css,html body.cvv-provider-body div.animated-label-textbox-panel input#cvv");
+	public static final cselector cvvGH = new cselector("css,#security-id", "css,#security-id","css,#security-id");
+
+
 	//public static final cselector cvv = new cselector("css,#security-id", "css,#cvv","css,html body.cvv-provider-body div.animated-label-textbox-panel input#cvv"); 
 	public static final cselector placeSecureOrderButton = new cselector("css,.place-order-panel .primary-button","css,.t-checkout-footer .pw--primary");
 	
@@ -63,7 +66,8 @@ public class CheckOutSelectors
 	public static final cselector closeRegisterButton = new cselector("css,.okCancelPanel .button.secondary");
 	public static final cselector itemID= new cselector("css,.gwt-oid-number", "css,.order-item-part-number");
 	public static final cselector closePoromotionalModal= new cselector("css,.extole-js-widget-wrapper.extole-widget-wrapper > a","css,.extole-js-widget-wrapper.extole-widget-wrapper > a");
-	
+	public static final cselector orderID = new cselector("css,.order-number-value","css,.order-number");
+
 	
 	// PayPal
 	public static final cselector paymentPagePayPalTitle=new cselector("css,.gwt-TabPanelBottom>div>div > div.gwt-Label","css, div > div.pw-accordion__title > a > h1 > span");
