@@ -27,8 +27,10 @@ public class PDPBase extends SelTestCase {
 	public static final String bundlePDP = "Validate PDP Bundle active elements";
 	public static final String personalizedPDP = "Validate PDP Personalized active elements";
 	public static final String singlePDPSearchTerm = "shirt";
-	public static final String BundlePDPSearchTerm = "Collection";
+
+	public static final String BundlePDPSearchTerm = "41589";
 	public static final String personalizedPDPSearchTerm = "Resort Cotton";
+
 	public static final String wishListGuestValidation = "Wish List Guest Validation";
 
 	// used sheet in test
@@ -60,10 +62,11 @@ public class PDPBase extends SelTestCase {
 		Testlogs.set(new SASLogger("PDP_SC " + getBrowserName()));
 		// Important to add this for logging/reporting
 		setTestCaseReportName(SheetVariables.PDPCaseId);
-		Testlogs.get().debug("Case Browser: " + testObject.getParameter("browserName"));
 		String CaseDescription = MessageFormat.format(LoggingMsg.TEST_CASE_DESC, testDataSheet + "." + caseId,
-				this.getClass().getCanonicalName(), desc.replace("\n", "<br>"));
+				this.getClass().getCanonicalName(), desc);
 		initReportTime();
+		Testlogs.get().debug("Case Browser: " + testObject.getParameter("browserName"));
+
 
 		try {
 
@@ -82,7 +85,7 @@ public class PDPBase extends SelTestCase {
 			}
 
 			sassert().assertAll();
-			Common.testPass();
+			Common.testPass(CaseDescription);
 		} catch (Throwable t) {
 			if ((getTestStatus() != null) && getTestStatus().equalsIgnoreCase("skip")) {
 				throw new SkipException("Skipping this exception");
