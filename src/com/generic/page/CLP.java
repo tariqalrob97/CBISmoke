@@ -39,7 +39,12 @@ public class CLP extends SelTestCase {
 				index = index + 1;
 			   final cselector leafItem = new cselector("css,li:nth-child("+index+")  li > a");
 				leafMenuItems = SelectorUtil.getAllElements(leafItem.get());
-		}else {
+		}else if(isBD()){
+			 randomMenuElement =  SelectorUtil.getRandomWebElement(menueItems);
+				SelectorUtil.clickOnWebElement(randomMenuElement);
+			   leafMenuItems = SelectorUtil.getAllElements(HomePageSelectors.leafMenuItemsBD.get());
+		}
+		else {
 			 randomMenuElement =  SelectorUtil.getRandomWebElement(menueItems);
 				SelectorUtil.clickOnWebElement(randomMenuElement);
 			   leafMenuItems = SelectorUtil.getAllElements(HomePageSelectors.leafMenuItems.get());
@@ -79,6 +84,7 @@ public class CLP extends SelTestCase {
 		WebElement menuElement =  SelectorUtil.getRandomWebElement(menutems);
 		boolean isValidClickableElement = SelectorUtil.isValidClickableItem(menuElement);
 		if(isGH()) {menuElement.click();}
+		
 		if (isValidClickableElement) {
 			if (validatePLP()) { 
 				isValid = true;
@@ -101,7 +107,10 @@ public class CLP extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			List<WebElement> items = new ArrayList<WebElement>();
-			if(isGH()) {
+			if(isBD()) {
+				items = SelectorUtil.getAllElements(CLPSelectors.BDCLPItems.get());
+			}
+			else if(isGH()) {
 				items = SelectorUtil.getAllElements(CLPSelectors.GHCLPItems.get());
 			}else {
 				items = SelectorUtil.getAllElements(CLPSelectors.CLPItems.get());
@@ -121,7 +130,10 @@ public class CLP extends SelTestCase {
 	public static List<WebElement> menueWithoutWhatsNew() throws Exception {
 		try {
 			List<WebElement> items = new ArrayList<WebElement>();
-			if(isGH()) {
+			if(isBD()) {
+				items = SelectorUtil.getAllElements(HomePageSelectors.BDmenuItems.get());
+			 }
+			else if(isGH()) {
 				items = SelectorUtil.getAllElements(HomePageSelectors.GHmenuItems.get());
 			 }else {
 				items = SelectorUtil.getAllElements(HomePageSelectors.menuItems.get());

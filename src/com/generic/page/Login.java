@@ -4,7 +4,6 @@ import java.net.URI;
 import java.text.MessageFormat;
 import java.util.NoSuchElementException;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import com.generic.selector.LoginSelectors;
@@ -194,25 +193,9 @@ public class Login extends SelTestCase {
 			if (isPWAMobile) {
 				Thread.sleep(1000);
 				SelectorUtil.waitGWTLoadedEventPWA();
-				if (isRY()) {
-					SelectorUtil.initializeSelectorsAndDoActions(LoginSelectors.GHRYMobileMenuBuuton.get());
-				}
-				if (isGH()) {
-					SelectorUtil.initializeSelectorsAndDoActions(LoginSelectors.GHRYMobileMenuBuuton.get());
-					if (SelectorUtil.isElementExist(By.cssSelector(LoginSelectors.GHMobileMenuSignout.get()))) {
-						isUserLogedIn = true;
-					}
-				} else {
-					WebElement welcomeMessageElement = SelectorUtil.getMenuLinkMobilePWA(logoffhref);
-					String itemHref = welcomeMessageElement.getAttribute("href");
-					if (itemHref.contains(logoffhref)) {
-						isUserLogedIn = true;
-					}
-				}
-			} else if(isRY()) {
-				WebElement welcomeMessage = SelectorUtil.getElement(LoginSelectors.RYWelcomeMessage.get());
-				logs.debug("welcomeMessage: " + welcomeMessage.getAttribute("innerText").trim());
-				if (welcomeMessage.getAttribute("innerText").trim().toLowerCase().contains("hi")) {
+				WebElement welcomeMessageElement = SelectorUtil.getMenuLinkMobilePWA(logoffhref);
+				String itemHref = welcomeMessageElement.getAttribute("href");
+				if (itemHref.contains(logoffhref)) {
 					isUserLogedIn = true;
 				}
 			} else {
@@ -250,16 +233,7 @@ public class Login extends SelTestCase {
 
 			// Get my account link.
 			if (isPWAMobile) {
-				if (isRY()) {
-					SelectorUtil.initializeSelectorsAndDoActions(LoginSelectors.GHRYMobileMenuBuuton.get());
-				}
-
-				if(isGH()) {
-					SelectorUtil.initializeSelectorsAndDoActions(LoginSelectors.GHRYMobileMenuBuuton.get());
-					myAccountLink = SelectorUtil.getElement(LoginSelectors.GHMobileSignoutLink.get());
-				} else {
-					myAccountLink = SelectorUtil.getMenuLinkMobilePWA(myAccountPageLink);
-				}
+				myAccountLink = SelectorUtil.getMenuLinkMobilePWA(myAccountPageLink);
 			} else {
 				myAccountLink = SelectorUtil.getElement(LoginSelectors.myAccountLink);
 			}
@@ -269,16 +243,10 @@ public class Login extends SelTestCase {
 			if (itemHref.contains(myAccountPageLink)) {
 				isUserLogedIn = true;
 			}
-			if(isGH() && isMobile()) {
-				myAccountLink = SelectorUtil.getElement(LoginSelectors.GHMobileSignoutLink.get());
-			} else {
-				if (!isRY()) {
-					// Go to my account page.
-					SelectorUtil.openMobileAccountMenu();
-				}
-				SelectorUtil.clickOnWebElement(myAccountLink);
-			}
 
+			// Go to my account page.
+			SelectorUtil.openMobileAccountMenu();
+			SelectorUtil.clickOnWebElement(myAccountLink);
 
 			getCurrentFunctionName(false);
 

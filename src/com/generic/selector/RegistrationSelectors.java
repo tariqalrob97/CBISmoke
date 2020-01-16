@@ -8,23 +8,25 @@ public class RegistrationSelectors {
 	public static final cselector closeOfferButtonGH = new cselector("css,#Close1-Item4 .offer-control");
 	public static final cselector registrationButton = new cselector("css, div.spot:nth-child(3) > button:nth-child(1)");
 	public static final cselector registrationButtonRY = new cselector("css,.registration a","css,.t-registration-panel__action .pw-button__inner");
+	public static final cselector registrationButtonBD = new cselector("css,.registration a","css,.t-registration-panel__action .pw-button__inner");
 	public static final cselector mobileRegistrationButton= new cselector("css,button.pw-button:nth-child(2)");
-	public static final cselector mobileRegistrationButtonGH= new cselector("css,.t-registration-panel__button");
-	public static final cselector mobileRegistrationTab =new cselector("css,#app-main > div > div > div > div.pw-tabs__strip-container > ol > li.pw-tabs__tab.pw--is-active > a");
-	public static final cselector mobileRegistrationTabGH =new cselector("css,.pw-tabs__link");				
+	public static final cselector mobileRegistrationButtonGHBD= new cselector("css,.t-registration-panel__button");
+	
+	public static final cselector mobileRegistrationTab =new cselector("css,#app-main > div > div > div > div.pw-tabs__strip-container > ol > li.pw-tabs__tab.pw--is-active > a");									
+	public static final cselector mobileRegistrationTabGHBD =new cselector("css,.pw-tabs__link");			
 	public static final cselector registerBtn = new cselector("css,#continue");
+																   
 	public static final cselector saveButton = new cselector("css,#gwt_billshipaddr_btn > button","css,#register-form > div.pw-field-row.t-registration__continue-button > button");
 	
 	//Fields of 1st step
-	public static final cselector emailAddress = new cselector("css, #logonId","css,#field-5");
-	public static final cselector emailAddressGH = new cselector("css, #logonId","css,.t-registration__step1-container input");
-	public static final cselector confirmEmailAddress = new cselector("css,#verifyLogonId","css,#field-6");
-	public static final cselector confirmEmailAddressGH = new cselector("css,#verifyLogonId","css,#field-6");
+	public static final cselector emailAddress = new cselector("css, #logonId","css,#field-5");	
+	public static final cselector confirmEmailAddress = new cselector("css,#verifyLogonId","css,#field-6");	
 	public static final cselector password =  new cselector("css,#logonPassword","css,#field-7");
+	public static final cselector emailAddressGH = new cselector("css, #logonId","css,.t-registration__step1-container input");
+	public static final cselector confirmEmailAddressGH = new cselector("css,#verifyLogonId","css,#field-6");
 	public static final cselector passwordGH =  new cselector("css,#logonPassword","css,.t-registration__step1-container input");
-	public static final cselector confirmPassword = new cselector ("css,#logonPasswordVerify","css,#field-8");
+	public static final cselector confirmPassword = new cselector ("css,#logonPasswordVerify","css,#field-8");												
 	public static final cselector confirmPasswordGH = new cselector ("css,#logonPasswordVerify","css,.t-registration__step1-container input");
-
 	//Fields of 2nd step
 	public static final cselector firstName =new cselector ("css,#bill_fnbox","css,#field-9");
 	public static final cselector firstNameGH =new cselector ("css,#bill_fnbox","css,.c-custom-form .c-custom-input-container input");
