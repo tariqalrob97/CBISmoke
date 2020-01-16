@@ -266,11 +266,12 @@ public class PDP extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			selectSwatches();
+			Thread.sleep(2000);
 			clickAddToCartButton();
 			if (PDP.bundleProduct() && SelTestCase.isMobile()) {
 				closeModalforBundleItem();
 			}
-			Thread.sleep(1000);
+			Thread.sleep(2000);
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
