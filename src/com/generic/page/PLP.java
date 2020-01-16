@@ -7,6 +7,8 @@ import java.util.NoSuchElementException;
 import java.util.Random;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+
 import com.generic.selector.HomePageSelectors;
 import com.generic.selector.PLPSelectors;
 import com.generic.setup.Common;

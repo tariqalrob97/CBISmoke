@@ -3,6 +3,8 @@ package com.generic.page;
 import java.net.URI;
 import java.text.MessageFormat;
 import java.util.NoSuchElementException;
+
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import com.generic.selector.LoginSelectors;
 import com.generic.setup.ExceptionMsg;
@@ -243,6 +245,7 @@ public class Login extends SelTestCase {
 					ExceptionMsg.PageFunctionFailed + " Welcome message selector can't be found by selenium ",
 					new Object() {
 					}.getClass().getEnclosingMethod().getName()));
+			throw e;
 		}
 	}
 
@@ -301,6 +304,7 @@ public class Login extends SelTestCase {
 					ExceptionMsg.PageFunctionFailed + " Account link selector can't be found by selenium ",
 					new Object() {
 					}.getClass().getEnclosingMethod().getName()));
+			throw e;
 		}
 	}
 	/**
