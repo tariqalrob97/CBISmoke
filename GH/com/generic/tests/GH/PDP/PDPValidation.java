@@ -9,7 +9,6 @@ import org.openqa.selenium.WebElement;
 
 import com.generic.page.PDP;
 import com.generic.selector.PDPSelectors;
-import com.generic.setup.Common;
 import com.generic.setup.GlobalVariables;
 import com.generic.setup.SelTestCase;
 import com.generic.util.RandomUtilities;
@@ -17,15 +16,8 @@ import com.generic.util.SelectorUtil;
 
 public class PDPValidation extends SelTestCase {
 
-	public static void validate(String searchTerm) throws Exception {
+	public static void validate(Boolean Personalized) throws Exception {
 		getCurrentFunctionName(true);
-		// To be removed after R1 build, this is to handle blank page in mobile for new session.
-		if (isMobile())
-			Common.refreshBrowser();
-
-		// Navigate to PDP page.
-		PDP.NavigateToPDP(searchTerm);
-
 		// Verify user is navigated to PDP page.
 		validateIsPDPPage();
 		SelectorUtil.waitGWTLoadedEventPWA();
@@ -40,7 +32,7 @@ public class PDPValidation extends SelTestCase {
 		 			"Top price for the bundle item (mini PDP) is not dispayed");
 		 }
 		if (bundle)
-			ProductID = PDP.getProductID(0);
+		ProductID = PDP.getProductID(0);
 		String priceErrorMessage;
 		// price error message
 		//for single PDP, validate the price is displayed below the title of the page for both desktop and mobile
@@ -66,7 +58,7 @@ public class PDPValidation extends SelTestCase {
 		sassert().assertTrue(!bottomPrice.equals("$0.00"), "Bottom price is not updated correctly, Current price: " + bottomPrice);
 
 		// Check if the personalization button exist.
-		if (PDP.PersonalizedItem()) {
+		if (Personalized && PDP.PersonalizedItem()) {
 
 			// Click on "add Personalization" button
 			PDP.clickAddPersonalizationButton();
@@ -110,6 +102,7 @@ public class PDPValidation extends SelTestCase {
 
 		getCurrentFunctionName(false);
 	}
+
 
 	public static void selectPersonalizationModalSwatches() throws Exception {
 		getCurrentFunctionName(true);

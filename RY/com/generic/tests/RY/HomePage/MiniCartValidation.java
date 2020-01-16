@@ -7,8 +7,6 @@ import com.generic.setup.GlobalVariables;
 import com.generic.setup.SelTestCase;
 
 public class MiniCartValidation extends SelTestCase {
-
-	public static final String PDPSearchTerm = "scarf";
 	
 	public static void validate() throws Exception {
 		String expectedEmptyCartText="empty";
@@ -21,7 +19,7 @@ public class MiniCartValidation extends SelTestCase {
 		+ "<br>actual text is: " + emptyCartText + " </font>");
 		//The mini cart close button is only available on Mobile. there is no close button on Desktop.
 		
-		PDP.NavigateToPDP(PDPSearchTerm);
+		PDP.NavigateToPDP();
 		PDP.addProductsToCart();
 		if (!SelTestCase.getBrowserName().contains(GlobalVariables.browsers.iPhone)) {
 			PDP.clickAddToCartCloseBtn();

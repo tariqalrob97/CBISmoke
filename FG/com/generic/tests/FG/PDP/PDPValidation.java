@@ -5,10 +5,8 @@ import com.generic.setup.SelTestCase;
 
 public class PDPValidation extends SelTestCase {
 
-	public static void validate(String searchTerm, Boolean Personalized) throws Exception {
+	public static void validate(Boolean Personalized) throws Exception {
 		getCurrentFunctionName(true);
-		PDP.NavigateToPDP(searchTerm);
-		// int numberOfItems = PDP.getNumberOfItems();
 		Boolean bundle = PDP.getNumberOfItems() > 1;
 		String ProductID = null;
 		if (!isMobile() && bundle)

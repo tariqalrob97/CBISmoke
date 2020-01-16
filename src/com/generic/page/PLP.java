@@ -937,7 +937,39 @@ private static void sortByCustomerRating() throws Exception {
 		}
 
 	}
+	
+	// CBI
+	public static void pickPLPRandomProduct() throws Exception {
+		try {
+			getCurrentFunctionName(true);
+			List<WebElement> items = new ArrayList<WebElement>();
+			items = getPLPItems();
+			WebElement item =  SelectorUtil.getRandomWebElement(items);
+			JavascriptExecutor jse = (JavascriptExecutor) getDriver();
+			jse.executeScript("arguments[0].scrollIntoView(false)", item);
+			((JavascriptExecutor) getDriver()).executeScript("arguments[0].click()", item);
+			SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.productName.get());
+			getCurrentFunctionName(false);
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed + "Failed to pick Random Product from PLP ", new Object() {
+			}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
 
+	}
+	
+	public static List<WebElement> getPLPItems() throws Exception {
+		try {
+			List<WebElement> items = new ArrayList<WebElement>();
+			items = SelectorUtil.getAllElements(PLPSelectors.productName.get());
+			items.remove(items.size() - 1);
+			return items;
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed + " Failed to get PLP iems", new Object() {
+			}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+	}
 	// CBI
 	public static void navigateToRandomPLPMobileIpad() throws Exception {
 		try {
