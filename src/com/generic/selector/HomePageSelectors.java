@@ -96,6 +96,7 @@ public class HomePageSelectors
 	public static final cselector GHnavigationIcon = new cselector("css,#pwa-shop-nav-button > button");
 	public static final cselector RYmenuItems = new cselector("css,#css-top-navigation #flyout>.menuItem>a", "css,.m-accordion-navigation__content  div.pw-accordion__item > button");
 	public static final cselector GHmenuItems = new cselector("css,#navbar-collapse-grid > ul > li > a", "css,.m-accordion-navigation__content  div.pw-accordion__item > button");
+	public static final cselector BDmenuItems = new cselector("css,.gwt-MenuItem a","css,.navigation-modal__class .pw-link");
 	public static final cselector GHselectedMenuHeader = new cselector("", "css,div.m-accordion-navigation__content  div.pw-accordion__item > button[aria-selected=\"true\"]");
 	public static final cselector leafMenuItems = new cselector("", "css,.active-menu-item>:not(.gwt-nav-item-has-submenu)", "css,.navigation-modal_class .pw-list-tile:not(.pw--has-child) .pw-link");
 	// adding this
