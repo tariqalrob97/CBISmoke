@@ -11,11 +11,10 @@ import org.openqa.selenium.interactions.Actions;
 
 import com.generic.selector.HomePageSelectors;
 import com.generic.selector.PLPSelectors;
-import com.generic.setup.Common;
 import com.generic.setup.ExceptionMsg;
-import com.generic.setup.GlobalVariables;
 import com.generic.setup.SelTestCase;
 import com.generic.util.SelectorUtil;
+import com.generic.util.SelectorUtil.commands.actions;
 
 public class PLP extends SelTestCase {
 
@@ -244,28 +243,28 @@ public class PLP extends SelTestCase {
 
 			Thread.sleep(2000);
 
-			if (isFG()) {
+			//open expandable menu 
+			if (isFG())
 				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.FilterContainerContents.get(),
-						"ForceAction,click");
-			if (isGR()) 
-					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRFilterContainerContents.get(),
-							"ForceAction,click");
-
-			
-			if(isBD())
+						actions.Click);
+			if (isGR())
+				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRFilterContainerContents.get(),
+						actions.Click);
+			if (isBD())
 				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.BDFilterContainerContents.get(),
-						"ForceAction,click");
+						actions.Click);
+			
 			if (isMobile()) {
 				if (isFG()) {
 					try {
 						SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.allCatigories.get(),
-								"ForceAction,click");
+								actions.Click);
 					} catch (Exception e) {
 
 						try {
 
 							SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.allCatigories2.get(),
-									"ForceAction,click");
+									actions.Click);
 
 						} catch (Exception e2) {
 							List<WebElement> maxPriceField = SelectorUtil
@@ -285,21 +284,21 @@ public class PLP extends SelTestCase {
 
 				if (isMobile()) {
 					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRFilterContainerContents.get(),
-							"ForceAction,click");
+							actions.Click);
 					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRallCatigories.get(),
-							"ForceAction,click");
+							actions.Click);
 				} else
 					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRFilterContainerContents.get(),
-							"ForceAction,click");
+							actions.Click);
 			}
 
 			if (isGH()) {
 				if (isMobile()) {
 					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.FilterContainerContentsGH.get(),
-							"ForceAction,click");
+							actions.Click);
 					try {
 						SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.clearanceGH.get(),
-								"ForceAction,click");
+								actions.Click);
 					} catch (Exception e) {
 						List<WebElement> filters = SelectorUtil.getAllElements(PLPSelectors.colorFilterGH.get());
 						filters.get(2).click();

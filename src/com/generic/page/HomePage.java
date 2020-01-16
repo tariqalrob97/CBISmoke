@@ -385,9 +385,8 @@ if(isBD()){
 			getCurrentFunctionName(true);
 			logs.debug("Clicking on Mini Cart clsoe icon");
 			if(isBD()){
-		subStrArr = HomePageSelectors.miniCartCloseBD.get();
 		logs.debug("Clicking on Mini Cart clsoe icon");
-		SelectorUtil.initializeSelectorsAndDoActions(subStrArr);
+		SelectorUtil.initializeSelectorsAndDoActions(HomePageSelectors.miniCartCloseBD.get());
 		}
 		else if(isGH() || isRY()) {
 			WebElement element = SelectorUtil.getElement(HomePageSelectors.GHminiCartClose.get());
@@ -542,7 +541,7 @@ if(isBD()){
 		}
 		
 			if (isNotDisplayed == false)
-				if (!SelectorUtil.isDisplayed(subStrArr))
+				if (!SelectorUtil.isDisplayed(HomePageSelectors.searchIconField.get()))
 					isNotDisplayed = true;
 			getCurrentFunctionName(false);
 			return isNotDisplayed;
@@ -611,6 +610,7 @@ if(isBD()){
 	public static boolean isLoadedModuleHeroImg() throws Exception {
 		try {
 			getCurrentFunctionName(true);
+			boolean loaded = SelectorUtil.isImgLoaded(HomePageSelectors.moduleHeroImg);
 			if(isBD() ){
 			loaded = SelectorUtil.isImgLoaded(HomePageSelectors.moduleHeroImgBD);
 			}
