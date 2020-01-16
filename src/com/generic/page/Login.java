@@ -200,14 +200,31 @@ public class Login extends SelTestCase {
 			boolean isUserLogedIn = false;
 
 			// Check if the device is mobile(PWA site) or (desktop, tablet).
+			boolean isPWAMobile = getBrowserName().contains(GlobalVariables.browsers.iPhone);
 
 			// Validate the welcome message if it is exist.
-			if (isMobile()) {
+			if (isPWAMobile) {
 				Thread.sleep(1000);
 				SelectorUtil.waitGWTLoadedEventPWA();
-				WebElement welcomeMessageElement = SelectorUtil.getMenuLinkMobilePWA(logoffhref);
-				String itemHref = welcomeMessageElement.getAttribute("href");
-				if (itemHref.contains(logoffhref)) {
+				if (isRY()) {
+					SelectorUtil.initializeSelectorsAndDoActions(LoginSelectors.GHRYMobileMenuBuuton.get());
+				}
+				if (isGH()) {
+					SelectorUtil.initializeSelectorsAndDoActions(LoginSelectors.GHRYMobileMenuBuuton.get());
+					if (SelectorUtil.isElementExist(By.cssSelector(LoginSelectors.GHMobileMenuSignout.get()))) {
+						isUserLogedIn = true;
+					}
+				} else {
+					WebElement welcomeMessageElement = SelectorUtil.getMenuLinkMobilePWA(logoffhref);
+					String itemHref = welcomeMessageElement.getAttribute("href");
+					if (itemHref.contains(logoffhref)) {
+						isUserLogedIn = true;
+					}
+				}
+			} else if(isRY()) {
+				WebElement welcomeMessage = SelectorUtil.getElement(LoginSelectors.RYWelcomeMessage.get());
+				logs.debug("welcomeMessage: " + welcomeMessage.getAttribute("innerText").trim());
+				if (welcomeMessage.getAttribute("innerText").trim().toLowerCase().contains("hi")) {
 					isUserLogedIn = true;
 				}
 			} else {
@@ -226,7 +243,6 @@ public class Login extends SelTestCase {
 					ExceptionMsg.PageFunctionFailed + " Welcome message selector can't be found by selenium ",
 					new Object() {
 					}.getClass().getEnclosingMethod().getName()));
-			throw e;
 		}
 	}
 
@@ -242,11 +258,21 @@ public class Login extends SelTestCase {
 			boolean isUserLogedIn = false;
 
 			// Check if the device is mobile(PWA site) or (desktop, tablet).
+			boolean isPWAMobile = getBrowserName().contains(GlobalVariables.browsers.iPhone);
 			WebElement myAccountLink;
 
 			// Get my account link.
-			if (isMobile()) {
-				myAccountLink = SelectorUtil.getMenuLinkMobilePWA(myAccountPageLink);
+			if (isPWAMobile) {
+				if (isRY()) {
+					SelectorUtil.initializeSelectorsAndDoActions(LoginSelectors.GHRYMobileMenuBuuton.get());
+				}
+
+				if(isGH()) {
+					SelectorUtil.initializeSelectorsAndDoActions(LoginSelectors.GHRYMobileMenuBuuton.get());
+					myAccountLink = SelectorUtil.getElement(LoginSelectors.GHMobileSignoutLink.get());
+				} else {
+					myAccountLink = SelectorUtil.getMenuLinkMobilePWA(myAccountPageLink);
+				}
 			} else {
 				myAccountLink = SelectorUtil.getElement(LoginSelectors.myAccountLink);
 			}
@@ -256,10 +282,16 @@ public class Login extends SelTestCase {
 			if (itemHref.contains(myAccountPageLink)) {
 				isUserLogedIn = true;
 			}
+			if(isGH() && isMobile()) {
+				myAccountLink = SelectorUtil.getElement(LoginSelectors.GHMobileSignoutLink.get());
+			} else {
+				if (!isRY()) {
+					// Go to my account page.
+					SelectorUtil.openMobileAccountMenu();
+				}
+				SelectorUtil.clickOnWebElement(myAccountLink);
+			}
 
-			// Go to my account page.
-			SelectorUtil.openMobileAccountMenu();
-			SelectorUtil.clickOnWebElement(myAccountLink);
 
 			getCurrentFunctionName(false);
 
@@ -269,10 +301,8 @@ public class Login extends SelTestCase {
 					ExceptionMsg.PageFunctionFailed + " Account link selector can't be found by selenium ",
 					new Object() {
 					}.getClass().getEnclosingMethod().getName()));
-			throw e;
 		}
 	}
-
 	/**
 	 * Check current page if it is my account.
 	 *
@@ -338,3 +368,4 @@ public class Login extends SelTestCase {
 		}
 	}
 }// End of class
+

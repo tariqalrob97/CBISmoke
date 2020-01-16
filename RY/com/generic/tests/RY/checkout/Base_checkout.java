@@ -1,4 +1,4 @@
-package com.generic.tests.GH.checkout;
+package com.generic.tests.RY.checkout;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
@@ -74,7 +74,6 @@ public class Base_checkout extends SelTestCase {
 		int productsCount = Integer.parseInt(productsNumber);
 
 		try {
-			Common.refreshBrowser();
 
 			// Guest user with multiple addresses
 			if (proprties.contains(freshUserMultipleAddresses)) {

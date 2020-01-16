@@ -803,6 +803,7 @@ public class HomePage extends SelTestCase {
 			}
 			getCurrentFunctionName(false);
 
+
 			return menuFirstLevelElements;
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(
