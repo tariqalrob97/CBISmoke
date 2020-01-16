@@ -1200,6 +1200,7 @@ public class SelectorUtil extends SelTestCase {
 			public final static String index = selectIndex + ",{0}";
 			public final static String select = "FFFS";
 			public final static String selectOption = select + "{0}";
+			public final static String Click = ForceAction+",click";
 		}
 	}
 
