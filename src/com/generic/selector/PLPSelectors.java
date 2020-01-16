@@ -4,16 +4,20 @@ import com.generic.setup.cselector;
 
 public class PLPSelectors {
 
-	public static final cselector RYSearchIcon = new cselector("css,.t-header__search-button>button");
 	//CBI
 	public static final cselector SearchIcon = new cselector("css,#uNavTop button.searchboxAsButton", "css,.t-header__fades-in>button");
-	
+	public static final cselector RYSearchIcon = new cselector("css,.t-header__search-button>button");
+	public static final cselector BDSearchIcon = new cselector("css,div.u-margin-left-sm:nth-child(2) > button");
+ 
 	public static final cselector GHsearchClose = new cselector("css,button.pw-search__close");
 	public static final cselector searchBox = new cselector("css,#searchBox input#headerBox","css,form>div>div>input");
 	public static final cselector recommendedOption =new cselector("css,li.unbxd-as-popular-product.unbxd-as-popular-product-grid .unbxd-as-popular-product-info","css,.c-arrange.u-flexbox.c--align-middle.u-align-center");
+
+	public static final cselector BDrecommendedOption =new cselector("css,li.unbxd-as-popular-product.unbxd-as-popular-product-grid .unbxd-as-popular-product-info","css,li.unbxd-as-keysuggestion","css,.c-arrange.u-flexbox.c--align-middle.u-align-center");
 	public static final cselector recommendedOptionRY =new cselector("css,.unbxd-as-popular-product-image-container","css,.pw-image");
 
 	
+
 	public static final cselector SearchButton =new cselector("css,li.unbxd-as-popular-product.unbxd-as-popular-product-grid a.unbxd-as-popular-product-info");
     public static final cselector product =  new cselector("css,div.gwt-product-info-panel-details-panel-html > h2 > a","css,div.pw-list-tile__content  a.c-product-item__main-image"); 
     public static final cselector productName =  new cselector("css,div.gwt-product-info-panel-details-panel-html > h2 > a","css,a.pw-link.c-product-item-title-link > div > div > h2 > div"); 
@@ -24,6 +28,7 @@ public class PLPSelectors {
 
     public static final cselector GHproductsImages = new cselector("css,.gwt-product-info-panel-image-container>a>.unbxd-grid-product-image", "css,.c-product-item-img");
     public static final cselector productsImagesGH = new cselector("css,.gwt-product-info-panel-image-container > a > img","css,article > a > div > img");
+    public static final cselector BDproductTitle = new cselector("css,h2 > a.gwt-sub-category-info-panel-link");
 
     public static final cselector PriceLowToHigh = new cselector("Price: Low to High","css,#unbxd_normal_sort_price-asc > div");
     public static final cselector PriceLowToHighGH = new cselector("Price: Low to High","css,#unbxd_normal_sort_price-asc");
@@ -71,15 +76,19 @@ public class PLPSelectors {
 
 	
 	
-	
+	public static final cselector BDMobileSorting = new cselector("css,select.c-select-options__select");
 	public static final cselector GRMobileSorting = new cselector("css,.c-product-list__container-sort-option.u-flex-1 > div > div > div > select");
 	public static final cselector GRDeskTopSorting = new cselector("css,.unbxd-all-sort-options .selected-option-span");
 	public static final cselector GRDeskTopSortingLowtoHIgh = new cselector("css,#unbxd-sort-options-container > div > div > a:nth-child(2)");
 	public static final cselector GRDeskTopSortingHighToLow = new cselector("css,#unbxd-sort-options-container > div > div > a:nth-child(3)");
+	public static final cselector BDDeskTopSortingCustomerRating = new cselector("css,#unbxd-sort-options-container > div > div > a:nth-child(4)");
+	public static final cselector BDDeskTopSortingLowToHigh = new cselector("css,#unbxd-sort-options-container > div > div > a:nth-child(3)");
 
 
 	public static final cselector GRFilterContainer = new cselector("css,#text-facets-container-panel > div:nth-child(1) > span","css,div.pw-accordion__close-icon");
+	public static final cselector BDFilterContainer = new cselector("css,#text-facets-container-panel > div:nth-child(1) > span","css,button.c-product-list__filter-button");
 	public static final cselector GRFilterContainerContents = new cselector("css,.unbxd-facet-option-checkbox input","css,.u-text-letter-spacing-0 > div");
+	public static final cselector BDFilterContainerContents = new cselector("css,.unbxd-facet-option-checkbox input","css,div.c-custom-sheet__content.u-height-full.u-border-top  div > div.pw-accordion__icon > div.pw-accordion__open-icon");
 	public static final cselector GRallCatigories = new cselector("","css,.pw-field__label-wrap.pw--end > label > div > div > div");
 
 	//Random PLP
