@@ -5,18 +5,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Random;
-
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
 import com.generic.selector.HomePageSelectors;
 import com.generic.selector.PLPSelectors;
-import com.generic.setup.Common;
 import com.generic.setup.ExceptionMsg;
-import com.generic.setup.GlobalVariables;
 import com.generic.setup.SelTestCase;
 import com.generic.util.SelectorUtil;
+import com.generic.util.SelectorUtil.commands.actions;
 
 public class PLP extends SelTestCase {
 
@@ -64,8 +62,9 @@ public class PLP extends SelTestCase {
 			getCurrentFunctionName(false);
 			return result;
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
+					+ "Search validation has failed, a selector was not found by selenuim", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 
@@ -117,8 +116,11 @@ public class PLP extends SelTestCase {
 			getCurrentFunctionName(false);
 			return result;
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed
+							+ "Verifiying search result page has failed, a selector was not found by selenuim",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -185,8 +187,10 @@ public class PLP extends SelTestCase {
 			getCurrentFunctionName(false);
 			return result;
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Verifying PLP has failed, a selector was not found by selenuim",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -224,8 +228,10 @@ public class PLP extends SelTestCase {
 			getCurrentFunctionName(false);
 
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Filter by dropdown selector was not found by selenuim",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -237,28 +243,28 @@ public class PLP extends SelTestCase {
 
 			Thread.sleep(2000);
 
-			if (isFG()) {
+			//open expandable menu 
+			if (isFG())
 				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.FilterContainerContents.get(),
-						"ForceAction,click");
-			if (isGR()) 
-					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRFilterContainerContents.get(),
-							"ForceAction,click");
-
-			
-			if(isBD())
+						actions.Click);
+			if (isGR())
+				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRFilterContainerContents.get(),
+						actions.Click);
+			if (isBD())
 				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.BDFilterContainerContents.get(),
-						"ForceAction,click");
+						actions.Click);
+			
 			if (isMobile()) {
 				if (isFG()) {
 					try {
 						SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.allCatigories.get(),
-								"ForceAction,click");
+								actions.Click);
 					} catch (Exception e) {
 
 						try {
 
 							SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.allCatigories2.get(),
-									"ForceAction,click");
+									actions.Click);
 
 						} catch (Exception e2) {
 							List<WebElement> maxPriceField = SelectorUtil
@@ -271,21 +277,28 @@ public class PLP extends SelTestCase {
 					}
 
 				}
-				if (isGRBD())
+
+			}
+
+			if (isGRBD()) {
+
+				if (isMobile()) {
+					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRFilterContainerContents.get(),
+							actions.Click);
 					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRallCatigories.get(),
-							"ForceAction,click");
+							actions.Click);
 				} else
 					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRFilterContainerContents.get(),
-							"ForceAction,click");
+							actions.Click);
 			}
 
 			if (isGH()) {
 				if (isMobile()) {
 					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.FilterContainerContentsGH.get(),
-							"ForceAction,click");
+							actions.Click);
 					try {
 						SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.clearanceGH.get(),
-								"ForceAction,click");
+								actions.Click);
 					} catch (Exception e) {
 						List<WebElement> filters = SelectorUtil.getAllElements(PLPSelectors.colorFilterGH.get());
 						filters.get(2).click();
@@ -315,10 +328,10 @@ public class PLP extends SelTestCase {
 
 			getCurrentFunctionName(false);
 
-		
-		}catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Filter name selector was not found by selenuim", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 
@@ -385,8 +398,10 @@ public class PLP extends SelTestCase {
 			getCurrentFunctionName(false);
 			return state;
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Filters container selector was not found by selenuim",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -401,8 +416,10 @@ public class PLP extends SelTestCase {
 			getCurrentFunctionName(false);
 			return productNumbers;
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Product container selector was not found by selenuim",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -481,8 +498,10 @@ public class PLP extends SelTestCase {
 			getCurrentFunctionName(false);
 
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "sort low to high selector was not found by selenuim",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -522,13 +541,15 @@ public class PLP extends SelTestCase {
 			getCurrentFunctionName(false);
 
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "sort high to low selector was not found by selenuim",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
-	
-	private static void sortByCustomerRating() throws Exception {
+
+private static void sortByCustomerRating() throws Exception {
 
 		try {
 			getCurrentFunctionName(true);
@@ -637,8 +658,10 @@ public class PLP extends SelTestCase {
 			getCurrentFunctionName(false);
 
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "sort low to high in plp selector was not found by selenuim",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -668,8 +691,10 @@ public class PLP extends SelTestCase {
 			getCurrentFunctionName(false);
 
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Sort high to low in PLP selector was not found by selenuim",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -689,8 +714,9 @@ public class PLP extends SelTestCase {
 			
 		getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Sorting menu selector was not found by selenuim", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -709,8 +735,10 @@ public class PLP extends SelTestCase {
 			getCurrentFunctionName(false);
 			return productsName;
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Product name in PLP selector was not found by selenuim",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -725,8 +753,10 @@ public class PLP extends SelTestCase {
 			return namesWebElements.size();
 
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Product name in PLP selector was not found by selenuim",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -750,8 +780,10 @@ public class PLP extends SelTestCase {
 			getCurrentFunctionName(false);
 			return result;
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Product image in PLP selector was not found by selenuim",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -761,7 +793,6 @@ public class PLP extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			boolean result;
-
 			String productTitle;
 
 			if (isRY()) {
@@ -775,8 +806,9 @@ public class PLP extends SelTestCase {
 			getCurrentFunctionName(false);
 			return result;
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "PDP tittle selector was not found by selenuim", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 
@@ -793,8 +825,9 @@ public class PLP extends SelTestCase {
 
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Search box selector was not found by selenuim", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -811,7 +844,7 @@ public class PLP extends SelTestCase {
 	
 			    SelectorSS = PLPSelectors.recommendedOptionRY.get();
 
-			}else if(isGH()) {
+	}else if(isGH()) {
 				SelectorSS = PLPSelectors.GHRecommendedOption.get();
 			} else {
 				SelectorSS = PLPSelectors.recommendedOption.get();
@@ -835,8 +868,10 @@ public class PLP extends SelTestCase {
 			}
 			return itemTitle;
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Recommended product selector was not found by selenuim",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 
@@ -849,8 +884,9 @@ public class PLP extends SelTestCase {
 			SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.searchBox.get(), searchTerm);
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Search box selector was not found by selenuim", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 
@@ -866,10 +902,9 @@ public class PLP extends SelTestCase {
 				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.BDSearchIcon.get());
 			else
 			    SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.SearchIcon.get());
-
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed + "Search icon selector was not found by selenuim", new Object() {
 			}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
@@ -896,7 +931,7 @@ public class PLP extends SelTestCase {
 			getCurrentFunctionName(false);
 			return itemTitle;
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed + "Product image selector was not found by selenuim", new Object() {
 			}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
@@ -959,7 +994,7 @@ public class PLP extends SelTestCase {
 
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed+ "Navigation to PLP has failed, a selector was not found by selenuim", new Object() {
 			}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
@@ -1073,7 +1108,7 @@ public class PLP extends SelTestCase {
 			
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed + "Navigation to PLP has failed, a selector was not found by selenuim", new Object() {
 			}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
