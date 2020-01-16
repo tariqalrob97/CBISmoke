@@ -156,7 +156,7 @@ public class RegistrationBase extends SelTestCase {
 						"Last name validation failed Expected: " + lastNameValidation + " Actual: "
 								+ lastNameValidation);
 
-				validationMsg = Registration.getStreerAddressErrorInvalid();
+				validationMsg = Registration.getStreetAddressErrorInvalid();
 				sassert().assertTrue(validationMsg.contains(streetAddress1Validation),
 						"Street address 1 validation failed Expected: " + streetAddress1Validation + " Actual: "
 								+ streetAddress1Validation);

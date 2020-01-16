@@ -585,7 +585,7 @@ public class Registration extends SelTestCase {
 	}
 
 	// done CBI
-	public static String getStreerAddressErrorInvalid() throws Exception {
+	public static String getStreetAddressErrorInvalid() throws Exception {
 		try {
 			getCurrentFunctionName(true);
 
