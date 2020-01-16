@@ -17,7 +17,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.Wait;
-
 import com.generic.selector.HomePageSelectors;
 import com.generic.selector.PDPSelectors;
 import com.generic.selector.PLPSelectors;
@@ -40,9 +39,9 @@ public class PDP extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			// This is to handle production Monetate issue on iPad for search field.
-			if (SelTestCase.isFGGR() && SelTestCase.isiPad())
+			if (isFGGR() && isiPad())
 				HomePage.updateMmonetate();
-			if (SelTestCase.isFGGR() || (isRY() && isMobile()))
+			if (isFGGR() || (isRY() && isMobile()))
 				PLP.clickSearchicon();
 			String itemName = "";
 			// This is to handle iPad behavior for search modal.
@@ -60,8 +59,9 @@ public class PDP extends SelTestCase {
 			getCurrentFunctionName(false);
 			return itemName;
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
+					+ "Navigation to PDP has failed, a selector was not found by selenuim", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 
@@ -69,16 +69,23 @@ public class PDP extends SelTestCase {
 
 	// done - SMK
 	public static void NavigateToPDP() throws Exception {
-		getCurrentFunctionName(true);
-		String SearchTerm;
-		if (SelTestCase.isFGGR())
-			SearchTerm = "Rugs";
-		else if (SelTestCase.isGHRY())
-			SearchTerm = "shirt";
-		else
-			SearchTerm = "lighting";
-		NavigateToPDP(SearchTerm);
-		getCurrentFunctionName(false);
+		try {
+			getCurrentFunctionName(true);
+			String SearchTerm;
+			if (SelTestCase.isFGGR())
+				SearchTerm = "Rugs";
+			else if (SelTestCase.isGHRY())
+				SearchTerm = "shirt";
+			else
+				SearchTerm = "lighting";
+			NavigateToPDP(SearchTerm);
+			getCurrentFunctionName(false);
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
+					+ "Navigation to PDP has failed, a selector was not found by selenuim", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
 	}
 
 	// done - SMK
@@ -124,8 +131,10 @@ public class PDP extends SelTestCase {
 			SelectorUtil.initializeSelectorsAndDoActions(subStrArr);
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Add to cart button selector was not found by selenium",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -138,8 +147,10 @@ public class PDP extends SelTestCase {
 			SelectorUtil.initializeSelectorsAndDoActions(subStrArr);
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Add to cart close button selector was not found by selenium",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -148,16 +159,25 @@ public class PDP extends SelTestCase {
 	// This method to return all available options except the sizes dropdown
 	// Size drop-down has a different selector
 	public static int getNumberOfOptions() throws Exception {
-		getCurrentFunctionName(true);
-		String subStrArr = PDPSelectors.avaibleOptions.get();
-		int numberOfAvaibleOptions = 0;
-		if (!SelectorUtil.isNotDisplayed(subStrArr)) {
-			numberOfAvaibleOptions = SelectorUtil.getAllElements(subStrArr).size();
+		try {
+			getCurrentFunctionName(true);
+			String subStrArr = PDPSelectors.avaibleOptions.get();
+			int numberOfAvaibleOptions = 0;
+			if (!SelectorUtil.isNotDisplayed(subStrArr)) {
+				numberOfAvaibleOptions = SelectorUtil.getAllElements(subStrArr).size();
+			}
+			logs.debug("number Of Avaible Options" + numberOfAvaibleOptions);
+			getCurrentFunctionName(false);
+			return numberOfAvaibleOptions;
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Options in PDP selector was not found by selenium",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
+			throw e;
 		}
-		logs.debug("number Of Avaible Options" + numberOfAvaibleOptions);
-		getCurrentFunctionName(false);
-		return numberOfAvaibleOptions;
 	}
+
 
 	/** Get the number options for GH & RY.
 	*
@@ -200,11 +220,19 @@ public class PDP extends SelTestCase {
 
 // done - SMK
 	public static void selectNthListBoxFirstValue(int index) throws Exception {
-		getCurrentFunctionName(true);
-		String Str = PDPSelectors.allSizes.get();
-		String value = "index," + index + ",FFF1";
-		SelectorUtil.initializeSelectorsAndDoActions(Str, value);
-		getCurrentFunctionName(false);
+		try {
+			getCurrentFunctionName(true);
+			String Str = PDPSelectors.allSizes.get();
+			String value = "index," + index + ",FFF1";
+			SelectorUtil.initializeSelectorsAndDoActions(Str, value);
+			getCurrentFunctionName(false);
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Add to cart close button selector was not found by selenium",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
 	}
 
 	// done - SMK
@@ -226,31 +254,45 @@ public class PDP extends SelTestCase {
 
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Swatch selector was not found by selenium", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
 
 	// done - SMK
 	public static void addProductsToCart() throws Exception {
-		getCurrentFunctionName(true);
-		selectSwatches();
-		Thread.sleep(2000);
-		clickAddToCartButton();
-		if (PDP.bundleProduct() && SelTestCase.isMobile()) {
-			closeModalforBundleItem();
+		try {
+			getCurrentFunctionName(true);
+			selectSwatches();
+			clickAddToCartButton();
+			if (PDP.bundleProduct() && SelTestCase.isMobile()) {
+				closeModalforBundleItem();
+			}
+			Thread.sleep(1000);
+			getCurrentFunctionName(false);
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
+					+ "Add products to cart has failed, a selector was not found by selenium", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
+			throw e;
 		}
-		Thread.sleep(1000);
-		getCurrentFunctionName(false);
 	}
 
 	// Done CBI
 	public static void closeModalforBundleItem() throws Exception {
-		getCurrentFunctionName(true);
-		SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.closeBundleProductModal.get());
-		getCurrentFunctionName(false);
-
+		try {
+			getCurrentFunctionName(true);
+			SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.closeBundleProductModal.get());
+			getCurrentFunctionName(false);
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Close icon for bundle modal selector was not found by selenium",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
 	}
 
 	// done - SMK
@@ -268,15 +310,16 @@ public class PDP extends SelTestCase {
 					selector = MessageFormat.format(PDPSelectors.topPriceBundle, ProductID);
 				}
 			} else {
-//				if(SelTestCase.isGH() || SelTestCase.isRY()) 
+				// if(SelTestCase.isGH() || SelTestCase.isRY())
 				selector = PDPSelectors.GHtopPriceSingle.get();
 			}
 			isDisplayed = SelectorUtil.isDisplayed(selector);
 			getCurrentFunctionName(false);
 			return isDisplayed;
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat
+					.format(ExceptionMsg.PageFunctionFailed + "Price selector was not found by selenium", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -302,8 +345,9 @@ public class PDP extends SelTestCase {
 			getCurrentFunctionName(false);
 			return isDisplayed;
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat
+					.format(ExceptionMsg.PageFunctionFailed + "Price selector was not found by selenium", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -319,8 +363,10 @@ public class PDP extends SelTestCase {
 			getCurrentFunctionName(false);
 			return isNotDisplayed;
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "PDP Sold out message selector was not found by selenium",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -338,21 +384,31 @@ public class PDP extends SelTestCase {
 			getCurrentFunctionName(false);
 			return isNotDisplayed;
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "PDP Sold out message selector was not found by selenium",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
 
 	// done - SMK
 	public static boolean validateBundlePriceIsDisplayed() throws Exception {
-		getCurrentFunctionName(true);
-		boolean isDisplayed;
-		logs.debug("Validate if top price exist for Bundle PDP");
-		isDisplayed = SelectorUtil.isDisplayed(PDPSelectors.topPriceBundleDesktop.get());
+		try {
+			getCurrentFunctionName(true);
 
-		getCurrentFunctionName(false);
-		return isDisplayed;
+			boolean isDisplayed;
+			logs.debug("Validate if top price exist for Bundle PDP");
+			isDisplayed = SelectorUtil.isDisplayed(PDPSelectors.topPriceBundleDesktop.get());
+
+			getCurrentFunctionName(false);
+			return isDisplayed;
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "PDP Price selector was not found by selenium", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
 	}
 
 	/** Check if the add to gift registry/wish list button is enabled.
@@ -360,7 +416,8 @@ public class PDP extends SelTestCase {
 	* @throws Exception
 	*/
 	public static boolean validateAddToWLGRIsEnabled() throws Exception {
-		getCurrentFunctionName(true);
+		try {
+	  getCurrentFunctionName(true);
 		boolean isNotDisplayed;
 		logs.debug("Validate if Add To WL/GR Is Displayed");
 		// here it will pass if the button exist regardless if it is enabled or
@@ -382,12 +439,19 @@ public class PDP extends SelTestCase {
 			selectorEnabled = MessageFormat.format(addToWLGRBtnEnabledBundleSelector, ProductID);
 			logs.debug(addToCartBtnDisabledBundle);
 			selectorDisabled = MessageFormat.format(addToCartBtnDisabledBundle, ProductID);
+			}
+			SelectorUtil.isDisplayed(selectorEnabled);
+			logs.debug("Validate if Add To WL/GR Is not disabled");
+			isNotDisplayed = SelectorUtil.isNotDisplayed(selectorDisabled);
+			getCurrentFunctionName(false);
+			return isNotDisplayed;
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Add to gift registrey button selector was not found by selenium",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
+			throw e;
 		}
-		SelectorUtil.isDisplayed(selectorEnabled);
-		logs.debug("Validate if Add To WL/GR Is not disabled");
-		isNotDisplayed = SelectorUtil.isNotDisplayed(selectorDisabled);
-		getCurrentFunctionName(false);
-		return isNotDisplayed;
 	}
 
 	/** Check if the add to cart button is enabled.
@@ -395,28 +459,37 @@ public class PDP extends SelTestCase {
 	* @throws Exception
 	*/
 	public static boolean validateAddToWLGRIsEnabled(Boolean Bundle, String ProductID) throws Exception {
-		getCurrentFunctionName(true);
-		boolean isDisplayed;
-		logs.debug("Validate if Add To WL/GR Is Displayed");
-		// here it will pass if the button exist regardless if it is enabled or
-		// disabled.
-		// because there is no attribute to verify if it is enabled.
-		String selectorEnabled = PDPSelectors.addToWLGRBtnEnabledSingle.get();
-		PDPSelectors.addToCartBtnDisabledSingle.get();
-		if (!isMobile() && Bundle) {
-			logs.debug(PDPSelectors.addToWLGRBtnEnabledBundle);
-			selectorEnabled = MessageFormat.format(PDPSelectors.addToWLGRBtnEnabledBundle, ProductID);
-			logs.debug(PDPSelectors.addToCartBtnDisabledBundle);
-			MessageFormat.format(PDPSelectors.addToCartBtnDisabledBundle, ProductID);
+		try {
+			getCurrentFunctionName(true);
+			boolean isDisplayed;
+			logs.debug("Validate if Add To WL/GR Is Displayed");
+			// here it will pass if the button exist regardless if it is enabled or
+			// disabled.
+			// because there is no attribute to verify if it is enabled.
+			String selectorEnabled = PDPSelectors.addToWLGRBtnEnabledSingle.get();
+			PDPSelectors.addToCartBtnDisabledSingle.get();
+			if (!isMobile() && Bundle) {
+				logs.debug(PDPSelectors.addToWLGRBtnEnabledBundle);
+				selectorEnabled = MessageFormat.format(PDPSelectors.addToWLGRBtnEnabledBundle, ProductID);
+				logs.debug(PDPSelectors.addToCartBtnDisabledBundle);
+				MessageFormat.format(PDPSelectors.addToCartBtnDisabledBundle, ProductID);
+			}
+			isDisplayed = SelectorUtil.isDisplayed(selectorEnabled);
+			getCurrentFunctionName(false);
+			return isDisplayed;
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Add to gift registrey button selector was not found by selenium",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
+			throw e;
 		}
-		isDisplayed = SelectorUtil.isDisplayed(selectorEnabled);
-		getCurrentFunctionName(false);
-		return isDisplayed;
 	}
 
 	// done - SMK
 	public static boolean validateAddToCartIsEnabled() throws Exception {
-		getCurrentFunctionName(true);
+		try {
+    getCurrentFunctionName(true);
 		boolean isNotDisplayed;
 		logs.debug("Validate if Add To Cart Is Displayed");
 		// here it will pass if the button exist regardless if it is enabled or
@@ -439,57 +512,83 @@ public class PDP extends SelTestCase {
 			selectorEnabled= MessageFormat.format(addToCartBtnEnabledBundle, ProductID);	
 			logs.debug(addToCartBtnDisabledBundle);
 			selectorDisabled= MessageFormat.format(addToCartBtnDisabledBundle, ProductID);
+			}
+			SelectorUtil.isDisplayed(selectorEnabled);
+			logs.debug("Validate if Add To Cart Is not disabled");
+			isNotDisplayed = SelectorUtil.isNotDisplayed(selectorDisabled);
+			getCurrentFunctionName(false);
+			return isNotDisplayed;
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Add to cart button selector was not found by selenium",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
+			throw e;
 		}
-		SelectorUtil.isDisplayed(selectorEnabled);
-		logs.debug("Validate if Add To Cart Is not disabled");
-		isNotDisplayed = SelectorUtil.isNotDisplayed(selectorDisabled);
-		getCurrentFunctionName(false);
-		return isNotDisplayed;
 	}
 
 	// done - SMK
 	public static boolean validateAddToCartIsEnabled(Boolean Bundle, String ProductID) throws Exception {
-		getCurrentFunctionName(true);
-		boolean isDisplayed;
-		logs.debug("Validate if Add To Cart Is Displayed");
-		// here it will pass if the button exist regardless if it is enabled or
-		// disabled.
-		// because there is no attribute to verify if it is enabled.
-		String selectorEnabled = PDPSelectors.addToCartBtnEnabledSingle.get();
-		PDPSelectors.addToCartBtnDisabledSingle.get();
+		try {
+			getCurrentFunctionName(true);
+			boolean isDisplayed;
+			logs.debug("Validate if Add To Cart Is Displayed");
+			// here it will pass if the button exist regardless if it is enabled or
+			// disabled.
+			// because there is no attribute to verify if it is enabled.
+			String selectorEnabled = PDPSelectors.addToCartBtnEnabledSingle.get();
+			PDPSelectors.addToCartBtnDisabledSingle.get();
 
-		if (!isMobile() && Bundle) {
+			if (!isMobile() && Bundle) {
 
-			logs.debug(PDPSelectors.addToCartBtnEnabledBundle);
-			selectorEnabled = MessageFormat.format(PDPSelectors.addToCartBtnEnabledBundle, ProductID);
-			logs.debug(PDPSelectors.addToCartBtnDisabledBundle);
-			MessageFormat.format(PDPSelectors.addToCartBtnDisabledBundle, ProductID);
+				logs.debug(PDPSelectors.addToCartBtnEnabledBundle);
+				selectorEnabled = MessageFormat.format(PDPSelectors.addToCartBtnEnabledBundle, ProductID);
+				logs.debug(PDPSelectors.addToCartBtnDisabledBundle);
+				MessageFormat.format(PDPSelectors.addToCartBtnDisabledBundle, ProductID);
+			}
+			isDisplayed = SelectorUtil.isDisplayed(selectorEnabled);
+			getCurrentFunctionName(false);
+			return isDisplayed;
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Add to cart registrey button selector was not found by selenium",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
+			throw e;
 		}
-		isDisplayed = SelectorUtil.isDisplayed(selectorEnabled);
-		getCurrentFunctionName(false);
-		return isDisplayed;
 	}
 
 	// done - SMK
 	public static String getBottomPrice() throws Exception {
-		getCurrentFunctionName(true);
-		logs.debug("Validate if bottom price is updated after seleting options");
-		String selector = PDPSelectors.bottomPriceSingle.get();
-		if(isGHRY()) {
+		try {
+			getCurrentFunctionName(true);
+			logs.debug("Validate if bottom price is updated after seleting options");
+			String selector = PDPSelectors.bottomPriceSingle.get();
+					if(isGHRY()) {
 			selector = PDPSelectors.GHRYBottomPriceSingle.get();
 		}
-		if (!SelTestCase.getBrowserName().contains(GlobalVariables.browsers.iPhone) && getNumberOfItems() > 1 ) {
-			String ProductID = getProductID(0);
-			selector = MessageFormat.format(PDPSelectors.bottomPriceBundle, ProductID);
+      if (!SelTestCase.getBrowserName().contains(GlobalVariables.browsers.iPhone) && getNumberOfItems() > 1) {
+				String ProductID = getProductID(0);
+				selector = MessageFormat.format(PDPSelectors.bottomPriceBundle, ProductID);
+			}
+			SelectorUtil.initializeSelectorsAndDoActions(selector);
+			String price = SelectorUtil.textValue.get();
+			getCurrentFunctionName(false);
+			return price;
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Bottom of PDP Price selector was not found by selenium",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
+			throw e;
+
 		}
-		SelectorUtil.initializeSelectorsAndDoActions(selector);
-		String price = SelectorUtil.textValue.get();
-		getCurrentFunctionName(false);
-		return price;
 	}
 
 	// done - SMK
-		public static String getBottomPrice(Boolean bundle, String ProductID) throws Exception {
+
+	public static String getBottomPrice(Boolean bundle, String ProductID) throws Exception {
+		try {
 			getCurrentFunctionName(true);
 			logs.debug("Validate if bottom price is updated after seleting options");
 			String selector = PDPSelectors.bottomPriceSingle.get();
@@ -507,43 +606,60 @@ public class PDP extends SelTestCase {
 			String price = SelectorUtil.textValue.get();
 			getCurrentFunctionName(false);
 			return price;
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Bottom of PDP Price selector was not found by selenium",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
+			throw e;
 		}
+	}
 
 	// done - SMK
 	public static boolean validateProductIsAddedToCart() throws Exception {
-		getCurrentFunctionName(true);
-		boolean isDisplayed;
-		// Validate the add to cart modal is displayed for Desktop and iPad.
-		// For Mobile, verify it from mini cart because there is no add to cart modal in
-		// mobile.
-		if (!isMobile()) {
-			Thread.sleep(4000);
-			isDisplayed = SelectorUtil.isDisplayed(PDPSelectors.addToCartModal.get());
-		} else if (isMobile() && isGHRY()) {
-			isDisplayed = SelectorUtil.isDisplayed(PDPSelectors.addToCartModal.get());
-		} else {
-			HomePage.clickOnMiniCart();
-			isDisplayed = HomePage.validateMiniCartProductIsDsiplayed();
+		try {
+			getCurrentFunctionName(true);
+			boolean isDisplayed;
+			// Validate the add to cart modal is displayed for Desktop and iPad.
+			// For Mobile, verify it from mini cart because there is no add to cart modal in
+			// mobile.
+			if (!isMobile()) {
+				Thread.sleep(4000);
+				isDisplayed = SelectorUtil.isDisplayed(PDPSelectors.addToCartModal.get());
+			} else if (isMobile() && isGHRY()) {
+				isDisplayed = SelectorUtil.isDisplayed(PDPSelectors.addToCartModal.get());
+			} else {
+				HomePage.clickOnMiniCart();
+				isDisplayed = HomePage.validateMiniCartProductIsDsiplayed();
+			}
+			getCurrentFunctionName(false);
+			return isDisplayed;
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Add to cart modal selector was not found by selenium",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
+			throw e;
 		}
-		getCurrentFunctionName(false);
-		return isDisplayed;
 	}
 
 	// done - SMK
 	public static void clickAddToWLGR() throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			if(isGH()) {
+			if (isGH()) {
 				SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.GHaddToWLGRBtnEnabled.get());
-			}else if(isRY()){
+			} else if (isRY()) {
 				SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.RYaddToWLGRBtnEnabled.get());
-			}else {
+			} else {
 				SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.addToWLGRBtnEnabled.get());
 			}
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Add to wishlistGR button selector was not found by selenium",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -560,8 +676,9 @@ public class PDP extends SelTestCase {
 			getCurrentFunctionName(false);
 			return ID;
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Product ID selector was not found by selenium", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -586,8 +703,9 @@ public class PDP extends SelTestCase {
 			getCurrentFunctionName(false);
 			return numberOfItems;
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Items in PDP selector was not found by selenium", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -621,27 +739,35 @@ public class PDP extends SelTestCase {
 
 			return bundle;
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Executing JavaScript code to know PDP type has failed",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
 
 	// done - SMK
 	public static void selectNthOptionFirstSwatchBundle(String Str) throws Exception {
-		getCurrentFunctionName(true);
-		// String StrBundle = MessageFormat.format(Str, index);
-		logs.debug(MessageFormat.format(LoggingMsg.CLICKING_SEL, Str));
-		SelectorUtil.initializeSelectorsAndDoActions(Str);
-		// Clicking on the div on desktop and iPad does not select the options,
-		// you need to click on the img if there is an img tag.
-		if (!SelTestCase.getBrowserName().contains(GlobalVariables.browsers.iPhone)) {
-			String nthSel = Str + ">img";
-			if (!SelectorUtil.isNotDisplayed(nthSel))
-				SelectorUtil.initializeSelectorsAndDoActions(nthSel);
+		try {
+			getCurrentFunctionName(true);
+			// String StrBundle = MessageFormat.format(Str, index);
+			logs.debug(MessageFormat.format(LoggingMsg.CLICKING_SEL, Str));
+			SelectorUtil.initializeSelectorsAndDoActions(Str);
+			// Clicking on the div on desktop and iPad does not select the options,
+			// you need to click on the img if there is an img tag.
+			if (!SelTestCase.getBrowserName().contains(GlobalVariables.browsers.iPhone)) {
+				String nthSel = Str + ">img";
+				if (!SelectorUtil.isNotDisplayed(nthSel))
+					SelectorUtil.initializeSelectorsAndDoActions(nthSel);
+			}
+			getCurrentFunctionName(false);
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "swatch selector was not found by seleniuem", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
+			throw e;
 		}
-		getCurrentFunctionName(false);
-
 	}
 
 	// done - SMK
@@ -652,8 +778,9 @@ public class PDP extends SelTestCase {
 			SelectorUtil.initializeSelectorsAndDoActions(Str, value);
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "listbox item selector was not found by seleniuem", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -670,11 +797,12 @@ public class PDP extends SelTestCase {
 					FGGRselectSwatchesSingle();
 				}
 
-			} else if (SelTestCase.isGHRY())
+
+			} else if (isGHRY())
 				GHRYselectSwatches(bundle);
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed + "select swatch was failed", new Object() {
 			}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
@@ -685,18 +813,18 @@ public class PDP extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			Boolean bundle = PDP.bundleProduct();
-			if (SelTestCase.isFG() || SelTestCase.isGR()) {
+			if (isFG() || isGR()) {
 				String ProductID = null;
 				if (!isMobile() && bundle)
 					ProductID = PDP.getProductID(0);
 				selectSwatches(bundle, ProductID);
-
-			} else if (SelTestCase.isGHRY())
+			} else if (isGHRY())
 				GHRYselectSwatches(bundle);
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "swatch selector was not found by seleniuem", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -714,8 +842,9 @@ public class PDP extends SelTestCase {
 				SelectorUtil.initializeSelectorsAndDoActions(selector);
 			}
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Bundle items selector was not found by seleniuem", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -731,8 +860,9 @@ public class PDP extends SelTestCase {
 			getCurrentFunctionName(false);
 			return isDisplayed;
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Bundle price selector was not found by seleniuem", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -747,8 +877,9 @@ public class PDP extends SelTestCase {
 			getCurrentFunctionName(false);
 			return isDisplayed;
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
+					+ "Modal for selecting gift registrey selector was not found by seleniuem", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -757,20 +888,22 @@ public class PDP extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			logs.debug("Click on create new wish list");
-			if(isRY()) {
-				List <WebElement> elements = SelectorUtil.getAllElements(PDPSelectors.RYcreateNewWL.get());
-				   SelectorUtil.clickOnWebElement( elements.get(elements.size() - 1));
-	 
-			 }else {
-				 WebElement element = SelectorUtil.getElement(PDPSelectors.giftRegistryListBox.get());
-				 WebElement option =  element.findElement(By.cssSelector(PDPSelectors.createNewWL.get()));
-				 option.click();
-				 clickOnCreateNewWLConfirmationBtn();	
-			 }
+			if (isRY()) {
+				List<WebElement> elements = SelectorUtil.getAllElements(PDPSelectors.RYcreateNewWL.get());
+				SelectorUtil.clickOnWebElement(elements.get(elements.size() - 1));
+
+			} else {
+				WebElement element = SelectorUtil.getElement(PDPSelectors.giftRegistryListBox.get());
+				WebElement option = element.findElement(By.cssSelector(PDPSelectors.createNewWL.get()));
+				option.click();
+				clickOnCreateNewWLConfirmationBtn();
+			}
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Create wishlsit selector was not found by seleniuem",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -784,8 +917,10 @@ public class PDP extends SelTestCase {
 			getCurrentFunctionName(false);
 			return isDisplayed;
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Name your wishlist mdoal selector was not found by seleniuem",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -797,8 +932,9 @@ public class PDP extends SelTestCase {
 			SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.nameYourNewWLconfirmationBtn.get());
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
+					+ "create a new wishlist button selector was not found by seleniuem", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -826,8 +962,10 @@ public class PDP extends SelTestCase {
 			getCurrentFunctionName(false);
 			return isSelected;
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Gift registries list box selector was not found by seleniuem",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -839,8 +977,9 @@ public class PDP extends SelTestCase {
 			SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.createNewWLConfirmationBtn.get());
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
+					+ "Create a new wishlist button selector was not found by seleniuem", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -862,9 +1001,9 @@ public class PDP extends SelTestCase {
 
 				WebElement addToCardProductElement = SelectorUtil.getElement(PDPSelectors.addToCardProductName.get());
 				String viewListBtnSelector;
-				if(isGH() || isRY()){
+				if (isGH() || isRY()) {
 					viewListBtnSelector = PDPSelectors.GHRYviewListBtn.get();
-				}else {
+				} else {
 					viewListBtnSelector = PDPSelectors.viewListBtn.get();
 				}
 
@@ -883,8 +1022,10 @@ public class PDP extends SelTestCase {
 			}
 
 		} catch (Exception e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Added to wishlist modal selector was not found by seleniuem",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 
 		}
@@ -897,16 +1038,16 @@ public class PDP extends SelTestCase {
 			Thread.sleep(2000);
 			List<WebElement> products = SelectorUtil.getElementsList(PDPSelectors.addedProductName.get());
 			List<WebElement> addToCartBtns = new ArrayList<WebElement>();
-			if(isGH()) {
-			  addToCartBtns = SelectorUtil.getElementsList(PDPSelectors.GHmyWLAddToCartBtn.get());
-			}else if(isRY()){
-			  addToCartBtns = SelectorUtil.getElementsList(PDPSelectors.RYmyWLAddToCartBtn.get());
-			}else {
-			   addToCartBtns = SelectorUtil.getElementsList(PDPSelectors.myWLAddToCartBtn.get());
+			if (isGH()) {
+				addToCartBtns = SelectorUtil.getElementsList(PDPSelectors.GHmyWLAddToCartBtn.get());
+			} else if (isRY()) {
+				addToCartBtns = SelectorUtil.getElementsList(PDPSelectors.RYmyWLAddToCartBtn.get());
+			} else {
+				addToCartBtns = SelectorUtil.getElementsList(PDPSelectors.myWLAddToCartBtn.get());
 			}
-			
+
 			for (int i = 0; i < products.size(); i++) {
-	            if(products.get(i).getText().toLowerCase().contains(addedProductName.toLowerCase())) {
+				if (products.get(i).getText().toLowerCase().contains(addedProductName.toLowerCase())) {
 					addToCartBtns.get(i).click();
 					return true;
 				}
@@ -914,8 +1055,9 @@ public class PDP extends SelTestCase {
 			getCurrentFunctionName(false);
 			return isDisplayed;
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
+					+ "added product to wishlist validation has faleid, a selector is missing", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -927,8 +1069,11 @@ public class PDP extends SelTestCase {
 			SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.addToCartConfirmationModalCheckoutBtn.get());
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed
+							+ "checkout button in added to cart confirmation selector was not found by seleniuem",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -942,8 +1087,9 @@ public class PDP extends SelTestCase {
 			getCurrentFunctionName(false);
 			return isDisplayed;
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
+					+ "checkout added to cart confirmation selector was not found by seleniuem", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -963,8 +1109,10 @@ public class PDP extends SelTestCase {
 			getCurrentFunctionName(false);
 			return isDisplayed;
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Product in shopping cart selector was not found by seleniuem",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -982,8 +1130,9 @@ public class PDP extends SelTestCase {
 			getCurrentFunctionName(false);
 			return SelectorUtil.textValue.get();
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "PDP tittle selector was not found by seleniuem", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -1033,8 +1182,10 @@ public class PDP extends SelTestCase {
 			HoverAction.moveToElement(field2).click().build().perform();
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Mini cart button selector was not found by seleniuem",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -1098,8 +1249,10 @@ public class PDP extends SelTestCase {
 			SelectorUtil.initializeSelectorsAndDoActions(addPersonalizedButtonSelector);
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Personalization button selector was not found by seleniuem",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -1118,8 +1271,10 @@ public class PDP extends SelTestCase {
 			SelectorUtil.initializeSelectorsAndDoActions(addPersonalizedButtonSelector);
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Personalization button selector was not found by seleniuem",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -1150,8 +1305,10 @@ public class PDP extends SelTestCase {
 			getCurrentFunctionName(false);
 			return isFree;
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Personalization Price check has failed, a selector is missing",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -1166,8 +1323,9 @@ public class PDP extends SelTestCase {
 			SelectorUtil.initializeSelectorsAndDoActions(subStrArr);
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
+					+ "Personalization  save button selector was not found by seleniuem", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -1181,8 +1339,10 @@ public class PDP extends SelTestCase {
 			clickPersonalizationSaveAndCloseButton();
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Personalization save button selector was not found by seleniuem",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -1241,8 +1401,11 @@ public class PDP extends SelTestCase {
 			}
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed
+							+ "Selecting swatches for personalized product selector was not found by seleniuem",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -1358,8 +1521,10 @@ public class PDP extends SelTestCase {
 
 			return isAdded;
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Personalization details selector was not found by seleniuem",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -1372,48 +1537,15 @@ public class PDP extends SelTestCase {
 			getCurrentFunctionName(false);
 			return isDisplayed;
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Personalization modal selector was not found by seleniuem",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
 
-	public static String getTotalPriceAfterAddedPersonalized(Boolean Bundle, String ProductID) throws Exception {// in
-																													// GR
-																													// :
-																													// total
-																													// bottom
-																													// price
-																													// doesn't
-																													// change
-																													// after
-																													// added
-																													// personalized
-																													// .based
-																													// on
-																													// the
-																													// discussion
-																													// with
-																													// Emad
-																													// ,
-																													// I
-																													// compare
-																													// the
-																													// total
-																													// price
-																													// in
-																													// personalized
-																													// details
-																													// with
-																													// bottom
-																													// price
-																													// to
-																													// make
-																													// sure
-																													// the
-																													// price
-																													// is
-																													// changed
+	public static String getTotalPriceAfterAddedPersonalized(Boolean Bundle, String ProductID) throws Exception {
 		try {
 			getCurrentFunctionName(true);
 			String addedPersonlizedDetailsSelector = PDPSelectors.addedPersonlizedDetails.get();
@@ -1429,8 +1561,10 @@ public class PDP extends SelTestCase {
 			getCurrentFunctionName(false);
 			return totalPrice;
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Personalization details selector was not found by seleniuem",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -1467,8 +1601,9 @@ public class PDP extends SelTestCase {
 			}
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Color option selector was not found by seleniuem", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -1501,8 +1636,9 @@ public class PDP extends SelTestCase {
 			}
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Size option selector was not found by seleniuem", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -1546,8 +1682,10 @@ public class PDP extends SelTestCase {
 			getCurrentFunctionName(false);
 			return ID;
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Swatches in PDP selector was not found by seleniuem",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -1589,7 +1727,7 @@ public class PDP extends SelTestCase {
 	public static void GHRYselectSwatches(Boolean bundle) throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			if (SelTestCase.isGHRY()) {
+			if (isGHRY()) {
 				closeSignUpModalIfDisplayed();
 			}
 
@@ -1636,8 +1774,9 @@ public class PDP extends SelTestCase {
 			getCurrentFunctionName(false);
 			return numberOfSwatchContainers;
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "swatches selector was not found by seleniuem", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -1652,8 +1791,9 @@ public class PDP extends SelTestCase {
 			getCurrentFunctionName(false);
 			return numberOfSwatchContainers;
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "swatches selector was not found by seleniuem", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -1668,8 +1808,9 @@ public class PDP extends SelTestCase {
 			getCurrentFunctionName(false);
 			return SwatchContainerClass;
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "swatches selector was not found by seleniuem", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -1683,8 +1824,10 @@ public class PDP extends SelTestCase {
 			getCurrentFunctionName(false);
 			return SwatchContainerClass;
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Swatches button selector was not found by seleniuem",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -1698,8 +1841,10 @@ public class PDP extends SelTestCase {
 			getCurrentFunctionName(false);
 			return addToCartBtnClass;
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Add to cart button selector was not found by seleniuem",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -1737,8 +1882,9 @@ public class PDP extends SelTestCase {
 			getCurrentFunctionName(false);
 
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
+					+ "Select swatches has falied, a selector was not found by selenium", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -1765,32 +1911,35 @@ public class PDP extends SelTestCase {
 			}
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
+					+ "Select swatches has falied, a selector was not found by selenium", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
 
 	public static boolean selectWLByName(String createdWL) throws Exception {
-		try{
-        getCurrentFunctionName(true);
-        boolean isSelected = false;
-        List<WebElement> elements = SelectorUtil.getAllElements(PDPSelectors.RYcreateNewWLName.get());
-        for(int index=0;index<elements.size();index++) {
-        	if(elements.get(index).getText().toLowerCase().equalsIgnoreCase(createdWL)) {
-        		isSelected = true;
-                List<WebElement> WLElements = SelectorUtil.getAllElements(PDPSelectors.RYcreateNewWL.get());
-                SelectorUtil.clickOnWebElement(WLElements.get(index));
-                 break;
-        	}
-        }
-        getCurrentFunctionName(false);
-		return isSelected;
-	} catch (NoSuchElementException e) {
-		logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-		}.getClass().getEnclosingMethod().getName()));
-		throw e;
+		try {
+			getCurrentFunctionName(true);
+			boolean isSelected = false;
+			List<WebElement> elements = SelectorUtil.getAllElements(PDPSelectors.RYcreateNewWLName.get());
+			for (int index = 0; index < elements.size(); index++) {
+				if (elements.get(index).getText().toLowerCase().equalsIgnoreCase(createdWL)) {
+					isSelected = true;
+					List<WebElement> WLElements = SelectorUtil.getAllElements(PDPSelectors.RYcreateNewWL.get());
+					SelectorUtil.clickOnWebElement(WLElements.get(index));
+					break;
+				}
+			}
+			getCurrentFunctionName(false);
+			return isSelected;
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Wihsllist name selector was not found by selenium",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
 	}
-    }
 
 }
