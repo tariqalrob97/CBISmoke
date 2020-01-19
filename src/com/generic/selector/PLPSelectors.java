@@ -50,12 +50,16 @@ public class PLPSelectors {
     public static final cselector PriceLowToHighPLP2 = new cselector("Price: Low to High","css,#unbxd_liquidation_sort_price-asc");
     public static final cselector PriceLowToHighPLPGH = new cselector("Price: Low to High","css,#unbxd_prime_sort_price-asc");
     public static final cselector PriceLowToHighPLPGHUNBXD = new cselector("Price: Low to High","css,#unbxd_liquidation_sort_price-asc");
+    public static final cselector sortingOptionBD = new cselector("css,.unbxd-sort-by-option-anchor","css,.t-product-list__sort-filters-options> .c-product-list__container-sort-option > div > div > div > select > option");
 
     
+        
     public static final cselector PriceHighToLowPLP = new cselector("Price: High to Low","css,#unbxd_prime_sort_price-desc > div");
     public static final cselector PriceHighToLowPLP2 = new cselector("Price: High to Low","css,#unbxd_liquidation_sort_price-desc");
 
     public static final cselector FilterContainer = new cselector("css,div.text-facets-container-panel div.unbxd-all-options-container span.gwt-InlineLabel.selected-option-span","css,div.c-product-list__container-filter-option.u-flex-1.u-margin-end > div > button > div");
+    public static final cselector FilterContainerBD = new cselector("css,div.text-facets-container-panel div.unbxd-all-options-container span.gwt-InlineLabel.selected-option-span","css,.c-product-list__container-filter-option button");
+
     public static final cselector FilterContainerGHRY = new cselector("css,#text-facets-container-panel .selected-option-span","css,.c-product-list__filters-filter-button");
     public static final cselector FilterContainerGHRYDesktop = new cselector("css,.unbxd-facet-option-checkbox input","css,");
 
@@ -66,6 +70,7 @@ public class PLPSelectors {
    
     public static final cselector mobileSortingMenu = new cselector("","css,.c-product-list__filters-sort-button");
     public static final cselector SortingMenuRY = new cselector("css,.unbxd-sort-options-container .selected-option-span","css,.c-product-list__filters-sort-button");
+    public static final cselector SortingMenuBD = new cselector("css,.unbxd-sort-options-container .selected-option-span","css,.c-product-list__sort-select-container");
 
     
 	public static final cselector allCatigories = new cselector("","css,div.c-custom-accordion__list-of-items-item>div>div>div>input");
@@ -73,6 +78,7 @@ public class PLPSelectors {
 	public static final cselector colorFilterGH = new cselector("css,.unbxd-facet-option-checkbox > input","css,.pw-field__inner input");
 	
 	public static final cselector firstFilterRY = new cselector("css,.unbxd-facet-option-checkbox > input","css,.m-product-list__filter-container .m-product-list__filter-items .pw-button");
+	public static final cselector firstFilterBD = new cselector("css,.unbxd-facet-option-checkbox > input","css,.c-custom-accordion__list-of-items-item input");
 
 	 
 
@@ -107,7 +113,7 @@ public class PLPSelectors {
 
 	
 	public static final cselector navigatetoPLPBD = new cselector(
-			"css,.gwt-product-image-horizontal-panel > a > img",
+			"css,.gwt-sub-category-image",
 			"css,.t-category-list__category a > img" );
 
 	public static final cselector navigatetoPLP2 = new cselector(

@@ -161,7 +161,7 @@ public class PLP extends SelTestCase {
 			if (isGR() || isFG())
 				sortByPriceHighToLowPLP();
 
-			else if (isGH() || isRY())
+			else if (isGH() || isRY() || isBD())
 				sortByProductName();
 
 			List<String> H2LsortedProductsNames = getfirst3ProductsNames();
@@ -233,25 +233,16 @@ public class PLP extends SelTestCase {
 		}
 	}
 
-	// CBI
+	
 	private static void selectFilterName() throws Exception {
 		try {
 			getCurrentFunctionName(true);
-
 			Thread.sleep(2000);
-
-			// open expandable menu
-			if (isFG())
+			
+			if (isFG()) {
 				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.FilterContainerContents.get(), actions.Click);
-			if (isGR())
-				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRFilterContainerContents.get(),
-						actions.Click);
-			if (isBD())
-				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.BDFilterContainerContents.get(),
-						actions.Click);
 
-			if (isMobile()) {
-				if (isFG()) {
+				if (isMobile()) {
 					try {
 						SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.allCatigories.get(), actions.Click);
 					} catch (Exception e) {
@@ -270,12 +261,13 @@ public class PLP extends SelTestCase {
 						}
 
 					}
-
 				}
 
-			}
+			}// FRONT GATE
 
-			if (isGRBD()) {
+			if (isGR()) {
+				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRFilterContainerContents.get(),
+						actions.Click);
 
 				if (isMobile()) {
 					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRFilterContainerContents.get(),
@@ -284,7 +276,8 @@ public class PLP extends SelTestCase {
 				} else
 					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRFilterContainerContents.get(),
 							actions.Click);
-			}
+
+			} // GRAND IN ROAD
 
 			if (isGH()) {
 				if (isMobile()) {
@@ -305,7 +298,7 @@ public class PLP extends SelTestCase {
 							}
 						}
 					}
-				}//Mobile
+				} // Mobile
 
 				else {
 					try {
@@ -319,8 +312,8 @@ public class PLP extends SelTestCase {
 
 					}
 
-				}
-			}//Desktop
+				} // Desktop
+			} // Garnet hill
 
 			if (isRY()) {
 
@@ -336,10 +329,18 @@ public class PLP extends SelTestCase {
 					}
 				}
 
-			}
+			} // RYLLACE
+
+			if (isBD()) {
+				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.BDFilterContainerContents.get(),
+						actions.Click);
+				List<WebElement> filters = SelectorUtil.getAllElements((PLPSelectors.firstFilterBD.get()));
+				filters.get(1).click();
+				
+
+			} // BALLARD DESIGNS
 
 			getCurrentFunctionName(false);
-
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(
 					ExceptionMsg.PageFunctionFailed + "Filter name selector was not found by selenuim", new Object() {
@@ -348,6 +349,8 @@ public class PLP extends SelTestCase {
 		}
 
 	}
+
+	
 
 	// CBI
 	private static void SelectFilter() throws Exception {
@@ -403,6 +406,15 @@ public class PLP extends SelTestCase {
 				} catch (Exception e) {
 					return false;
 				}
+			}
+			else if(isBD()) {
+				try {
+					state = SelectorUtil.isDisplayed(PLPSelectors.FilterContainerBD.get());
+
+				} catch (Exception e) {
+					return false;
+				}
+				
 			}
 
 			getCurrentFunctionName(false);
@@ -601,6 +613,25 @@ public class PLP extends SelTestCase {
 				sortingoptions.get(4).click();
 
 			}
+			
+			if(isBD()) {
+				try {
+					clickOnSortMenu();
+					List<WebElement> sortingOptions = SelectorUtil
+							.getAllElements(PLPSelectors.sortingOptionBD.get());
+					sortingOptions.get(4).click();
+					
+				} catch (Exception e2) {
+					if ((e2.getMessage() != null) && e2.getMessage().contains("element click intercepted")) {
+						logs.debug(MessageFormat.format(LoggingMsg.FORMATTED_ERROR_MSG, e2.getMessage()));
+						logs.debug("Refresh the browser to close the Intercepted windows");
+						Common.refreshBrowser();
+						sortByPriceLowToHighPLP();
+					}
+
+				}
+				
+			}
 
 			getCurrentFunctionName(false);
 
@@ -691,6 +722,24 @@ public class PLP extends SelTestCase {
 
 			} // RYLLACE
 
+			if(isBD()) {
+				try {
+					clickOnSortMenu();
+					List<WebElement> sortingOptions = SelectorUtil
+							.getAllElements(PLPSelectors.sortingOptionBD.get());
+					sortingOptions.get(2).click();
+					
+				} catch (Exception e2) {
+					if ((e2.getMessage() != null) && e2.getMessage().contains("element click intercepted")) {
+						logs.debug(MessageFormat.format(LoggingMsg.FORMATTED_ERROR_MSG, e2.getMessage()));
+						logs.debug("Refresh the browser to close the Intercepted windows");
+						Common.refreshBrowser();
+						sortByPriceLowToHighPLP();
+					}
+
+				}
+				
+			}
 			getCurrentFunctionName(false);
 
 		} catch (NoSuchElementException e) {
@@ -747,6 +796,9 @@ public class PLP extends SelTestCase {
 
 			if (isRY()) {
 				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.SortingMenuRY.get());
+
+			} else if (isBD()) {
+				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.SortingMenuBD.get());
 
 			} else {
 
@@ -1030,6 +1082,7 @@ public class PLP extends SelTestCase {
 
 			}else if(isBD()) { 
 				menueItems = CLP.menueWithoutWhatsNew();
+				menueItems.remove(0);	// Remove New item
 				menueItems.remove(0);	// Remove Custom item
 				menueItems.remove(menueItems.size()-1);	// Remove Get inspired item
 			}
@@ -1110,6 +1163,11 @@ public class PLP extends SelTestCase {
 				// Navigate to a PLP
 				if (isGH()) {
 					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.navigatetoPLPGH.get());
+				}
+				else if(isBD()) {
+					
+					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.navigatetoPLPBD.get());
+
 				}
 
 				else {
@@ -1211,10 +1269,12 @@ public class PLP extends SelTestCase {
 		getCurrentFunctionName(true);
 		try {
 			Thread.sleep(2500);
-			return !SelectorUtil.isDisplayed(PLPSelectors.PLPIdentifier.get());
+			boolean result = !SelectorUtil.isDisplayed(PLPSelectors.PLPIdentifier.get());
+			logs.debug("In CLP Result" + result);
+			return result;
 		} catch (Exception e) {
 			getCurrentFunctionName(false);
-
+			logs.debug("In CLP Result Yes");
 			return true;
 		}
 	}
