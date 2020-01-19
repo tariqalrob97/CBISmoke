@@ -83,7 +83,7 @@ public class HomePageSelectors
 	// Header navigation menu selectors.
 	public static final cselector navigationIcon = new cselector("css,.nav-toggle", "css,.t-header__menu-icon .pw-button");
 	public static final cselector menuItems = new cselector("css,#css-top-navigation #flyout>.menuItem>a","css,#gwt-top-navigation .active>.gwt-nav-item-has-submenu>.gwt-HTML", "css,.navigation-modal_class .pw-link");
-	public static final cselector menuItemsBD = new cselector("css,#css-top-navigation #flyout>.menuItem>a", "css,.navigation-modal__class .pw-link");
+	public static final cselector menuItemsBD = new cselector("css,#css-top-navigation #flyout>.menuItem>a", "css,.pw-nav-menu__panel .pw-list-tile a");
 	// adding this
 	public static final cselector menuItemsBDforMobile = new cselector("css,.navigation-modal__class .pw-link");
 	// adding this
