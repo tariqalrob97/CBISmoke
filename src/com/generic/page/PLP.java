@@ -944,7 +944,6 @@ private static void sortByCustomerRating() throws Exception {
 			JavascriptExecutor jse = (JavascriptExecutor) getDriver();
 			jse.executeScript("arguments[0].scrollIntoView(false)", item);
 			((JavascriptExecutor) getDriver()).executeScript("arguments[0].click()", item);
-			SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.productName.get());
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed + "Failed to pick Random Product from PLP ", new Object() {
