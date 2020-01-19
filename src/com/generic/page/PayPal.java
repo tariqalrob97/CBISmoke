@@ -1,10 +1,7 @@
 package com.generic.page;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.NoSuchElementException;
-
 import com.generic.selector.PayPalSelectors;
 import com.generic.setup.SelTestCase;
 import com.generic.setup.ExceptionMsg;
@@ -26,8 +23,10 @@ public class PayPal extends SelTestCase {
 			clickLogin();
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Sign in to paypal failed, a selector was not found by selenium",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -36,16 +35,14 @@ public class PayPal extends SelTestCase {
 	private static void clickNext() throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			List<String> subStrArr = new ArrayList<String>();
-			List<String> valuesArr = new ArrayList<String>();
 			logs.debug("clickign on next btn");
-			subStrArr.add(PayPalSelectors.nextBtn);
-			valuesArr.add("");
-			SelectorUtil.initializeSelectorsAndDoActions(subStrArr, valuesArr);
+			SelectorUtil.initializeSelectorsAndDoActions(PayPalSelectors.nextBtn);
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "PayPal next button selector was not found by selenium",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 
 		}
 
@@ -55,16 +52,15 @@ public class PayPal extends SelTestCase {
 	private static void clickLogin() throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			List<String> subStrArr = new ArrayList<String>();
-			List<String> valuesArr = new ArrayList<String>();
 			logs.debug("clickign on login btn");
-			subStrArr.add(PayPalSelectors.loginBtn);
-			valuesArr.add("");
-			SelectorUtil.initializeSelectorsAndDoActions(subStrArr, valuesArr);
+			SelectorUtil.initializeSelectorsAndDoActions(PayPalSelectors.loginBtn);
+
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "PayPal login button selector was not found by selenium",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 
@@ -74,16 +70,14 @@ public class PayPal extends SelTestCase {
 	public static void clickOnContinue() throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			List<String> subStrArr = new ArrayList<String>();
-			List<String> valuesArr = new ArrayList<String>();
 			logs.debug("clickign on continue btn");
-			subStrArr.add(PayPalSelectors.continueBtn);
-			valuesArr.add("");
-			SelectorUtil.initializeSelectorsAndDoActions(subStrArr, valuesArr);
+			SelectorUtil.initializeSelectorsAndDoActions(PayPalSelectors.continueBtn);
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "PayPal continue button selector was not found by selenium",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 
@@ -93,16 +87,14 @@ public class PayPal extends SelTestCase {
 	private static void typePassword(String Password) throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			List<String> subStrArr = new ArrayList<String>();
-			List<String> valuesArr = new ArrayList<String>();
 			logs.debug("type password");
-			subStrArr.add(PayPalSelectors.password);
-			valuesArr.add(Password);
-			SelectorUtil.initializeSelectorsAndDoActions(subStrArr, valuesArr);
+			SelectorUtil.initializeSelectorsAndDoActions(PayPalSelectors.password, Password);
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "PayPal continue button selector was not found by selenium",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 
@@ -112,16 +104,14 @@ public class PayPal extends SelTestCase {
 	private static void typeUserName(String userName) throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			List<String> subStrArr = new ArrayList<String>();
-			List<String> valuesArr = new ArrayList<String>();
 			logs.debug("type username");
-			subStrArr.add(PayPalSelectors.userName);
-			valuesArr.add(userName);
-			SelectorUtil.initializeSelectorsAndDoActions(subStrArr, valuesArr);
+			SelectorUtil.initializeSelectorsAndDoActions(PayPalSelectors.userName, userName);
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "PayPal username field selector was not found by selenium",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 

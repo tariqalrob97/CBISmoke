@@ -70,6 +70,9 @@ public class Checkout_e2e extends SelTestCase {
 			Thread.sleep(2000);
 
 			CheckOut.closeRegisterButton();
+			
+			Thread.sleep(1500);
+			CheckOut.printOrderIDtoLogs();
 
 			// Check number of products in confirmation page
 			sassert().assertTrue(CheckOut.checkProductsinConfirmationPage() == productsCount,
@@ -153,10 +156,13 @@ public class Checkout_e2e extends SelTestCase {
 			Thread.sleep(3500);
 
 			CheckOut.closePromotionalModal();
+			
+			Thread.sleep(1500);
+			CheckOut.printOrderIDtoLogs();
 
 			// Check number of products in confirmation page
 			sassert().assertTrue(CheckOut.checkProductsinConfirmationPage() == productsCountStepTWO,
-					"Some products are missing in confirmation page ");
+					"Some products are missing in confirmation page, current products: " + CheckOut.checkProductsinConfirmationPage() + "products Count Step TWO: " + productsCountStepTWO);
 
 			// Check if shipping costs match
 			sassert().assertTrue(CheckOut.getShippingCosts().equals(orderShipping), "Shipping cost value issue ");

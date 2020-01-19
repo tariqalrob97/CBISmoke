@@ -87,6 +87,13 @@ public class SelTestCase {
 		getCurrentFunctionName(false);
 		return result;
 	}
+	
+	public static boolean isGRBD() {
+		getCurrentFunctionName(true);
+		boolean result = isGR() || isBD();
+		getCurrentFunctionName(false);
+		return result;
+	}
 
 	public static boolean isGHRY() {
 		getCurrentFunctionName(true);

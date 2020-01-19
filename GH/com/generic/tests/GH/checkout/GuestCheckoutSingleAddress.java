@@ -4,6 +4,7 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 import java.util.NoSuchElementException;
 import com.generic.page.CheckOut;
+import com.generic.setup.Common;
 import com.generic.setup.ExceptionMsg;
 import com.generic.setup.GlobalVariables;
 import com.generic.setup.LoggingMsg;
@@ -26,7 +27,8 @@ public class GuestCheckoutSingleAddress extends SelTestCase {
 
 			// Navigating to Cart by URL
 			CheckOut.navigatetoCart();
-
+			
+			Common.refreshBrowser();
 			// Clicking begin secure checkout
 			CheckOut.clickBeginSecureCheckoutButton();
 
@@ -52,6 +54,8 @@ public class GuestCheckoutSingleAddress extends SelTestCase {
 
 			// Proceed to step 4
 			CheckOut.proceedToStepFour();
+			
+			Thread.sleep(4000);
 
 			// Saving tax and shipping costs to compare them in the confirmation page
 			orderShipping = CheckOut.getShippingCosts();

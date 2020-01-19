@@ -20,42 +20,48 @@ import com.generic.util.SelectorUtil;
 public class CLP extends SelTestCase {
 
 	public static boolean validateMobileIpadCLP() throws Exception {
-        try {
-        getCurrentFunctionName(true);
-		boolean isValid = true;
-		//HomePage.openNavigationMenu();
-		if(!isGH() || (isGH() && isMobile())) HomePage.openNavigationMenu();
-		String pageUrl = SelectorUtil.getCurrentPageUrl();// to validate iPad
-		List<WebElement> menueItems = new ArrayList<WebElement>();
-		menueItems =  menueWithoutWhatsNew();
-		WebElement randomMenuElement;
-		List<WebElement> leafMenuItems = new ArrayList<WebElement>();
-		
-		if(isGH() && isiPad()) {
-			Random random = new Random();
-			int index = random.nextInt(menueItems.size() -1);
-			 randomMenuElement = menueItems.get(index);	
+		try {
+			getCurrentFunctionName(true);
+			boolean isValid = true;
+			// HomePage.openNavigationMenu();
+			if (!isGH() || (isGH() && isMobile()))
+				HomePage.openNavigationMenu();
+			String pageUrl = SelectorUtil.getCurrentPageUrl();// to validate iPad
+			List<WebElement> menueItems = new ArrayList<WebElement>();
+			menueItems = menueWithoutWhatsNew();
+			WebElement randomMenuElement;
+			List<WebElement> leafMenuItems = new ArrayList<WebElement>();
+
+			if (isGH() && isiPad()) {
+				Random random = new Random();
+				int index = random.nextInt(menueItems.size() - 1);
+				randomMenuElement = menueItems.get(index);
 				SelectorUtil.clickOnWebElement(randomMenuElement);
 				index = index + 1;
-			   final cselector leafItem = new cselector("css,li:nth-child("+index+")  li > a");
+				final cselector leafItem = new cselector("css,li:nth-child(" + index + ")  li > a");
 				leafMenuItems = SelectorUtil.getAllElements(leafItem.get());
-		}else {
+		}else if(isBD()){
 			 randomMenuElement =  SelectorUtil.getRandomWebElement(menueItems);
 				SelectorUtil.clickOnWebElement(randomMenuElement);
-			   leafMenuItems = SelectorUtil.getAllElements(HomePageSelectors.leafMenuItems.get());
+			   leafMenuItems = SelectorUtil.getAllElements(HomePageSelectors.leafMenuItemsBD.get());
 		}
-		// Navigate to leafMenuItems  items.
-		WebElement viewAllElement =  leafMenuItems.get(0);//get first index "view all" 
-		boolean validateViewAllElement = true;
-		if (isMobile()) {
-			validateViewAllElement = SelectorUtil.isValidClickableItem(viewAllElement); 
-		} else {// Check if the current page URL different than the previous page URL for iPad ;
-			    // items didn't contains Href attribute	
-			SelectorUtil.clickOnWebElement(viewAllElement);
-			String currentPageUrl = SelectorUtil.getCurrentPageUrl();
-			if (pageUrl.equalsIgnoreCase(currentPageUrl)){
-				validateViewAllElement = false;
+		else {
+			 randomMenuElement =  SelectorUtil.getRandomWebElement(menueItems);
+				SelectorUtil.clickOnWebElement(randomMenuElement);
+				leafMenuItems = SelectorUtil.getAllElements(HomePageSelectors.leafMenuItems.get());
 			}
+			// Navigate to leafMenuItems items.
+			WebElement viewAllElement = leafMenuItems.get(0);// get first index "view all"
+			boolean validateViewAllElement = true;
+			if (isMobile()) {
+				validateViewAllElement = SelectorUtil.isValidClickableItem(viewAllElement);
+			} else {// Check if the current page URL different than the previous page URL for iPad ;
+					// items didn't contains Href attribute
+				SelectorUtil.clickOnWebElement(viewAllElement);
+				String currentPageUrl = SelectorUtil.getCurrentPageUrl();
+				if (pageUrl.equalsIgnoreCase(currentPageUrl)) {
+					validateViewAllElement = false;
+				}
 			}
 			if (validateViewAllElement) {
 				isValid = validatePLP();
@@ -64,35 +70,39 @@ public class CLP extends SelTestCase {
 
 			return isValid;
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
+					+ "CLP Validation has failed, a selector is not found by selelnium ", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
 
 	public static boolean validateDesktopCLP() throws Exception {
-     try {
-		getCurrentFunctionName(true);
-		boolean isValid = true;
-		List<WebElement> menutems = new ArrayList<WebElement>();
-		menutems = menueWithoutWhatsNew();
-		WebElement menuElement =  SelectorUtil.getRandomWebElement(menutems);
-		boolean isValidClickableElement = SelectorUtil.isValidClickableItem(menuElement);
-		if(isGH()) {menuElement.click();}
-		if (isValidClickableElement) {
-			if (validatePLP()) { 
-				isValid = true;
-			}else {
+		try {
+			getCurrentFunctionName(true);
+			boolean isValid = true;
+			List<WebElement> menutems = new ArrayList<WebElement>();
+			menutems = menueWithoutWhatsNew();
+			WebElement menuElement = SelectorUtil.getRandomWebElement(menutems);
+			boolean isValidClickableElement = SelectorUtil.isValidClickableItem(menuElement);
+			if (isGH()) {
+				menuElement.click();
+			}
+			if (isValidClickableElement) {
+				if (validatePLP()) {
+					isValid = true;
+				} else {
+					isValid = false;
+				}
+			} else {
 				isValid = false;
 			}
-		}else {
-			isValid = false;
-		}
 			getCurrentFunctionName(false);
 			return isValid;
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
+					+ "CLP Validation has failed, a selector is not found by selelnium ", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -101,9 +111,12 @@ public class CLP extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			List<WebElement> items = new ArrayList<WebElement>();
-			if(isGH()) {
+			if(isBD()) {
+				items = SelectorUtil.getAllElements(CLPSelectors.BDCLPItems.get());
+			}
+			else if(isGH()) {
 				items = SelectorUtil.getAllElements(CLPSelectors.GHCLPItems.get());
-			}else {
+			} else {
 				items = SelectorUtil.getAllElements(CLPSelectors.CLPItems.get());
 			}
 			WebElement PLPElement = SelectorUtil.getRandomWebElement(items);
@@ -112,8 +125,9 @@ public class CLP extends SelTestCase {
 			getCurrentFunctionName(false);
 			return isValidClickableElement;
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
+					+ "PLP Validation has failed, a selector is not found by selelnium ", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -121,13 +135,41 @@ public class CLP extends SelTestCase {
 	public static List<WebElement> menueWithoutWhatsNew() throws Exception {
 		try {
 			List<WebElement> items = new ArrayList<WebElement>();
-			if(isGH()) {
-				items = SelectorUtil.getAllElements(HomePageSelectors.GHmenuItems.get());
-			 }else {
-				items = SelectorUtil.getAllElements(HomePageSelectors.menuItems.get());
+			if(isBD()) {
+				items = SelectorUtil.getAllElements(HomePageSelectors.BDmenuItems.get());
 			 }
+			else if(isGH()) {
+				items = SelectorUtil.getAllElements(HomePageSelectors.GHmenuItems.get());
+			} else {
+				items = SelectorUtil.getAllElements(HomePageSelectors.menuItems.get());
+			}
 			items.remove(0);// remove what's New item : First item
 			items.remove(items.size() - 1);
+			return items;
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed
+							+ "Getting navigation menu elements has failed, a selector is not found by selelnium ",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+	}
+	
+
+	public static List<WebElement> menueForGH() throws Exception {
+		try {
+			List<WebElement> items = new ArrayList<WebElement>();
+			items = SelectorUtil.getAllElements(HomePageSelectors.menuItemsGH.get());
+			
+			if (isMobile()) {
+				items.remove(1);// remove sale of the day item
+				items.remove(1);// remove gift cards item
+				items.remove(1);// remove gift cards item
+			} else if (isiPad()) {
+				items.remove(0);// remove waht's new
+
+			}
 			return items;
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
@@ -135,4 +177,5 @@ public class CLP extends SelTestCase {
 			throw e;
 		}
 	}
+	
 }
