@@ -1,5 +1,6 @@
 package com.generic.page;
 
+import java.net.URI;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,9 @@ import org.openqa.selenium.interactions.Actions;
 
 import com.generic.selector.HomePageSelectors;
 import com.generic.selector.PLPSelectors;
+import com.generic.setup.Common;
 import com.generic.setup.ExceptionMsg;
+import com.generic.setup.LoggingMsg;
 import com.generic.setup.SelTestCase;
 import com.generic.util.SelectorUtil;
 import com.generic.util.SelectorUtil.commands.actions;
@@ -31,10 +34,10 @@ public class PLP extends SelTestCase {
 			if (isiPad())
 				disableMonetate();
 
-			if(!isBD() || (isBD()&&isMobile()))
-			clickSearchicon();
-      
-			if (!isGH()) {
+			if (!isBD() || (isBD() && isMobile()))
+				clickSearchicon();
+
+			else if (!isGH()) {
 				if (isRY()) {
 					if (isMobile())
 						clickSearchicon();
@@ -43,13 +46,13 @@ public class PLP extends SelTestCase {
 			}
 
 			typeSearch(SearchTerm);
-						
+
 			if (recommendedOption) {
-				if(isBD() &&  isiPad()) {
-				PLP.clickSearch(SearchTerm);
-			    productName = PLP.pickPLPFirstProduct();
-				}else {		
-			     productName = pickRecommendedOption();
+				if (isBD() && isiPad()) {
+					PLP.clickSearch(SearchTerm);
+					productName = PLP.pickPLPFirstProduct();
+				} else {
+					productName = pickRecommendedOption();
 				}
 				result = verifyPickedProduct(productName);
 			} else {
@@ -82,19 +85,16 @@ public class PLP extends SelTestCase {
 
 			Thread.sleep(3000);
 
-
-			if(isBD())
-      {
+			if (isBD()) {
 				sortByCustomerRating();
-      }
-      else{
-			
-			if (isGR() || isFG())
-				sortByPriceHighToLow();
+			} else {
 
-			else if (isGH() || isRY())
-				sortByProductName();
-      }
+				if (isGR() || isFG())
+					sortByPriceHighToLow();
+
+				else if (isGH() || isRY())
+					sortByProductName();
+			}
 
 			List<String> H2LsortedProductsNames = getfirst3ProductsNames();
 
@@ -159,9 +159,9 @@ public class PLP extends SelTestCase {
 			Thread.sleep(2500);
 
 			if (isGR() || isFG())
-				sortByPriceHighToLow();
+				sortByPriceHighToLowPLP();
 
-			else if (isGH() || isRY())
+			else if (isGH() || isRY() || isBD())
 				sortByProductName();
 
 			List<String> H2LsortedProductsNames = getfirst3ProductsNames();
@@ -173,10 +173,13 @@ public class PLP extends SelTestCase {
 			int productsCountBeforeFilter = getProductsCountinPLP();
 
 			if (checkFiltersAvillability()) {
+				String firstProductName = getfirst3ProductsNames().get(0);
 				SelectFilter();
-				Thread.sleep(2000);
+				Thread.sleep(3000);
+				String secondProductName = getfirst3ProductsNames().get(0);
 
 				result = result && compareFilterResults(productsCountBeforeFilter, getProductsCountinPLP());
+				result = result || (firstProductName != secondProductName);
 
 				logs.debug("Filters check result " + productsCountBeforeFilter + getProductsCountinPLP() + result);
 
@@ -191,8 +194,6 @@ public class PLP extends SelTestCase {
 			throw e;
 		}
 	}
-	
-	
 
 	// CBI
 	private static void clickOnFilterBy() throws Exception {
@@ -202,8 +203,7 @@ public class PLP extends SelTestCase {
 			if (isFG())
 				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.FilterContainer.get());
 
-			
-			if(isBD())
+			if (isBD())
 				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.BDFilterContainer.get());
 
 			if (isGR()) {
@@ -233,29 +233,18 @@ public class PLP extends SelTestCase {
 		}
 	}
 
-	// CBI
+	
 	private static void selectFilterName() throws Exception {
 		try {
 			getCurrentFunctionName(true);
-
 			Thread.sleep(2000);
-
-			//open expandable menu 
-			if (isFG())
-				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.FilterContainerContents.get(),
-						actions.Click);
-			if (isGR())
-				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRFilterContainerContents.get(),
-						actions.Click);
-			if (isBD())
-				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.BDFilterContainerContents.get(),
-						actions.Click);
 			
-			if (isMobile()) {
-				if (isFG()) {
+			if (isFG()) {
+				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.FilterContainerContents.get(), actions.Click);
+
+				if (isMobile()) {
 					try {
-						SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.allCatigories.get(),
-								actions.Click);
+						SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.allCatigories.get(), actions.Click);
 					} catch (Exception e) {
 
 						try {
@@ -272,40 +261,49 @@ public class PLP extends SelTestCase {
 						}
 
 					}
-
 				}
 
-			}
+			}// FRONT GATE
 
-			if (isGRBD()) {
+			if (isGR()) {
+				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRFilterContainerContents.get(),
+						actions.Click);
 
 				if (isMobile()) {
 					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRFilterContainerContents.get(),
 							actions.Click);
-					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRallCatigories.get(),
-							actions.Click);
+					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRallCatigories.get(), actions.Click);
 				} else
 					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRFilterContainerContents.get(),
 							actions.Click);
-			}
+
+			} // GRAND IN ROAD
 
 			if (isGH()) {
 				if (isMobile()) {
 					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.FilterContainerContentsGH.get(),
 							actions.Click);
 					try {
-						SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.clearanceGH.get(),
-								actions.Click);
+						SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.clearanceGH.get(), actions.Click);
 					} catch (Exception e) {
-						List<WebElement> filters = SelectorUtil.getAllElements(PLPSelectors.colorFilterGH.get());
-						filters.get(2).click();
+						try {
+							List<WebElement> filters = SelectorUtil.getAllElements(PLPSelectors.colorFilterGH.get());
+							SelectorUtil.clickOnWebElement(filters.get(filters.size() - 1));
+						} catch (Exception e2) {
+							if ((e2.getMessage() != null) && e.getMessage().contains("element click intercepted")) {
+								logs.debug(MessageFormat.format(LoggingMsg.FORMATTED_ERROR_MSG, e.getMessage()));
+								logs.debug("Refresh the browser to close the Intercepted windows");
+								Common.refreshBrowser();
+								SelectFilter();
+							}
+						}
 					}
+				} // Mobile
 
-				} else {
+				else {
 					try {
-						
-						List<WebElement> filters = SelectorUtil
-								.getElementsList(PLPSelectors.clearanceGH.get());
+
+						List<WebElement> filters = SelectorUtil.getElementsList(PLPSelectors.clearanceGH.get());
 						filters.get(2).click();
 
 					} catch (Exception e) {
@@ -314,17 +312,35 @@ public class PLP extends SelTestCase {
 
 					}
 
-				}
-			}
+				} // Desktop
+			} // Garnet hill
 
 			if (isRY()) {
 
-				List<WebElement> filters = SelectorUtil.getAllElements((PLPSelectors.firstFilterRY.get()));
-				filters.get(2).click();
-			}
+				try {
+					List<WebElement> filters = SelectorUtil.getAllElements((PLPSelectors.firstFilterRY.get()));
+					filters.get(filters.size() - 1).click();
+				} catch (Exception e) {
+					if ((e.getMessage() != null) && e.getMessage().contains("element click intercepted")) {
+						logs.debug(MessageFormat.format(LoggingMsg.FORMATTED_ERROR_MSG, e.getMessage()));
+						logs.debug("Refresh the browser to close the Intercepted windows");
+						Common.refreshBrowser();
+						SelectFilter();
+					}
+				}
+
+			} // RYLLACE
+
+			if (isBD()) {
+				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.BDFilterContainerContents.get(),
+						actions.Click);
+				List<WebElement> filters = SelectorUtil.getAllElements((PLPSelectors.firstFilterBD.get()));
+				filters.get(1).click();
+				
+
+			} // BALLARD DESIGNS
 
 			getCurrentFunctionName(false);
-
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(
 					ExceptionMsg.PageFunctionFailed + "Filter name selector was not found by selenuim", new Object() {
@@ -333,6 +349,8 @@ public class PLP extends SelTestCase {
 		}
 
 	}
+
+	
 
 	// CBI
 	private static void SelectFilter() throws Exception {
@@ -368,7 +386,7 @@ public class PLP extends SelTestCase {
 					return false;
 				}
 			}
-			
+
 			else if (isGH()) {
 				try {
 					if (isMobile())
@@ -389,8 +407,15 @@ public class PLP extends SelTestCase {
 					return false;
 				}
 			}
-		
-					
+			else if(isBD()) {
+				try {
+					state = SelectorUtil.isDisplayed(PLPSelectors.FilterContainerBD.get());
+
+				} catch (Exception e) {
+					return false;
+				}
+				
+			}
 
 			getCurrentFunctionName(false);
 			return state;
@@ -459,7 +484,7 @@ public class PLP extends SelTestCase {
 
 			}
 
-      if(isBD()) {
+			if (isBD()) {
 				if (isMobile()) {
 					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.BDMobileSorting.get(), "FFF2");
 				} else {
@@ -468,30 +493,31 @@ public class PLP extends SelTestCase {
 
 				}
 			}
-      
-			if(isGH()) {
-				if (isMobile())
-				{
+
+			if (isGH()) {
+				if (isMobile()) {
 					clickOnSortMenu();
 				}
-				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.PriceLowToHighGH.get(),"forceAction,click");
-							
+				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.PriceLowToHighGH.get(), "forceAction,click");
+
 			}
-			
-			if(isRY()) {
-				clickOnSortMenu();					
+
+			if (isRY()) {
+				clickOnSortMenu();
 
 				if (isMobile()) {
 
-					List<WebElement> sortingOptions = SelectorUtil.getAllElements(PLPSelectors.PriceLowToHighRYMobile.get());
+					List<WebElement> sortingOptions = SelectorUtil
+							.getAllElements(PLPSelectors.PriceLowToHighRYMobile.get());
 					sortingOptions.get(2).click();
 				} else {
-					List<WebElement> sortingOptions = SelectorUtil.getAllElements(PLPSelectors.PriceLowToHighRYDesktop.get());
+					List<WebElement> sortingOptions = SelectorUtil
+							.getAllElements(PLPSelectors.PriceLowToHighRYDesktop.get());
 					sortingOptions.get(2).click();
 				}
-				
+
 			}
-			
+
 			getCurrentFunctionName(false);
 
 		} catch (NoSuchElementException e) {
@@ -525,7 +551,7 @@ public class PLP extends SelTestCase {
 				}
 
 			}
-			
+
 			if (isGH()) {
 				if (isMobile()) {
 					clickOnSortMenu();
@@ -533,8 +559,7 @@ public class PLP extends SelTestCase {
 				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.ProductNameGH.get());
 
 			}
-			
-			
+
 			getCurrentFunctionName(false);
 
 		} catch (NoSuchElementException e) {
@@ -546,7 +571,7 @@ public class PLP extends SelTestCase {
 		}
 	}
 
-private static void sortByCustomerRating() throws Exception {
+	private static void sortByCustomerRating() throws Exception {
 
 		try {
 			getCurrentFunctionName(true);
@@ -581,11 +606,30 @@ private static void sortByCustomerRating() throws Exception {
 				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.ProductNameGH.get());
 
 			}
-			
-			if(isRY()) {
+
+			if (isRY()) {
 				clickOnSortMenu();
 				List<WebElement> sortingoptions = SelectorUtil.getAllElements(PLPSelectors.ProductNameRY.get());
 				sortingoptions.get(4).click();
+
+			}
+			
+			if(isBD()) {
+				try {
+					clickOnSortMenu();
+					List<WebElement> sortingOptions = SelectorUtil
+							.getAllElements(PLPSelectors.sortingOptionBD.get());
+					sortingOptions.get(4).click();
+					
+				} catch (Exception e2) {
+					if ((e2.getMessage() != null) && e2.getMessage().contains("element click intercepted")) {
+						logs.debug(MessageFormat.format(LoggingMsg.FORMATTED_ERROR_MSG, e2.getMessage()));
+						logs.debug("Refresh the browser to close the Intercepted windows");
+						Common.refreshBrowser();
+						sortByPriceLowToHighPLP();
+					}
+
+				}
 				
 			}
 
@@ -597,8 +641,7 @@ private static void sortByCustomerRating() throws Exception {
 			throw e;
 		}
 	}
-	
-	
+
 	// CBI
 	private static void sortByPriceLowToHighPLP() throws Exception {
 
@@ -609,8 +652,14 @@ private static void sortByCustomerRating() throws Exception {
 				if (isMobile()) {
 					clickOnSortMenu();
 				}
-				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.PriceLowToHighPLP.get());
-			}
+				try {
+					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.PriceLowToHighPLP.get());
+				} catch (Exception e) {
+					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.PriceLowToHighPLP2.get());
+
+				}
+			} //  FRONT GATE
+			
 			if (isGR()) {
 				if (isMobile()) {
 					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GRMobileSorting.get(), "FFF2");
@@ -620,8 +669,8 @@ private static void sortByCustomerRating() throws Exception {
 
 				}
 
-			}
-			
+			} // GRAND IN ROAD
+
 			if (isGH()) {
 				if (isMobile()) {
 					clickOnSortMenu();
@@ -634,23 +683,63 @@ private static void sortByCustomerRating() throws Exception {
 							"forceAction,click");
 
 				}
-			}
-			
-			if(isRY()) {
+			}// GARNET HILL
+
+			if (isRY()) {
 				clickOnSortMenu();
 
 				if (isMobile()) {
 
-					List<WebElement> sortingOptions = SelectorUtil.getAllElements(PLPSelectors.PriceLowToHighRYMobile.get());
-					sortingOptions.get(2).click();
+					try {
+						List<WebElement> sortingOptions = SelectorUtil
+								.getAllElements(PLPSelectors.PriceLowToHighRYMobile.get());
+						sortingOptions.get(2).click();
+					} catch (Exception e2) {
+						if ((e2.getMessage() != null) && e2.getMessage().contains("element click intercepted")) {
+							logs.debug(MessageFormat.format(LoggingMsg.FORMATTED_ERROR_MSG, e2.getMessage()));
+							logs.debug("Refresh the browser to close the Intercepted windows");
+							Common.refreshBrowser();
+							sortByPriceLowToHighPLP();
+						}
+					}
+
 				} else {
-					List<WebElement> sortingOptions = SelectorUtil.getAllElements(PLPSelectors.PriceLowToHighRYDesktop.get());
+
+					try {
+						List<WebElement> sortingOptions = SelectorUtil
+								.getAllElements(PLPSelectors.PriceLowToHighRYDesktop.get());
+						sortingOptions.get(2).click();
+					} catch (Exception e2) {
+						if ((e2.getMessage() != null) && e2.getMessage().contains("element click intercepted")) {
+							logs.debug(MessageFormat.format(LoggingMsg.FORMATTED_ERROR_MSG, e2.getMessage()));
+							logs.debug("Refresh the browser to close the Intercepted windows");
+							Common.refreshBrowser();
+							sortByPriceLowToHighPLP();
+						}
+
+					}
+				}
+
+			} // RYLLACE
+
+			if(isBD()) {
+				try {
+					clickOnSortMenu();
+					List<WebElement> sortingOptions = SelectorUtil
+							.getAllElements(PLPSelectors.sortingOptionBD.get());
 					sortingOptions.get(2).click();
+					
+				} catch (Exception e2) {
+					if ((e2.getMessage() != null) && e2.getMessage().contains("element click intercepted")) {
+						logs.debug(MessageFormat.format(LoggingMsg.FORMATTED_ERROR_MSG, e2.getMessage()));
+						logs.debug("Refresh the browser to close the Intercepted windows");
+						Common.refreshBrowser();
+						sortByPriceLowToHighPLP();
+					}
+
 				}
 				
 			}
-			
-			
 			getCurrentFunctionName(false);
 
 		} catch (NoSuchElementException e) {
@@ -672,7 +761,12 @@ private static void sortByCustomerRating() throws Exception {
 				if (isMobile()) {
 					clickOnSortMenu();
 				}
-				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.PriceHighToLowPLP.get());
+				try {
+					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.PriceHighToLowPLP.get());
+				} catch (Exception e) {
+					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.PriceHighToLowPLP2.get());
+
+				}
 			}
 			if (isGR()) {
 				if (isMobile()) {
@@ -695,20 +789,23 @@ private static void sortByCustomerRating() throws Exception {
 		}
 	}
 
-	//CBI
+	// CBI
 	private static void clickOnSortMenu() throws Exception {
 		try {
-		getCurrentFunctionName(true);
-		
+			getCurrentFunctionName(true);
+
 			if (isRY()) {
 				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.SortingMenuRY.get());
+
+			} else if (isBD()) {
+				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.SortingMenuBD.get());
 
 			} else {
 
 				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.mobileSortingMenu.get());
 			}
-			
-		getCurrentFunctionName(false);
+
+			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(
 					ExceptionMsg.PageFunctionFailed + "Sorting menu selector was not found by selenuim", new Object() {
@@ -749,11 +846,7 @@ private static void sortByCustomerRating() throws Exception {
 			return namesWebElements.size();
 
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(
-					ExceptionMsg.PageFunctionFailed + "Product name in PLP selector was not found by selenuim",
-					new Object() {
-					}.getClass().getEnclosingMethod().getName()));
-			throw e;
+			return 0;
 		}
 	}
 
@@ -761,16 +854,19 @@ private static void sortByCustomerRating() throws Exception {
 	public static boolean verifyProductImagesDisplayed() throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			boolean result;
+			boolean result = false;
 			Thread.sleep(2500);
 
-			if (isGRBD())
+			if (isBD())
+				result = SelectorUtil.isImgLoaded(PLPSelectors.productsImagesBD.get());
+
+			else if (isGR())
 				result = SelectorUtil.isImgLoaded(PLPSelectors.productsImagesGR.get());
-			
-			if (isGH() || isRY())
+
+			else if (isGH() || isRY())
 				result = SelectorUtil.isImgLoaded(PLPSelectors.productsImagesGH.get());
-			
-			else
+
+			else if (isFG())
 				result = SelectorUtil.isImgLoaded(PLPSelectors.productsImages.get());
 
 			getCurrentFunctionName(false);
@@ -796,9 +892,9 @@ private static void sortByCustomerRating() throws Exception {
 			} else {
 				productTitle = PDP.getTitle();
 			}
-			
+
 			result = (productTitle.toLowerCase().contains(productName.toLowerCase()));
-						
+
 			getCurrentFunctionName(false);
 			return result;
 		} catch (NoSuchElementException e) {
@@ -827,9 +923,9 @@ private static void sortByCustomerRating() throws Exception {
 			throw e;
 		}
 	}
-    
+
 // CBI
-		public static String pickRecommendedOption() throws Exception {
+	public static String pickRecommendedOption() throws Exception {
 		String itemTitle = "";
 		try {
 			getCurrentFunctionName(true);
@@ -837,25 +933,25 @@ private static void sortByCustomerRating() throws Exception {
 			String SelectorSS;
 
 			if (isRY()) {
-	
-			    SelectorSS = PLPSelectors.recommendedOptionRY.get();
 
-	}else if(isGH()) {
+				SelectorSS = PLPSelectors.recommendedOptionRY.get();
+
+			} else if (isGH()) {
 				SelectorSS = PLPSelectors.GHRecommendedOption.get();
 			} else {
 				SelectorSS = PLPSelectors.recommendedOption.get();
 			}
-			
+
 			WebElement recommendedProduct = SelectorUtil.getElement(SelectorSS);
 			if (isGH() && isiPad()) {
 				// The GH option didn't contains suggestion product so submit search.
 				// (The unbxd redirect the site to PDP if the search for product id).
 				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GHSearchButton.get());
-			}else if (isRY()) {
+			} else if (isRY()) {
 				imgID = recommendedProduct.getAttribute("innerHTML");
 				itemTitle = imgID.substring(imgID.indexOf("Ryllace") + 8, imgID.indexOf("Ryllace") + 13);
 			} else {
-				
+
 				itemTitle = recommendedProduct.getText();
 				logs.debug("Picked item: " + itemTitle);
 				recommendedProduct.click();
@@ -872,11 +968,12 @@ private static void sortByCustomerRating() throws Exception {
 		}
 
 	}
-  
+
 	// CBI
 	public static void typeSearch(String searchTerm) throws Exception {
 		try {
 			getCurrentFunctionName(true);
+			Thread.sleep(2500);
 			SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.searchBox.get(), searchTerm);
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
@@ -897,11 +994,12 @@ private static void sortByCustomerRating() throws Exception {
 			else if (isBD())
 				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.BDSearchIcon.get());
 			else
-			    SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.SearchIcon.get());
+				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.SearchIcon.get());
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed + "Search icon selector was not found by selenuim", new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Search icon selector was not found by selenuim", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 
@@ -912,7 +1010,7 @@ private static void sortByCustomerRating() throws Exception {
 		try {
 			getCurrentFunctionName(true);
 			String SelectorSS;
-      
+
 			if (isGHRY() || isBD())
 				SelectorSS = PLPSelectors.GHproductsImages.get();
 
@@ -921,38 +1019,40 @@ private static void sortByCustomerRating() throws Exception {
 			else
 				SelectorSS = PLPSelectors.productsImages.get();
 			String itemTitle = SelectorUtil.getAttrString(SelectorSS, "alt");
-			if(isBD())
-				 itemTitle = SelectorUtil.getElement(PLPSelectors.BDproductTitle.get()).getText();
+			if (isBD())
+				itemTitle = SelectorUtil.getElement(PLPSelectors.BDproductTitle.get()).getText();
 			SelectorUtil.initializeSelectorsAndDoActions(SelectorSS);
 			getCurrentFunctionName(false);
 			return itemTitle;
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed + "Product image selector was not found by selenuim", new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Product image selector was not found by selenuim", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 
 	}
-	
+
 	// CBI
 	public static void pickPLPRandomProduct() throws Exception {
 		try {
 			getCurrentFunctionName(true);
 			List<WebElement> items = new ArrayList<WebElement>();
 			items = getPLPItems();
-			WebElement item =  SelectorUtil.getRandomWebElement(items);
+			WebElement item = SelectorUtil.getRandomWebElement(items);
 			JavascriptExecutor jse = (JavascriptExecutor) getDriver();
 			jse.executeScript("arguments[0].scrollIntoView(false)", item);
 			((JavascriptExecutor) getDriver()).executeScript("arguments[0].click()", item);
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed + "Failed to pick Random Product from PLP ", new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed + "Failed to pick Random Product from PLP ",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 
 	}
-	
+
 	public static List<WebElement> getPLPItems() throws Exception {
 		try {
 			List<WebElement> items = new ArrayList<WebElement>();
@@ -965,21 +1065,27 @@ private static void sortByCustomerRating() throws Exception {
 			throw e;
 		}
 	}
+
 	// CBI
 	public static void navigateToRandomPLPMobileIpad() throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			
+
 			// Open menu
 			HomePage.openNavigationMenu();
 
-
 			List<WebElement> menueItems = new ArrayList<WebElement>();
-			
+
 			if (isGH()) {
 				menueItems = CLP.menueForGH();
 
-			} else {
+			}else if(isBD()) { 
+				menueItems = CLP.menueWithoutWhatsNew();
+				menueItems.remove(0);	// Remove New item
+				menueItems.remove(0);	// Remove Custom item
+				menueItems.remove(menueItems.size()-1);	// Remove Get inspired item
+			}
+			else {
 				menueItems = CLP.menueWithoutWhatsNew();
 
 			}
@@ -988,15 +1094,21 @@ private static void sortByCustomerRating() throws Exception {
 			// Click on random menu element
 			SelectorUtil.clickOnWebElement(randomMenuElement);
 
-			List<WebElement> leafMenuItems = SelectorUtil.getAllElements(HomePageSelectors.leafMenuItems.get());
+			List<WebElement> leafMenuItems;
+			
+			if (isBD()) {
+				leafMenuItems = SelectorUtil.getAllElements(HomePageSelectors.leafMenuItemsBD.get());
 
+			} else {
+				leafMenuItems = SelectorUtil.getAllElements(HomePageSelectors.leafMenuItems.get());
+			}
 			// Select a random item from the leaf items list.
 			Random rand = new Random();
 			WebElement randomElement = leafMenuItems.get(rand.nextInt(leafMenuItems.size()));
 
 			// Navigate to the selected random page.
 			SelectorUtil.clickOnWebElement(randomElement);
-			
+
 			// Check if the target is CLP
 			if (isCLP()) {
 				// Navigate to a PLP
@@ -1009,6 +1121,8 @@ private static void sortByCustomerRating() throws Exception {
 						SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.navigatetoPLPGR.get());
 					else if (isGH())
 						SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.navigatetoPLPGH.get());
+					else if(isBD())
+						SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.navigatetoPLPBD.get());	
 
 				} catch (Exception e) {
 
@@ -1021,8 +1135,9 @@ private static void sortByCustomerRating() throws Exception {
 
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed+ "Navigation to PLP has failed, a selector was not found by selenuim", new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
+					+ "Navigation to PLP has failed, a selector was not found by selenuim", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 
@@ -1037,12 +1152,20 @@ private static void sortByCustomerRating() throws Exception {
 			Random randomGenerator = new Random();
 			WebElement randomElement = menuFirstLevelElements
 					.get(randomGenerator.nextInt(menuFirstLevelElements.size() - 1));
-			SelectorUtil.clickOnWebElement(randomElement);
+
+			if (isGH()) {
+				getDriver().get(randomElement.getAttribute("href"));
+			} else
+				SelectorUtil.clickOnWebElement(randomElement);
 
 			if (isCLP()) {
 				// Navigate to a PLP
 				if (isGH()) {
 					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.navigatetoPLPGH.get());
+				}
+				else if(isBD()) {
+					
+					SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.navigatetoPLPBD.get());
 
 				}
 
@@ -1055,7 +1178,7 @@ private static void sortByCustomerRating() throws Exception {
 					}
 				}
 			}
-			 
+
 			Thread.sleep(1500);
 
 			getCurrentFunctionName(false);
@@ -1066,30 +1189,26 @@ private static void sortByCustomerRating() throws Exception {
 		}
 
 	}
-	
+
 	// CBI
 	public static void navigateToRandomPLPIpadGH() throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			JavascriptExecutor js = (JavascriptExecutor)getDriver();  
-			String script ="var Nodes = document.querySelectorAll (\"" + HomePageSelectors.menuItemsGH.get()+ "\");"
-					+ "var targetNode = Nodes[Math.floor(Math.random()*Nodes.length)];"
-					+ "if (targetNode) {"
-					+ "triggerMouseEvent (targetNode, \"mousedown\");"
-					+ "}"
+			JavascriptExecutor js = (JavascriptExecutor) getDriver();
+			String script = "var Nodes = document.querySelectorAll (\"" + HomePageSelectors.menuItemsGH.get() + "\");"
+					+ "var targetNode = Nodes[Math.floor(Math.random()*Nodes.length)];" + "if (targetNode) {"
+					+ "triggerMouseEvent (targetNode, \"mousedown\");" + "}"
 					+ "function triggerMouseEvent (node, eventType) {"
 					+ "var clickEvent = document.createEvent ('MouseEvents');"
-					+ "clickEvent.initEvent (eventType, true, true);"
-					+ "node.dispatchEvent (clickEvent);"
-					+ "}";
+					+ "clickEvent.initEvent (eventType, true, true);" + "node.dispatchEvent (clickEvent);" + "}";
 			js.executeScript(script);
-			
+
 			if (isCLP()) {
 
 				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.navigatetoPLPGH.get());
 
 			}
-			
+
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
@@ -1098,22 +1217,22 @@ private static void sortByCustomerRating() throws Exception {
 		}
 
 	}
-	
-	
+
 	// CBI
 	public static void navigateToRandomPLPRY() throws Exception {
 		try {
 			getCurrentFunctionName(true);
 			List<WebElement> menuFirstLevelElements;
-			
+
 			if (isMobile() || isiPad()) {
 				SelectorUtil.initializeSelectorsAndDoActions(HomePageSelectors.shopMenuRY.get());
 
 				if (isMobile()) { // Expand the menu options on mobile
-					List<WebElement> expandIcons= SelectorUtil.getAllElements(HomePageSelectors.expandShopMenuRY.get());
+					List<WebElement> expandIcons = SelectorUtil
+							.getAllElements(HomePageSelectors.expandShopMenuRY.get());
 					expandIcons.get(4).click();
 				}
-					
+
 				menuFirstLevelElements = SelectorUtil.getAllElements(HomePageSelectors.menuItemsRY.get());
 				Random randomGenerator = new Random();
 				WebElement randomElement = menuFirstLevelElements
@@ -1132,16 +1251,16 @@ private static void sortByCustomerRating() throws Exception {
 				SelectorUtil.clickOnWebElement(randomElement);
 
 			}
-			
+
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed + "Navigation to PLP has failed, a selector was not found by selenuim", new Object() {
-			}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
+					+ "Navigation to PLP has failed, a selector was not found by selenuim", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 
 	}
-	
 
 	// CBI
 
@@ -1149,10 +1268,12 @@ private static void sortByCustomerRating() throws Exception {
 		getCurrentFunctionName(true);
 		try {
 			Thread.sleep(2500);
-			return !SelectorUtil.isDisplayed(PLPSelectors.PLPIdentifier.get());
+			boolean result = !SelectorUtil.isDisplayed(PLPSelectors.PLPIdentifier.get());
+			logs.debug("In CLP Result" + result);
+			return result;
 		} catch (Exception e) {
 			getCurrentFunctionName(false);
-
+			logs.debug("In CLP Result Yes");
 			return true;
 		}
 	}

@@ -3,7 +3,7 @@
 <suite name="Seach regression" parallel="tests" thread-count="3"
 	data-provider-thread-count="1">
 
-	<parameter name="Env" value=prod></parameter>
+	<parameter name="Env" value="prod"></parameter>
 	<parameter name="Brand" value="RY"></parameter>
 
 	<test name="Seach validation chrome">
@@ -12,16 +12,16 @@
 			<class name="com.generic.tests.RY.Search_PLP.PLP_Base" />
 		</classes>
 	</test><!-- Test -->
-	
-	
+
+
 	<test name="Seach validation mobile_iPad">
 		<parameter name="browserName" value="mobile_iPad"></parameter>
 		<classes>
 			<class name="com.generic.tests.RY.Search_PLP.PLP_Base" />
 		</classes>
 	</test><!-- Test -->
-	
-	
+
+
 	<test name="Seach validation mobile_iPhone x">
 		<parameter name="browserName" value="mobile_iPhone X"></parameter>
 		<classes>
