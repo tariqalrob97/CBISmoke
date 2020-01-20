@@ -41,12 +41,12 @@ public class PDP extends SelTestCase {
 			// This is to handle production Monetate issue on iPad for search field.
 			if (isFGGR() && isiPad())
 				HomePage.updateMmonetate();
-			if (isFGGR() || (isRY() && isMobile()))
+			if (isFGGR() || (isRY() && isMobile()) || isBD() && isMobile())
 				PLP.clickSearchicon();
 			String itemName = "";
 			// This is to handle iPad behavior for search modal.
 			// TODO: to use this process on all brands
-			if (isGHRY() && isiPad()) {
+			if (isGHRY() && isiPad() || isBD() && isiPad()) {
 				PLP.clickSearch(SearchTerm);
 				if (SelectorUtil.isElementExist(By.cssSelector(PLPSelectors.PLPPageSelector.get()))) {
 					itemName = PLP.pickPLPFirstProduct();
@@ -117,8 +117,10 @@ public class PDP extends SelTestCase {
 			String subStrArr = null;
 			if (SelTestCase.isFGGR())
 				subStrArr = PDPSelectors.addToCartBtn.get();
-			if (SelTestCase.isGHRY()) {
+			 if (SelTestCase.isGHRY()) 
 				subStrArr = PDPSelectors.GHRYaddToCartBtn.get();
+			 if  (SelTestCase.isBD())
+				subStrArr = PDPSelectors.BDaddToCartBtn.get();
 
 				// Bundle product selector.
 				int numberOfItems = getNumberOfItems();
@@ -126,7 +128,6 @@ public class PDP extends SelTestCase {
 					String ProductID = getProductID(0);
 					subStrArr = MessageFormat.format(PDPSelectors.GHAddToCartBtnEnabledBundle.get(), ProductID);
 				}
-			}
 
 			SelectorUtil.initializeSelectorsAndDoActions(subStrArr);
 			getCurrentFunctionName(false);
@@ -222,8 +223,15 @@ public class PDP extends SelTestCase {
 	public static void selectNthListBoxFirstValue(int index) throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			String Str = PDPSelectors.allSizes.get();
-			String value = "index," + index + ",FFF1";
+			String Str;
+			String value;
+			if(isBD()) {
+			 Str = PDPSelectors.BDallSizes.get();
+			 value = "FFF1";
+			}else {
+			 Str = PDPSelectors.allSizes.get();
+			 value = "index," + index + ",FFF1";
+			}	
 			SelectorUtil.initializeSelectorsAndDoActions(Str, value);
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
@@ -239,14 +247,25 @@ public class PDP extends SelTestCase {
 	public static void selectNthOptionFirstSwatch(int index) throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			String subStrArr = MessageFormat.format(PDPSelectors.firstSwatchInOptions.get(), index);
+			String subStrArr;
+			if(isBD())
+			 subStrArr = MessageFormat.format(PDPSelectors.BDfirstSwatchInOptions.get(), index);
+			else
+			 subStrArr = MessageFormat.format(PDPSelectors.firstSwatchInOptions.get(), index);
 			logs.debug(MessageFormat.format(LoggingMsg.CLICKING_SEL, subStrArr));
 			String nthSel = subStrArr;
 			// Clicking on the div on desktop and iPad does not select the options,
 			// you need to click on the img if there is an img tag.
 			if (!SelTestCase.isMobile()) {
-				String nthSel2 = subStrArr + ">img";
+				String nthSel2;
+				if(isBD())
+				 nthSel2 = subStrArr + " img";
+				 else
+				 nthSel2 = subStrArr + ">img";
 				if (!SelectorUtil.isNotDisplayed(nthSel2))
+					if(isBD())
+					nthSel = subStrArr + " img";
+					else
 					nthSel = subStrArr + ">img";
 			}
 
@@ -310,6 +329,8 @@ public class PDP extends SelTestCase {
 					logs.debug(PDPSelectors.topPriceBundle);
 					selector = MessageFormat.format(PDPSelectors.topPriceBundle, ProductID);
 				}
+			}else if (isBD()) {
+				selector = PDPSelectors.BDtopPriceSingle.get();
 			} else {
 				// if(SelTestCase.isGH() || SelTestCase.isRY())
 				selector = PDPSelectors.GHtopPriceSingle.get();
@@ -338,7 +359,9 @@ public class PDP extends SelTestCase {
 					logs.debug(PDPSelectors.topPriceBundle);
 					selector = MessageFormat.format(PDPSelectors.topPriceBundle, ProductID);
 				}
-			} else {
+			}else if (isBD()){
+				selector = PDPSelectors.BDtopPriceSingle.get();
+			}else {
 //				if(SelTestCase.isGH() || SelTestCase.isRY()) 
 				selector = PDPSelectors.GHtopPriceSingle.get();
 			}
@@ -427,7 +450,8 @@ public class PDP extends SelTestCase {
 		String selectorEnabled = PDPSelectors.addToWLGRBtnEnabledSingle.get();
 		if (isGHRY()) {
 			selectorEnabled = PDPSelectors.GHAddToWLGRBtnEnabledSingle.get();
-		}
+		}else if(isBD())
+			 selectorEnabled = PDPSelectors.BDaddToWLGRBtnEnabledSingle.get();
 		String selectorDisabled = PDPSelectors.addToCartBtnDisabledSingle.get();
 		if (!SelTestCase.isMobile() && getNumberOfItems() > 1) {
 			String ProductID = getProductID(0);
@@ -468,6 +492,8 @@ public class PDP extends SelTestCase {
 			// disabled.
 			// because there is no attribute to verify if it is enabled.
 			String selectorEnabled = PDPSelectors.addToWLGRBtnEnabledSingle.get();
+			if(isBD())
+				selectorEnabled = PDPSelectors.BDaddToWLGRBtnEnabledSingle.get();	
 			PDPSelectors.addToCartBtnDisabledSingle.get();
 			if (!isMobile() && Bundle) {
 				logs.debug(PDPSelectors.addToWLGRBtnEnabledBundle);
@@ -537,8 +563,13 @@ public class PDP extends SelTestCase {
 			// here it will pass if the button exist regardless if it is enabled or
 			// disabled.
 			// because there is no attribute to verify if it is enabled.
-			String selectorEnabled = PDPSelectors.addToCartBtnEnabledSingle.get();
-			PDPSelectors.addToCartBtnDisabledSingle.get();
+			String selectorEnabled;
+			if(isBD()){
+			 selectorEnabled = PDPSelectors.BDaddToCartBtnEnabledSingle.get();
+			}else{
+			 selectorEnabled = PDPSelectors.addToCartBtnEnabledSingle.get();
+			 PDPSelectors.addToCartBtnDisabledSingle.get();
+			}
 
 			if (!isMobile() && Bundle) {
 
@@ -592,7 +623,12 @@ public class PDP extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			logs.debug("Validate if bottom price is updated after seleting options");
-			String selector = PDPSelectors.bottomPriceSingle.get();
+			String selector;
+			if(isBD())
+				selector = PDPSelectors.BDbottomPriceSingle.get();
+				else
+				selector = PDPSelectors.bottomPriceSingle.get();
+			
 			if(isGHRY()) {
 				selector = PDPSelectors.GHRYBottomPriceSingle.get();
 			}
@@ -691,6 +727,8 @@ public class PDP extends SelTestCase {
 			String Str = PDPSelectors.numberOfBundleItems.get();
 			if (isGH()) {
 				Str = PDPSelectors.GHNumberOfBundleItems.get();
+			}else if(isBD()) {
+				  Str= PDPSelectors.BDnumberOfBundleItems.get();
 			}
 			int numberOfItems = 1;
 			// if (!SelectorUtil.isNotDisplayed(Str)) {
@@ -790,7 +828,7 @@ public class PDP extends SelTestCase {
 	public static void selectSwatches(Boolean bundle, String ProductID) throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			if (isFGGR()) {
+			if (isFGGR() ||  isBD()) {
 				if (!isMobile() && bundle) {
 					FGGRselectSwatchesBundle(ProductID);
 
@@ -1769,7 +1807,11 @@ public class PDP extends SelTestCase {
 	public static int getNumberofSwatchContainers() throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			String Str = PDPSelectors.FGGRSwatchesOptions.get();
+			String Str ;
+			if(isBD())
+		    Str = PDPSelectors.BDSwatchesOptions.get();
+			else
+	     	Str = PDPSelectors.FGGRSwatchesOptions.get();
 			int numberOfSwatchContainers = SelectorUtil.getAllElements(Str).size();
 			logs.debug("Number of Swatch Containers: " + numberOfSwatchContainers);
 			getCurrentFunctionName(false);
@@ -1786,7 +1828,11 @@ public class PDP extends SelTestCase {
 	public static int getNumberofSwatchContainersBundle() throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			String Str = "css,#" + getProductID(0) + ">" + PDPSelectors.FGGRSwatchesOptions.get().replace("css,", "");
+			String Str ;
+			if(!isBD())
+			 Str = "css,#" + getProductID(0) + ">" + PDPSelectors.FGGRSwatchesOptions.get().replace("css,", "");
+			else
+			 Str = "css,#" + getProductID(0) + " " + PDPSelectors.BDSwatchesOptions.get().replace("css,", "");
 			int numberOfSwatchContainers = SelectorUtil.getAllElements(Str).size();
 			logs.debug("Number of Swatch Containers: " + numberOfSwatchContainers);
 			getCurrentFunctionName(false);
@@ -1803,7 +1849,11 @@ public class PDP extends SelTestCase {
 	public static String getSwatchContainersdivClass(int index) throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			String Str = PDPSelectors.FGGRSwatchesOptions.get();
+			String Str;
+			if(!isBD())
+			 Str = PDPSelectors.FGGRSwatchesOptions.get();
+			else
+			 Str = PDPSelectors.BDSwatchesOptions.get();
 			String SwatchContainerClass = SelectorUtil.getAttrString(Str, "class", index);
 			logs.debug("SwatchContainerClass: " + SwatchContainerClass);
 			getCurrentFunctionName(false);
@@ -1833,19 +1883,33 @@ public class PDP extends SelTestCase {
 		}
 	}
 
-	public static String getAddToCartClass() throws Exception {
+	public static boolean getAddToCartClass() throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			String Str = PDPSelectors.addToCartBtn.get();
+			String Str ;
+			boolean isDisabled = true;
+			if(isBD()) {
+			Str= PDPSelectors.BDaddToCartBtn.get();
+			String addToCartBtnDisabledAttribute = SelectorUtil.getAttrString(Str, "disabled");
+			if(addToCartBtnDisabledAttribute == null) {
+				logs.debug("addToCartBtnClass: no" );
+				isDisabled = false;
+			}else {
+				logs.debug("addToCartBtnClass: yes" );
+				isDisabled = true;
+			}
+			
+			}else {
+			Str= PDPSelectors.addToCartBtn.get();
 			String addToCartBtnClass = SelectorUtil.getAttrString(Str, "class");
 			logs.debug("addToCartBtnClass: " + addToCartBtnClass);
+			isDisabled = addToCartBtnClass.contains("disabled");
+			}
 			getCurrentFunctionName(false);
-			return addToCartBtnClass;
+			return isDisabled;
 		} catch (NoSuchElementException e) {
-			logs.debug(MessageFormat.format(
-					ExceptionMsg.PageFunctionFailed + "Add to cart button selector was not found by seleniuem",
-					new Object() {
-					}.getClass().getEnclosingMethod().getName()));
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
+			}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
@@ -1855,7 +1919,7 @@ public class PDP extends SelTestCase {
 			getCurrentFunctionName(true);
 			Boolean noOptions = true;
 			if (SelTestCase.isMobile())
-				noOptions = !getAddToCartClass().contains("disabled");
+				noOptions = !getAddToCartClass();
 			else
 				noOptions = getSwatchContainersdivClass(0).contains("no-options");
 

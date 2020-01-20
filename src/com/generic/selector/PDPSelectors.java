@@ -154,4 +154,17 @@ public class PDPSelectors {
 	public static final cselector GHNumberOfBundleItems = new cselector("css,.gwt-product-detail-products-container>.gwt-product-detail-widget","css,.t-product-details__accordion-collection .pw-accordion__item");
 	public static final cselector GHItemsID = new cselector("css,.gwt-product-detail-products-container>.gwt-product-detail-widget", "css,.t-product-details__accordion-collection .pw-accordion__item.pw-accordion--is-open");	
 
+	//BD Selectors
+	public static final cselector BDSwatchesOptions = new cselector("css,.gwt-product-option-panel > div","css,.c-product-options>div>div>div" );
+	public static final cselector BDallSizes = new cselector("css,div>.gwt-ListBox","css,.c-product-options__content.u-border-brand-color.u-border-radius");
+	public static final cselector BDallColors = new cselector("css,.image-picker-option-image-container >img","css,.pw-swatch__chip>.pw-swatch__chip-inner>.c-product-option-items__item-content.gwt-image-picker-option");	
+	public static final cselector BDbottomPriceSingle = new cselector("css,div.gwt-right-bottom-product-options div.gwt-price-panel div.gwt-was-now-price-panel > div.gwt-HTML.gwt-now-price-holder.gwt-promo-discount-now-label","css,div.t-product-details__quantity  span.t-product-promo-price.final-price");
+	public static final cselector BDaddToCartBtnEnabledSingle = new cselector("css,button.add-to-cart-button","css,button.c-add-to-cart");
+	public static final cselector BDaddToWLGRBtnEnabledSingle = new cselector("css,button.add-to-gift-registry-button","css,button.t-product-details__wishlist-button");
+	public static final cselector BDListBox = new cselector("css,select.gwt-ListBox","css,.c-product-options__content.u-border-brand-color.u-border-radius");
+	public static final cselector BDtopPriceSingle = new cselector("css,div.gwt-product-top-price-and-number > div > div","css,div.u-padding-bottom div.t-product-details-heading__price > div");
+	public static final cselector BDnumberOfBundleItems = new cselector("css,.gwt-product-detail-products-container>.gwt-product-detail-widget","css,div.u-margin-bottom > .t-product-details-heading__price.t-product-details__price>div");	
+	public static final cselector BDaddToCartBtn = new cselector("css,button.add-to-cart-button","css,button.c-add-to-cart");
+	public static final cselector BDfirstSwatchInOptions = new cselector("css,.gwt-product-option-panel-widget-panel > div  > div > div:nth-child(1)","css,button > div > div > div > div > div.pw-image");
+
 }
