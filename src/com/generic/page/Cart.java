@@ -354,7 +354,7 @@ public class Cart extends SelTestCase {
 					SelectorUtil.initializeSelectorsAndDoActions(CartSelectors.finishAndPreviewButtonGR.get());
 				else if (isGHRY())
 					SelectorUtil.initializeSelectorsAndDoActions(CartSelectors.GHRYfinishAndPreviewButton.get());
-				else
+				else if(isFG())
 					SelectorUtil.initializeSelectorsAndDoActions(CartSelectors.finishAndPreviewButton.get());
 			}
 
@@ -363,7 +363,9 @@ public class Cart extends SelTestCase {
 				SelectorUtil.initializeSelectorsAndDoActions(CartSelectors.saveEditsButtonGR.get());
 			else if (isGHRY())
 				SelectorUtil.initializeSelectorsAndDoActions(CartSelectors.GHRYsaveEditsButton.get());
-			else
+			else if (isBD()) {
+				SelectorUtil.initializeSelectorsAndDoActions(CartSelectors.saveEditsButtonBD.get());	
+			}else
 				SelectorUtil.initializeSelectorsAndDoActions(CartSelectors.saveEditsButton.get());
 			getCurrentFunctionName(false);
 
