@@ -12,12 +12,12 @@ import com.generic.setup.Common;
 import com.generic.setup.LoggingMsg;
 import com.generic.setup.SelTestCase;
 import com.generic.setup.SheetVariables;
-import com.generic.tests.RY.e2e.Cart_e2e;
-import com.generic.tests.RY.e2e.Checkout_e2e;
-import com.generic.tests.RY.e2e.HomePage_e2e;
-import com.generic.tests.RY.e2e.PDP_e2e;
-import com.generic.tests.RY.e2e.Registeration_e2e;
-import com.generic.tests.RY.e2e.Search_PLP_e2e;
+import com.generic.tests.GH.e2e.Cart_e2e;
+import com.generic.tests.GH.e2e.Checkout_e2e;
+import com.generic.tests.GH.e2e.HomePage_e2e;
+import com.generic.tests.GH.e2e.PDP_e2e;
+import com.generic.tests.GH.e2e.Registeration_e2e;
+import com.generic.tests.GH.e2e.Search_PLP_e2e;
 import com.generic.util.dataProviderUtils;
 import com.generic.util.SASLogger;
 
@@ -68,8 +68,8 @@ public class SmokeTest_Registered_e2e extends SelTestCase {
 
 			Registeration_e2e.Validate();
 			HomePage_e2e.Validate();
-			//Search_PLP_e2e.Validate();
-			//PDP_e2e.Validate();
+			Search_PLP_e2e.Validate();
+			PDP_e2e.Validate();
 			Cart_e2e.Validate();
 			Checkout_e2e.ValidateRegistered(productsCount, addressDetails, paymentDetails, userdetails);
 

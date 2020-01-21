@@ -80,8 +80,9 @@ public class SmokeTest_Guest_e2e extends SelTestCase {
 		try {
 
 			HomePage_e2e.Validate();
-			//Search_PLP_e2e.Validate();
+			Search_PLP_e2e.Validate();
 			//PDP_e2e.Validate();
+			Thread.sleep(65000);
 			Cart_e2e.Validate();
 			Checkout_e2e.ValidateGuest(productsCount, addressDetails, paymentDetails, userdetails);
 

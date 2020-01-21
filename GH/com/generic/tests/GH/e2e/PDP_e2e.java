@@ -2,6 +2,7 @@ package com.generic.tests.GH.e2e;
 
 import java.text.MessageFormat;
 import java.util.NoSuchElementException;
+import com.generic.page.PDP;
 import com.generic.setup.ExceptionMsg;
 import com.generic.setup.SelTestCase;
 import com.generic.tests.GH.PDP.PDPValidation;
@@ -14,7 +15,9 @@ public class PDP_e2e extends SelTestCase {
 
 		try {
 			getCurrentFunctionName(true);
-			//PDPValidation.validate(singlePDPSearchTerm, false);
+			
+			PDP.NavigateToPDP();
+			PDPValidation.validate(false);
 
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {

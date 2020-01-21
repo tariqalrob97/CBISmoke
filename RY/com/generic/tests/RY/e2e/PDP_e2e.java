@@ -2,9 +2,10 @@ package com.generic.tests.RY.e2e;
 
 import java.text.MessageFormat;
 import java.util.NoSuchElementException;
+import com.generic.page.PDP;
 import com.generic.setup.ExceptionMsg;
 import com.generic.setup.SelTestCase;
-//import com.generic.tests.RY.PDP.PDPValidation; TILL IT'S MADE
+import com.generic.tests.RY.PDP.PDPValidation;
 
 public class PDP_e2e extends SelTestCase {
 
@@ -14,8 +15,10 @@ public class PDP_e2e extends SelTestCase {
 
 		try {
 			getCurrentFunctionName(true);
-			//PDPValidation.validate(singlePDPSearchTerm, false);
-
+			
+			PDP.NavigateToPDP();
+			PDPValidation.validate();
+			
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {

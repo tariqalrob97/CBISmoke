@@ -2,7 +2,7 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="e2e Smoke test" parallel="tests" thread-count="3"
 	data-provider-thread-count="1">
-	<parameter name="Env" value="stagewcs"></parameter>
+	<parameter name="Env" value="prod"></parameter>
 	<parameter name="Brand" value="GH"></parameter>
 
 	<test name="e2e chrome Registered User">

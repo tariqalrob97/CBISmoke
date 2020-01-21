@@ -46,7 +46,7 @@ public class Checkout_e2e extends SelTestCase {
 			// Proceed to step 4
 			CheckOut.proceedToStepFour();
 
-			Thread.sleep(2000);
+			Thread.sleep(4000);
 
 			// Saving tax and shipping costs to compare them in the confirmation page
 			orderShipping = CheckOut.getShippingCosts();
@@ -83,6 +83,8 @@ public class Checkout_e2e extends SelTestCase {
 
 			// Check if subtotal value match
 			sassert().assertTrue(CheckOut.getSubTotal().equals(orderSubTotal), "Subtotal value issue ");
+
+			getCurrentFunctionName(false);
 
 			getCurrentFunctionName(false);
 
@@ -131,10 +133,6 @@ public class Checkout_e2e extends SelTestCase {
 			// Proceed to step 4
 			CheckOut.proceedToStepFour();
 
-			Thread.sleep(1000);
-
-			CheckOut.clickCreditCardPayment();
-
 			// Saving tax and shipping costs to compare them in the confirmation page
 			orderShipping = CheckOut.getShippingCosts();
 			orderTax = CheckOut.getTaxCosts(GlobalVariables.FG_TAX_CART);
@@ -150,19 +148,17 @@ public class Checkout_e2e extends SelTestCase {
 			CheckOut.placeOrder();
 
 			Thread.sleep(3500);
-
+			
 			CheckOut.closePromotionalModal();
 
 			// Check number of products in confirmation page
-			sassert().assertTrue(CheckOut.checkProductsinConfirmationPage() == productsCountStepTWO,
-					"Some products are missing in confirmation page ");
+			sassert().assertTrue(CheckOut.checkProductsinConfirmationPage() == productsCountStepTWO,"Some products are missing in confirmation page ");
 
 			// Check if shipping costs match
 			sassert().assertTrue(CheckOut.getShippingCosts().equals(orderShipping), "Shipping cost value issue ");
 
 			// Check if tax cost match
-			sassert().assertTrue(CheckOut.getTaxCosts(GlobalVariables.FG_TAX_CONFIRMATION).equals(orderTax),
-					"Tax value issue ");
+			sassert().assertTrue(CheckOut.getTaxCosts(GlobalVariables.FG_TAX_CONFIRMATION).equals(orderTax), "Tax value issue ");
 
 			// Check if subtotal value match
 			sassert().assertTrue(CheckOut.getSubTotal().equals(orderSubTotal), "Subtotal value issue ");

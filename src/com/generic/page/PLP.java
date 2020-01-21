@@ -34,11 +34,12 @@ public class PLP extends SelTestCase {
 			if (isiPad())
 				disableMonetate();
 
-			if (!isBD() || (isBD() && isMobile()))
-				clickSearchicon();
 
 			else if (!isGH()) {
 				if (isRY()) {
+					if (isMobile())
+						clickSearchicon();
+				} else if (isBD()) {
 					if (isMobile())
 						clickSearchicon();
 				} else
@@ -104,7 +105,7 @@ public class PLP extends SelTestCase {
 
 			String firstProductName = getfirst3ProductsNames().get(0);
 			SelectFilter();
-			Thread.sleep(3000);
+				
 			String secondProductName = getfirst3ProductsNames().get(0);
 			result = result && (firstProductName != secondProductName);
 
@@ -320,6 +321,11 @@ public class PLP extends SelTestCase {
 				try {
 					List<WebElement> filters = SelectorUtil.getAllElements((PLPSelectors.firstFilterRY.get()));
 					filters.get(filters.size() - 1).click();
+					
+					if(isMobile())
+						SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.doneButtonRY.get());
+					
+					
 				} catch (Exception e) {
 					if ((e.getMessage() != null) && e.getMessage().contains("element click intercepted")) {
 						logs.debug(MessageFormat.format(LoggingMsg.FORMATTED_ERROR_MSG, e.getMessage()));
