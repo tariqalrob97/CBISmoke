@@ -37,7 +37,7 @@ public class PDPSelectors {
 	public static final cselector chooseYourItems = new cselector("gwt-choose-your-item-btn");
 	public static final cselector numberOfBundleItems = new cselector("css,.gwt-product-detail-products-container>.gwt-product-detail-widget","css,.t-product-details-heading__price.t-product-details__price>div");	
 	public static final cselector itemsID = new cselector("css,.gwt-product-detail-products-container>.gwt-product-detail-widget");	
-	public static final cselector addToCartModal = new cselector("css,.gwt-DialogBox.ok-cancel-dlog.gwt_addtocart_div","pw-sheet__inner pw--shrink-to-content");
+	public static final cselector addToCartModal = new cselector("css,.gwt-DialogBox.ok-cancel-dlog.gwt_addtocart_div","css,.pw-sheet__inner");
 	public static final cselector topPriceBundleDesktop = new cselector("css,.gwt-product-detail-right-panel.gwt-product-right-content-panel>.gwt-pdp-main-was-now-price-holder");
 	public  final static cselector topPriceSingle = new cselector("css,.gwt-product-content-panel>.gwt-product-right-content-panel>.gwt-product-right-center-content-panel>.gwt-product-price-container","css,.t-product-details-heading__price.t-product-details__price>div");
 	public static final cselector addPersonalizationSingle = new cselector("css,.gwt-product-content-panel>.gwt-product-right-content-panel>.gwt-product-detail-widget-personalization-panel>.gwt-personalize-link-style");
@@ -156,6 +156,8 @@ public class PDPSelectors {
 
 	//BD Selectors
 	public static final cselector BDSwatchesOptions = new cselector("css,.gwt-product-option-panel > div","css,.c-product-options>div>div>div" );
+	public static final cselector BDBundleSwatchesOptions = new cselector("css,.gwt-product-option-panel > div","css,.t-product-details__accordion-collection >div:nth-child(1) .c-product-options>div>div>div.u-flexbox" );
+	public static final cselector BDoptionsContainer = new cselector("css,.c-product-options");
 	public static final cselector BDallSizes = new cselector("css,div>.gwt-ListBox","css,.c-product-options__content.u-border-brand-color.u-border-radius");
 	public static final cselector BDallColors = new cselector("css,.image-picker-option-image-container >img","css,.pw-swatch__chip>.pw-swatch__chip-inner>.c-product-option-items__item-content.gwt-image-picker-option");	
 	public static final cselector BDbottomPriceSingle = new cselector("css,div.gwt-right-bottom-product-options div.gwt-price-panel div.gwt-was-now-price-panel > div.gwt-HTML.gwt-now-price-holder.gwt-promo-discount-now-label","css,div.t-product-details__quantity  span.t-product-promo-price.final-price");
@@ -166,5 +168,14 @@ public class PDPSelectors {
 	public static final cselector BDnumberOfBundleItems = new cselector("css,.gwt-product-detail-products-container>.gwt-product-detail-widget","css,div.u-margin-bottom > .t-product-details-heading__price.t-product-details__price>div");	
 	public static final cselector BDaddToCartBtn = new cselector("css,button.add-to-cart-button","css,button.c-add-to-cart");
 	public static final cselector BDfirstSwatchInOptions = new cselector("css,.gwt-product-option-panel-widget-panel > div  > div > div:nth-child(1)","css,button > div > div > div > div > div.pw-image");
+	public static final cselector BDtopPriceBundleDesktop = new cselector("css,.gwt-list-price-panel");
+	public static final String BDaddToCartBtnEnabledBundle = "css,#{0} #gwt-add-to-cart-btn";
+	public static final String BDbottomPriceBundle = "css,#{0} .product-detail-widget-top-row-price-column div.gwt-promo-discount-now-label";
+	public static final String BDListBoxBundle = "css,#{0} " + BDListBox.DesktopSelector.replace("css,", "");
+	public static final cselector incrementQuantity = new cselector("css,#incrementId", "css,button.increment-quantity");
+	public static final String incrementQuantityBundle =  "css,#{0} " + incrementQuantity.DesktopSelector.replace("css,", "");
+	public static final cselector BDQuantityBundleMobile = new cselector( "css,.t-product-details-quantity-value") ;
+	public static final cselector BDbottomPriceBundleMobile = new cselector("css,.t-product-details-heading__price-and-tag .t-product-new-price");
 
+	public static final cselector BDimageOption = new cselector("css,div.gwt-product-option-panel>div:nth-child({0}) .gwt-product-option-panel-widget-panel>div>div>div:nth-child({1})>div","css,.t-product-details__accordion-collection >div:nth-child({0}) .c-product-options>div:nth-child({1})>div>div.c-product-option-items__container > div:nth-child({2})>div") ;
 }
