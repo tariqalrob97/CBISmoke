@@ -271,7 +271,6 @@ public class Registration extends SelTestCase {
 			typePhone(RandomUtilities.getRandomPhone());
 
 			clickSaveButton();
-
 			getCurrentFunctionName(false);
 		}
 
@@ -752,7 +751,11 @@ public class Registration extends SelTestCase {
 			logs.debug(MessageFormat.format(LoggingMsg.GETTING_TEXT, "welcome Message check"));
 
 			if (isGH()) {
-				SelectorUtil.initializeSelectorsAndDoActions(RegistrationSelectors.welcomeMessageGH.get(), "");
+				try {
+					SelectorUtil.isDisplayed(RegistrationSelectors.welcomeMessageGH.get());
+				} catch (Exception e) {
+					logs.debug("Registration has failed");
+				}
 			}
 
 			else if (isRY()) {

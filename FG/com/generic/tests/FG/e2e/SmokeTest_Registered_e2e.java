@@ -16,6 +16,7 @@ import com.generic.tests.FG.e2e.Cart_e2e;
 import com.generic.tests.FG.e2e.Checkout_e2e;
 import com.generic.tests.FG.e2e.HomePage_e2e;
 import com.generic.tests.FG.e2e.PDP_e2e;
+import com.generic.tests.FG.e2e.Registeration_e2e;
 import com.generic.tests.FG.e2e.Search_PLP_e2e;
 import com.generic.util.dataProviderUtils;
 import com.generic.util.SASLogger;

@@ -77,10 +77,9 @@ public class PLPSelectors {
 	public static final cselector clearanceGH = new cselector("css,.unbxd-facet-option-checkbox input","css,#Clearance");
 	public static final cselector colorFilterGH = new cselector("css,.unbxd-facet-option-checkbox > input","css,.pw-field__inner input");
 	
-	public static final cselector firstFilterRY = new cselector("css,.unbxd-facet-option-checkbox > input","css,.m-product-list__filter-container .m-product-list__filter-items .pw-button");
+	public static final cselector firstFilterRY = new cselector("css,.unbxd-all-options-container.expanded input","css,.m-product-list__filter-container .m-product-list__filter-items .pw-button");
 	public static final cselector firstFilterBD = new cselector("css,.unbxd-facet-option-checkbox > input","css,.c-custom-accordion__list-of-items-item input");
-
-	 
+	public static final cselector doneButtonRY = new cselector("css,","css,.m-product-list__filter-buttons-container > button");
 
 	public static final cselector allCatigories2 = new cselector("","css,.pw-accordion__content .pw-link");	
 	public static final cselector filterPrice = new cselector("","css,.c-price-range__max-price input");	
