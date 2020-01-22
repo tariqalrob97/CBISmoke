@@ -332,9 +332,8 @@ public class GiftRegistry extends SelTestCase {
 			getCurrentFunctionName(true);
 
 			// Go to PDP by search and select the swatches.
-			//goToPDPAndSelectSwatches();
+			goToPDPAndSelectSwatches();
 			
-			Thread.sleep(55000);
 			// Click on save to gift registry button.
 			if (isGH())
 				SelectorUtil.initializeSelectorsAndDoActions(GiftRegistrySelectors.GHSaveToGR.get());
