@@ -297,12 +297,15 @@ public class GiftRegistry extends SelTestCase {
 			sassert().assertTrue(selectedRegistry.contains(registryName),
 					"Error in selected registry, expected " + registryName + " : " + selectedRegistry);
 
-			// Validate the empty registry.
-			String emptyMsg = SelectorUtil.getElement(GiftRegistrySelectors.emptyRegistryMsg.get()).getText().trim()
-					.toLowerCase();
-			sassert().assertTrue(emptyMsg.equals(emptyMessage.toLowerCase().trim()),
-					"Error empty messages is not as expected " + emptyMessage.toLowerCase().trim() + " : " + emptyMsg);
-
+			if (!isGH()) {
+				// Validate the empty registry.
+				String emptyMsg = SelectorUtil.getElement(GiftRegistrySelectors.emptyRegistryMsg.get()).getText().trim()
+						.toLowerCase();
+				sassert().assertTrue(emptyMsg.equals(emptyMessage.toLowerCase().trim()),
+						"Error empty messages is not as expected " + emptyMessage.toLowerCase().trim() + " : "
+								+ emptyMsg);
+			}
+			
 			// Validate gift card container.
 			WebElement giftCardContainer = SelectorUtil.getElement(GiftRegistrySelectors.giftCardContainer.get());
 			sassert().assertTrue(giftCardContainer != null,
