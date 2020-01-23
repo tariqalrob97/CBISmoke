@@ -69,8 +69,7 @@ public class SmokeTest_Registered_e2e extends SelTestCase {
 			Registeration_e2e.Validate();
 			HomePage_e2e.Validate();
 			Search_PLP_e2e.Validate();
-			//PDP_e2e.Validate();
-			Thread.sleep(65000);
+			PDP_e2e.Validate();
 			Cart_e2e.Validate();
 			Checkout_e2e.ValidateRegistered(productsCount, addressDetails, paymentDetails, userdetails);
 

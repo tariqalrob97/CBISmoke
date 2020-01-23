@@ -43,9 +43,12 @@ public class Checkout_e2e extends SelTestCase {
 
 			// Proceed to step 3
 			CheckOut.proceedToStepThree();
-
+			
+			Thread.sleep(2000);
 			// Fill email field and proceed to step 4
 			CheckOut.fillEmailBillingAddress();
+			
+			Thread.sleep(2000);
 
 			// Proceed to step 4
 			CheckOut.proceedToStepFour();
@@ -66,7 +69,7 @@ public class Checkout_e2e extends SelTestCase {
 			// Click place order button
 			CheckOut.placeOrder();
 
-			Thread.sleep(2000);
+			Thread.sleep(35000);
 
 			CheckOut.closePromotionalModal();
 

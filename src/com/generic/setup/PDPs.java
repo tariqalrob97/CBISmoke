@@ -23,7 +23,13 @@ public class PDPs extends SelTestCase {
 
 	static String[] FGproducts = new String[] {};
 
-	static String[] RYproducts = new String[] {};
+	static String[] RYproducts = new String[] {"/latico-morgan-convertible-bag/store/accessories/538279?isCrossSell=true&strategy=65&gtmPageName=May%20We%20Suggest-PDP2",
+			"/latico-diamond-tote-bag/538278?listIndex=6&uniqueId=538278",
+			"/mar-y-sol-leah-shoulder-bag/543255?listIndex=1&uniqueId=543255",
+			"/chan-luu-bead-bracelets/store/jewelry/543721?isCrossSell=true&strategy=69&gtmPageName=May%20We%20Suggest-PDP",
+			"/satya-mixed-metal-cuff/store/jewelry/543724?isCrossSell=true&strategy=69&gtmPageName=May%20We%20Suggest-PDP",
+			"/chan-luu-charm-necklace/store/jewelry/543723?isCrossSell=true&strategy=69&gtmPageName=May%20We%20Suggest-PDP"
+			};
 
 	public static void navigateToRandomPDP() throws URISyntaxException {
 		getCurrentFunctionName(true);
