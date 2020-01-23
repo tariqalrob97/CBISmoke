@@ -25,7 +25,7 @@ public class PDPBase extends SelTestCase {
 	public static final String personalizedPDP = "Validate PDP Personalized active elements";
 	public static final String singlePDPSearchTerm = "shoes";
 	public static final String BundlePDPSearchTerm = "41589";
-	public static final String personalizedPDPSearchTerm = "Resort Cotton";
+	public static final String personalizedPDPSearchTerm = "personalized";
 
 	public static final String wishListGuestValidation = "Wish List Guest Validation";
 
