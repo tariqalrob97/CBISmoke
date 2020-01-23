@@ -4,6 +4,7 @@ import java.text.MessageFormat;
 import java.util.NoSuchElementException;
 import com.generic.page.PDP;
 import com.generic.setup.ExceptionMsg;
+import com.generic.setup.PDPs;
 import com.generic.setup.SelTestCase;
 import com.generic.tests.RY.PDP.PDPValidation;
 
@@ -15,10 +16,15 @@ public class PDP_e2e extends SelTestCase {
 
 		try {
 			getCurrentFunctionName(true);
-			
+			/*
 			PDP.NavigateToPDP();
 			PDPValidation.validate();
-			
+			*/
+			PDPs.navigateToRandomPDP();
+			Thread.sleep(2500);
+			PDP.clickAddToCartButtonNoBundle();
+			Thread.sleep(3500);
+
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
