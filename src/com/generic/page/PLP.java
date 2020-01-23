@@ -966,13 +966,21 @@ public class PLP extends SelTestCase {
 			}
 			return itemTitle;
 		} catch (NoSuchElementException e) {
+			if ((e.getMessage() != null) && e.getMessage().contains("element click intercepted")) {
+				logs.debug(MessageFormat.format(LoggingMsg.FORMATTED_ERROR_MSG, e.getMessage()));
+				logs.debug("Refresh the browser to close the Intercepted windows");
+				Common.refreshBrowser();
+				pickRecommendedOption();
+				return itemTitle;
+			}
+			else {
 			logs.debug(MessageFormat.format(
 					ExceptionMsg.PageFunctionFailed + "Recommended product selector was not found by selenuim",
 					new Object() {
 					}.getClass().getEnclosingMethod().getName()));
 			throw e;
+			}
 		}
-
 	}
 
 	// CBI

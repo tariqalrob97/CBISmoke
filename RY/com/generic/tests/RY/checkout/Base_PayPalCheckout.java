@@ -3,6 +3,7 @@ package com.generic.tests.RY.checkout;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import org.testng.Assert;
+import org.testng.SkipException;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -54,14 +55,12 @@ public class Base_PayPalCheckout extends SelTestCase {
 	@Test(dataProvider = "Orders")
 	public void checkOutBaseTest(String caseId, String runTest, String desc, String proprties, String productsNumber, String payment, String email) throws Exception {
 
-		if (!external) { // this logic to avoid passing this block in case you call it from other class
 			// Important to add this for logging/reporting
 			Testlogs.set(new SASLogger("checkout_" + getBrowserName()));
 			setTestCaseReportName("Checkout Case");
-			logCaseDetailds(MessageFormat.format(LoggingMsg.CHECKOUTDESC, testDataSheet + "." + caseId,
-					this.getClass().getCanonicalName(), desc, proprties.replace("\n", "<br>- "), payment,email));
-		} // if not external
-
+			String CaseDescription = MessageFormat.format(LoggingMsg.CHECKOUTDESC, testDataSheet + "." + caseId,
+					this.getClass().getCanonicalName(), desc, proprties.replace("\n", "<br>- "), payment, email);
+			initReportTime();
 		LinkedHashMap<String, String> paymentDetails = (LinkedHashMap<String, String>) paymentCards.get(payment);
 		LinkedHashMap<String, String> userdetails = (LinkedHashMap<String, String>) users.get(email);
 		int productsCount =Integer.parseInt(productsNumber);
@@ -79,16 +78,14 @@ public class Base_PayPalCheckout extends SelTestCase {
 				PayPalValidation.validate(registeredUserPayPal, productsCount, userdetails,paymentDetails);
 			}
 			sassert().assertAll();
-			Common.testPass();
+			Common.testPass(CaseDescription);
+			} catch (Throwable t) {
+				if ((getTestStatus() != null) && getTestStatus().equalsIgnoreCase("skip")) {
+					throw new SkipException("Skipping this exception");
+				} else {
+					Common.testFail(t, CaseDescription, testDataSheet + "_" + caseId);
+				}
 
-		} catch (Throwable t) {
-			setTestCaseDescription(getTestCaseDescription());
-			Testlogs.get().debug(MessageFormat.format(LoggingMsg.DEBUGGING_TEXT, t.getMessage()));
-			t.printStackTrace();
-			String temp = getTestCaseReportName();
-			Common.testFail(t, temp);
-			ReportUtil.takeScreenShot(getDriver(), testDataSheet + "_" + caseId);
-			Assert.assertTrue(false, t.getMessage());
-		} // catch
-	}// test
-}// class
+			} // catch
+		}// test
+	}

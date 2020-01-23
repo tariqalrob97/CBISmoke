@@ -36,6 +36,7 @@ public class PDPValidation extends SelTestCase {
 			PDP.clickBundleItems();
 			sassert().assertTrue(PDP.validateMobileBundlePriceIsDisplayed(),
 					"Top price for the bundle item (mini PDP) is not dispayed");
+			Thread.sleep(2000);
 		}
 
 		PDP.selectSwatches(bundle, ProductID);
