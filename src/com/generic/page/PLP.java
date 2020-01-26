@@ -841,12 +841,13 @@ private static void sortByCustomerRating() throws Exception {
 			String SelectorSS;
 
 			if (isRY()) {
-	
 			    SelectorSS = PLPSelectors.recommendedOptionRY.get();
-
-	}else if(isGH()) {
+	        }else if(isGH()) {
 				SelectorSS = PLPSelectors.GHRecommendedOption.get();
-			} else {
+			} else if (isBD()) {
+				SelectorSS = PLPSelectors.BDrecommendedOption.get();
+			}
+			else {
 				SelectorSS = PLPSelectors.recommendedOption.get();
 			}
 			

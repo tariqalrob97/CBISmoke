@@ -77,7 +77,7 @@ public class PDP extends SelTestCase {
 			else if (SelTestCase.isGHRY())
 				SearchTerm = "shirt";
 			else
-				SearchTerm = "lighting";
+				SearchTerm = "Woven Rug";
 			NavigateToPDP(SearchTerm);
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
@@ -874,13 +874,14 @@ public class PDP extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			Boolean bundle = PDP.bundleProduct();
-			if (isFG() || isGR()) {
+			if (isFG() || isGR() || isBD()) {
 				String ProductID = null;
 				if (!isMobile() && bundle)
 					ProductID = PDP.getProductID(0);
 				selectSwatches(bundle, ProductID);
-			} else if (isGHRY())
+			} else if (isGHRY()) {
 				GHRYselectSwatches(bundle);
+			}
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(
