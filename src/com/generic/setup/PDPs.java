@@ -19,9 +19,21 @@ public class PDPs extends SelTestCase {
 
 	static String[] BDproducts = new String[] {};
 
-	static String[] GRproducts = new String[] {};
+	static String[] GRproducts = new String[] {"/rolling-tree-storage-bag/1295445?uniqueId=1295445&",
+			"/upright-standard-tree-storage/394942?uniqueId=394942&",
+			"/dover-candle-holders-2c-set-of-five/gifts-celebrations/spring-decor/1338917?gtmPageName=May%20We%20Suggest-ProductDetailView&strategy=1877&isCrossSell=true",
+			"/10-22-large-snowy-owls-2c-set-of-two/christmas-decor/indoor-christmas-decorations/462218?gtmPageName=May%20We%20Suggest-ProductDetailView&strategy=1690&isCrossSell=true",
+			"/woodland-porcupines-2c-set-of-three/indoor-decor/decorative-accents/1295503?gtmPageName=May%20We%20Suggest-ProductDetailView&strategy=1877&isCrossSell=true",
+			"/sisal-squirrels-2c-set-of-two/indoor-decor/decorative-accents/1290703?gtmPageName=May%20We%20Suggest-ProductDetailView&strategy=1693&isCrossSell=true",
+			"/dry-leaves-owls-2c-set-of-two/indoor-decor/decorative-accents/1286658?gtmPageName=May%20We%20Suggest-ProductDetailView&strategy=1690&isCrossSell=true"};
 
-	static String[] FGproducts = new String[] {};
+	static String[] FGproducts = new String[] {"/slim-storage-bag-for-6-9-christmas-tree/810732?listIndex=0&uniqueId=810732",
+			"/patio-storage-chest/pet-home-care/outdoor-pool-solutions/715066?isCrossSell=true&strategy=1765&gtmPageName=May%20We%20Suggest-PDP",
+			"/square-teak-side-table-in-weathered-finish/1141423?listIndex=13&uniqueId=1141423",
+			"/teak-coffee-table-in-weathered-finish/outdoor-furniture/accent-tables/1141425?isCrossSell=true&strategy=1765&gtmPageName=May%20We%20Suggest-PDP",
+			"/st-kitts-coffee-table/outdoor-furniture/accent-tables/873194?isCrossSell=true&strategy=1765&gtmPageName=May%20We%20Suggest-PDP",
+			"/rolling-tree-storage-bag/holiday-decor/christmas-storage/927430?isCrossSell=true&strategy=1765&gtmPageName=May%20We%20Suggest-PDP",
+			};
 
 	static String[] RYproducts = new String[] {"/latico-morgan-convertible-bag/store/accessories/538279?isCrossSell=true&strategy=65&gtmPageName=May%20We%20Suggest-PDP2",
 			"/latico-diamond-tote-bag/538278?listIndex=6&uniqueId=538278",

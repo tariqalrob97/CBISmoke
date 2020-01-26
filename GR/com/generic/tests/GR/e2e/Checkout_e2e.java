@@ -53,8 +53,13 @@ public class Checkout_e2e extends SelTestCase {
 			Thread.sleep(2000);
 
 			// Saving tax and shipping costs to compare them in the confirmation page
+			
 			orderShipping = CheckOut.getShippingCosts();
-			orderTax = CheckOut.getTaxCosts(GlobalVariables.GR_TAX_CART);
+			if (isMobile())
+				orderTax = CheckOut.getTaxCosts(GlobalVariables.GR_TAX_CART_MOBILE);
+			else
+				orderTax = CheckOut.getTaxCosts(GlobalVariables.GR_TAX_CART); 
+
 			orderSubTotal = CheckOut.getSubTotal();
 
 			logs.debug(MessageFormat.format(LoggingMsg.SEL_TEXT, "Shippping cost is: " + orderShipping
@@ -144,7 +149,10 @@ public class Checkout_e2e extends SelTestCase {
 
 			// Saving tax and shipping costs to compare them in the confirmation page
 			orderShipping = CheckOut.getShippingCosts();
-			orderTax = CheckOut.getTaxCosts(GlobalVariables.GR_TAX_CART);
+			if (isMobile())
+				orderTax = CheckOut.getTaxCosts(GlobalVariables.GR_TAX_CART_MOBILE);
+			else
+				orderTax = CheckOut.getTaxCosts(GlobalVariables.GR_TAX_CART); 
 			orderSubTotal = CheckOut.getSubTotal();
 
 			logs.debug(MessageFormat.format(LoggingMsg.SEL_TEXT, "Shippping cost is: " + orderShipping
