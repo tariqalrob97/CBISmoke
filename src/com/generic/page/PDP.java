@@ -613,10 +613,14 @@ public class PDP extends SelTestCase {
 			String selector = PDPSelectors.bottomPriceSingle.get();
 					if(isGHRY()) {
 			selector = PDPSelectors.GHRYBottomPriceSingle.get();
-		}
+	   	}else if (isBD())
+			selector = PDPSelectors.BDbottomPriceSingle.get();
       if (!SelTestCase.getBrowserName().contains(GlobalVariables.browsers.iPhone) && getNumberOfItems() > 1) {
 				String ProductID = getProductID(0);
-				selector = MessageFormat.format(PDPSelectors.bottomPriceBundle, ProductID);
+				if(isBD())
+				    selector = MessageFormat.format(PDPSelectors.BDbottomPriceBundle, ProductID);
+				else
+				    selector = MessageFormat.format(PDPSelectors.bottomPriceBundle, ProductID);
 			}
 			SelectorUtil.initializeSelectorsAndDoActions(selector);
 			String price = SelectorUtil.textValue.get();
@@ -1280,19 +1284,29 @@ public class PDP extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			boolean isDisplayed = false;
-			String addPersonalizedButtonSelector = PDPSelectors.addPersonalizedButton.get();
-			if (!isMobile() && Bundle) {
-				addPersonalizedButtonSelector = "css,#" + ProductID + ">"
-						+ PDPSelectors.addPersonalizedButton.get().replace("css,", "");
+            String addPersonalizedButtonSelector;
+            if(isBD())
+             addPersonalizedButtonSelector = PDPSelectors.BDaddPersonalizedButton.get();
+            else
+             addPersonalizedButtonSelector = PDPSelectors.addPersonalizedButton.get();
+            
+            if (!isMobile() && Bundle) {
+                if(isBD())
+                    addPersonalizedButtonSelector = "css,#" + ProductID + " "
+                            + PDPSelectors.BDaddPersonalizedButton.get().replace("css,", "");
+                else{
+                addPersonalizedButtonSelector = "css,#" + ProductID + ">"
+                        + PDPSelectors.addPersonalizedButton.get().replace("css,", "");
 				logs.debug("addPersonalizedButtonSelector:  " + addPersonalizedButtonSelector);
-			}
-			isDisplayed = SelectorUtil.isDisplayed(addPersonalizedButtonSelector);
-			getCurrentFunctionName(false);
-			return isDisplayed;
-		} catch (NoSuchElementException e) {
-			return false;
-		}
-	}
+				}
+            }
+            isDisplayed = SelectorUtil.isDisplayed(addPersonalizedButtonSelector);
+            getCurrentFunctionName(false);
+            return isDisplayed;
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+    }
 
 	public static void clickAddPersonalizationButton() throws Exception {
 		try {
@@ -1323,11 +1337,18 @@ public class PDP extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			String addPersonalizedButtonSelector = PDPSelectors.addPersonalizedButton.get();
+			if(isBD())
+				addPersonalizedButtonSelector = PDPSelectors.BDaddPersonalizedButton.get();
 
 			if (!isMobile() && Bundle) {
-				addPersonalizedButtonSelector = "css,#" + ProductID + ">"
+				if(isBD())
+					addPersonalizedButtonSelector = "css,#" + ProductID + " "
+							+ PDPSelectors.BDaddPersonalizedButton.get().replace("css,", "");
+				else{
+				    addPersonalizedButtonSelector = "css,#" + ProductID + ">"
 						+ PDPSelectors.addPersonalizedButton.get().replace("css,", "");
 				logs.debug("addPersonalizedButtonSelector:  " + addPersonalizedButtonSelector);
+				}
 			}
 
 			SelectorUtil.initializeSelectorsAndDoActions(addPersonalizedButtonSelector);
@@ -1348,9 +1369,17 @@ public class PDP extends SelTestCase {
 			getCurrentFunctionName(true);
 			boolean isFree = true;
 			String addPersonalizedButtonSelector = PDPSelectors.personlizedTitle.get();// for iPhone
+			if(isBD())
+				addPersonalizedButtonSelector = PDPSelectors.BDpersonlizedTitle.get();
 			if (!isMobile()) {
 				addPersonalizedButtonSelector = PDPSelectors.addPersonalizedButton.get();// for single PDP
+				if(isBD())
+					addPersonalizedButtonSelector = PDPSelectors.BDaddPersonalizedButton.get();// for single PDP
 				if (Bundle) {// for bundle PDP
+					if(isBD())
+					addPersonalizedButtonSelector = "css,#" + ProductID + " "
+								+ PDPSelectors.BDaddPersonalizedButton.get().replace("css,", "");
+					else
 					addPersonalizedButtonSelector = "css,#" + ProductID + ">"
 							+ PDPSelectors.addPersonalizedButton.get().replace("css,", "");
 
@@ -1381,6 +1410,8 @@ public class PDP extends SelTestCase {
 			String subStrArr = PDPSelectors.personalizationSaveAndCloseButton.get();
 			if (isGH()) {
 				subStrArr = PDPSelectors.GHPersonalizationSaveAndCloseButton.get();
+			}else if(isBD()) {
+				subStrArr = PDPSelectors.BDpersonalizationSaveAndCloseButton.get();
 			}
 			SelectorUtil.initializeSelectorsAndDoActions(subStrArr);
 			getCurrentFunctionName(false);
@@ -1436,19 +1467,27 @@ public class PDP extends SelTestCase {
 			getCurrentFunctionName(true);
 			closeOpendItem();
 			List<WebElement> elementsList = SelectorUtil.getAllElements(PDPSelectors.personalizedItems.get());
+			if(isBD())
+				elementsList = SelectorUtil.getAllElements(PDPSelectors.BDpersonalizedItems.get());
 			for (int i = 0; i < elementsList.size() - 1; i++) {
 				WebElement element = elementsList.get(i);
 				SelectorUtil.clickOnWebElement(element);
-				if (isPersonalizedInputSwatchesDisplayed(PDPSelectors.personalizedInputValue.get())) {// input container
+				String personalizedInputValue = PDPSelectors.personalizedInputValue.get();
+				String personalizedItemColors1 = PDPSelectors.personalizedItemColors1.get();
+
+				if(isBD()) {
+					personalizedInputValue = PDPSelectors.BDpersonalizedInputValue.get();
+				}
+				if (isPersonalizedInputSwatchesDisplayed(personalizedInputValue)) {// input container
 																										// like MONOGRAM
 																										// or any value
-					WebElement input = SelectorUtil.getElement(PDPSelectors.personalizedInputValue.get());
+					WebElement input = SelectorUtil.getElement(personalizedInputValue);
 					input.sendKeys(RandomUtilities.getRandomStringWithLength(3));
-				} else if (isPersonalizedInputSwatchesDisplayed(PDPSelectors.personalizedItemColors1.get())) { // like
+				} else if (isPersonalizedInputSwatchesDisplayed(personalizedItemColors1)) { // like
 																												// item
 																												// color
 					List<WebElement> itemColors = SelectorUtil
-							.getAllElements(PDPSelectors.personalizedItemColors1.get());
+							.getAllElements(personalizedItemColors1);
 					if (itemColors.size() > 0) {
 						WebElement firstItemColor = itemColors.get(0);
 						SelectorUtil.clickOnWebElement(firstItemColor);
@@ -1476,15 +1515,29 @@ public class PDP extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			closeOpendItem();
-			List<WebElement> elementsList = SelectorUtil.getAllElements(PDPSelectors.personalizedItems.get());
+			List<WebElement> elementsList = new ArrayList<WebElement>();
+			if(isBD())
+			     elementsList = SelectorUtil.getAllElements(PDPSelectors.BDpersonalizedItems.get());
+			else
+		         elementsList = SelectorUtil.getAllElements(PDPSelectors.personalizedItems.get());
 
+			
 			for (int i = 0; i < elementsList.size(); i++) {
 				WebElement element = elementsList.get(i);
+				if(!isBD())
 				SelectorUtil.clickOnWebElement(element);
-				if (isPersonalizedInputSwatchesDisplayed(PDPSelectors.personalizedInputValue.get())) {// input container
-																										// like MONOGRAM
-																										// or any value
-					WebElement input = SelectorUtil.getElement(PDPSelectors.personalizedInputValue.get());
+				
+				String inputSwatches = PDPSelectors.personalizedInputValue.get();;
+				String personalizedItemColor2 = PDPSelectors.personalizedItemColors2.get();;
+				
+				if(isBD()) {
+					inputSwatches = PDPSelectors.BDpersonalizedInputValue.get();
+					personalizedItemColor2 = PDPSelectors.BDpersonalizedItemColors2.get();
+					}
+					
+				if (isPersonalizedInputSwatchesDisplayed(inputSwatches)) {// input container
+																										// like MONOGRAM																				// or any value
+					WebElement input = SelectorUtil.getElement(inputSwatches);
 					input.sendKeys(RandomUtilities.getRandomStringWithLength(3));
 				} else if (isPersonalizedInputSwatchesDisplayed(PDPSelectors.personalizedItemColors1.get())) { // like
 																												// item
@@ -1495,11 +1548,11 @@ public class PDP extends SelTestCase {
 						WebElement firstItemColor = itemColors.get(0);
 						SelectorUtil.clickOnWebElement(firstItemColor);
 					}
-				} else if (isPersonalizedInputSwatchesDisplayed(PDPSelectors.personalizedItemColors2.get())) { // like
+				} else if (isPersonalizedInputSwatchesDisplayed(personalizedItemColor2)) { // like
 																												// thread
 																												// color
 					List<WebElement> itemColors = SelectorUtil
-							.getAllElements(PDPSelectors.personalizedItemColors2.get());
+							.getAllElements(personalizedItemColor2);
 					if (itemColors.size() > 0) {
 						WebElement firstItemColor = itemColors.get(0);
 						SelectorUtil.clickOnWebElement(firstItemColor);
@@ -1569,10 +1622,16 @@ public class PDP extends SelTestCase {
 			String addedPersonlizedDetailsSelector = PDPSelectors.addedPersonlizedDetails.get();
 			if(isGH()) {
 				addedPersonlizedDetailsSelector  =  PDPSelectors.GHAddedPersonlizedDetails.get();
+			}else if(isBD()) {
+				addedPersonlizedDetailsSelector  =  PDPSelectors.BDaddedPersonlizedDetails.get();
 			}
 			if (!isMobile() && Bundle) {
+				if(isBD())
+				addedPersonlizedDetailsSelector = "css,#" + ProductID + " "
+						+ addedPersonlizedDetailsSelector.replace("css,", "");
+				else
 				addedPersonlizedDetailsSelector = "css,#" + ProductID + ">"
-						+ PDPSelectors.addedPersonlizedDetails.get().replace("css,", "");
+				+ PDPSelectors.addedPersonlizedDetails.get().replace("css,", "");
 			}
 			List<WebElement> addedPersonlizedDetailsItems = SelectorUtil
 					.getAllElements(addedPersonlizedDetailsSelector);

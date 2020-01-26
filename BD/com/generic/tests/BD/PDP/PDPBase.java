@@ -24,11 +24,11 @@ public class PDPBase extends SelTestCase {
 	public static final String personalizedPDP = "Validate PDP Personalized active elements";
 	public static final String singlePDPSearchTerm = "Woven Rug";
 	public static final String BundlePDPSearchTerm = "Kacie pillow";
-	public static final String personalizedPDPSearchTerm = "Resort Cotton";
+	public static final String personalizedPDPSearchTerm = "Crochet";
 	public static final String wishListGuestValidation = "Wish List Guest Validation";
 
 	// used sheet in test
-	public static final String testDataSheet = SheetVariables.PDPSheet;
+	public static final String testDataSheet = SheetVariables.PDPSheet_BD;
 
 	private static XmlTest testObject;
 

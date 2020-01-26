@@ -60,7 +60,7 @@ public class PDPValidation extends SelTestCase {
 		Thread.sleep(2500);
 		// click add personalized button
 		if (Personalized && PDP.PersonalizedItem(bundle, ProductID)) {
-			String initialPrice = bottomPrice;
+			String initialPrice = PDP_BD.getPersonaliztionCost(ProductID,bundle);
 			boolean isFreePersonalization = PDP.isFreePersonalization(bundle, ProductID);
 			PDP.clickAddPersonalizationButton(bundle, ProductID);
 			sassert().assertTrue(PDP.validatePersonalizedModal(), "Personalization Modal is not dispayed");
@@ -74,7 +74,7 @@ public class PDPValidation extends SelTestCase {
 			sassert().assertTrue(PDP.validateAddedPersonalizedDetails(bundle, ProductID),
 					"Added personalization details is not dispayed");
 			if (!isFreePersonalization) {
-				String finalPrice = PDP.getBottomPrice(); // take final price after added personalization
+				String finalPrice = PDP_BD.isPersonaliztionCostDisplayedInMonogramDetails(ProductID,bundle); // take final price after added personalization
 				logs.debug("compare price" + initialPrice + finalPrice);
 				sassert().assertTrue(PDP.validateTotalPriceAfterAddedPersonalized(initialPrice, finalPrice),
 						"Bottom price is not updated correctly, Current price: " + finalPrice);

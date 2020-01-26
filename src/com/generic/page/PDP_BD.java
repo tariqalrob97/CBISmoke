@@ -47,7 +47,14 @@ public class PDP_BD extends SelTestCase{
 				if(bundle) {
 					isPriceShownInOption =	BDselectSwatchesBundle(ProductID);
 				}else {
-					isPriceShownInOption = true;
+					
+					Boolean noOptions = true;
+					if (SelTestCase.isMobile())
+						noOptions = !PDP.getAddToCartClass();
+					else
+						noOptions = PDP.getSwatchContainersdivClass(0).contains("no-options");
+					
+					isPriceShownInOption = !noOptions;
 					PDP.FGGRselectSwatchesSingle();
 				}
 			getCurrentFunctionName(false);
@@ -101,6 +108,57 @@ public class PDP_BD extends SelTestCase{
 			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
 					+ "Select swatches has falied, a selector was not found by selenium", new Object() {
 					}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+	}
+	
+	public static String getPersonaliztionCost(String ProductID, Boolean bundle) throws Exception {
+		try {
+			getCurrentFunctionName(true);
+			String cost = "";
+			String costSelector = PDPSelectors.BDPersonalizationCost.get();
+			if(!isMobile()) {
+				if(bundle)
+			          costSelector  = "css,#" + ProductID + " "
+					+ PDPSelectors.BDPersonalizationCost.get().replace("css,", "");
+			    cost = SelectorUtil.getElement(costSelector).getText();
+			}else {
+				String text = SelectorUtil.getElement(costSelector).getText();
+				cost = text.substring(text.lastIndexOf("$") + 1);
+			}
+			getCurrentFunctionName(false);
+			return cost;
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed + "Personalization cost selector was not found by selenium", new Object() {
+			}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+	}
+	
+	public static String isPersonaliztionCostDisplayedInMonogramDetails(String ProductID,Boolean bundle) throws Exception {
+		try {
+			getCurrentFunctionName(true);
+			String cost = "";
+			String details = "";
+			
+			 String monogramDetails = PDPSelectors.BDaddedPersonlizedDetails.get();
+			  if(bundle && !isMobile())
+              monogramDetails  = "css,#" + ProductID + " "
+					+ PDPSelectors.BDaddedPersonlizedDetails.get().replace("css,", "");
+			details = SelectorUtil.getElement(monogramDetails).getText();
+			if(!details.equalsIgnoreCase("None")) {
+			String productMonogramCost = PDPSelectors.BDMonogramCost.get();
+				if(bundle && !isMobile()) {
+					 productMonogramCost  = "css,#" + ProductID + " "
+							+ PDPSelectors.BDMonogramCost.get().replace("css,", "");
+				}
+				 cost = SelectorUtil.getElement(productMonogramCost).getText();
+			}
+			getCurrentFunctionName(false);
+			return cost;
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed + "Personalization cost selector was not found by selenium", new Object() {
+			}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
