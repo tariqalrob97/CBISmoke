@@ -32,6 +32,7 @@ public class GlobalVariables extends SelTestCase {
 
 	// Indexes for tax value
 	public static final int GR_TAX_CART = 1;
+	public static final int GR_TAX_CART_MOBILE = 0;
 	public static final int GR_TAX_CONFIRMATION = 0;
 
 	public static final int FG_TAX_CART = 0;

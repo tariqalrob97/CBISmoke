@@ -134,15 +134,14 @@ public class PDP extends SelTestCase {
 	public static void clickAddToCartButtonNoBundle() throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			String subStrArr = null;
 		
 			if (SelTestCase.isFGGR())
-				subStrArr = PDPSelectors.addToCartBtn.get();
+				SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.addToCartBtn.get());
+
 			
 			if (SelTestCase.isGHRY()) 
-				subStrArr = PDPSelectors.GHRYaddToCartBtn.get();
+				SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.GHRYaddToCartBtn.get());
 
-			SelectorUtil.initializeSelectorsAndDoActions(subStrArr);
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(

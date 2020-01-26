@@ -35,7 +35,7 @@ public class PLP extends SelTestCase {
 				disableMonetate();
 
 
-			else if (!isGH()) {
+			if (!isGH()) {
 				if (isRY()) {
 					if (isMobile())
 						clickSearchicon();
@@ -82,7 +82,18 @@ public class PLP extends SelTestCase {
 			result = result && verifyProductImagesDisplayed();
 			logs.debug("Products Images check result " + result);
 
+			try {
 			sortByPriceLowToHigh();
+			}
+			catch(Exception e) {
+				if ((e.getMessage() != null) && e.getMessage().contains("element click intercepted")) {
+					logs.debug(MessageFormat.format(LoggingMsg.FORMATTED_ERROR_MSG, e.getMessage()));
+					logs.debug("Refresh the browser to close the Intercepted windows");
+					Common.refreshBrowser();
+					verifySearchResultPage();
+				}
+			}
+			
 			List<String> L2HproductsNames = getfirst3ProductsNames();
 
 			Thread.sleep(3000);
