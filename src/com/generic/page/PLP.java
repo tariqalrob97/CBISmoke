@@ -913,7 +913,7 @@ public class PLP extends SelTestCase {
 				productTitle = PDP.getTitle();
 			}
 
-			result = (productName.toLowerCase().contains(productTitle.toLowerCase()));
+			result = (productName.toLowerCase().contains(productTitle.toLowerCase())) || (productTitle.toLowerCase().contains(productName.toLowerCase())) ;
 
 			getCurrentFunctionName(false);
 			logs.debug("Result:"+result +" Current product:"+ productTitle+ " Picket product:" +productName);
