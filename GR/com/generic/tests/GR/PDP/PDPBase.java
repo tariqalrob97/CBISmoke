@@ -8,6 +8,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.xml.XmlTest;
 
+import com.generic.page.PDP;
 import com.generic.setup.Common;
 import com.generic.setup.LoggingMsg;
 import com.generic.setup.SelTestCase;
@@ -52,7 +53,7 @@ public class PDPBase extends SelTestCase {
 	}
 
 	@Test(dataProvider = "PDP_SC")
-	public void PDPTest(String caseId, String runTest, String desc, String proprties, String PID) throws Exception {
+	public void PDPTest(String caseId, String runTest, String desc, String proprties) throws Exception {
 		Testlogs.set(new SASLogger("PDP_SC " + getBrowserName()));
 		// Important to add this for logging/reporting
 		setTestCaseReportName(SheetVariables.PDPCaseId);
@@ -64,14 +65,17 @@ public class PDPBase extends SelTestCase {
 		try {
 
 			if (proprties.contains(singlePDP)) {
-				PDPValidation.validate(singlePDPSearchTerm, false);
+				PDP.NavigateToPDP(singlePDPSearchTerm);
+				PDPValidation.validate(false);
 			}
 			if (proprties.contains(bundlePDP)) {
-				PDPValidation.validate(BundlePDPSearchTerm, false);
+				PDP.NavigateToPDP(BundlePDPSearchTerm);
+				PDPValidation.validate(false);
 			}
 
 			if (proprties.contains(personalizedPDP)) {
-				PDPValidation.validate(personalizedPDPSearchTerm, true);
+				PDP.NavigateToPDP(personalizedPDPSearchTerm);
+				PDPValidation.validate(true);
 			}
 
 			if (proprties.contains(wishListGuestValidation)) {

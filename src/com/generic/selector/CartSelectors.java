@@ -14,7 +14,7 @@ public class CartSelectors{
 	//In cart
 	public static final cselector addedItemsInCart=new cselector("css,.order-item-display-wrapper","css, div> div > div > div.pw-list.items-container.u-bg-color-neutral-00.u-border-light-bottom > div > div.c-cart-product-item");
 	public static final cselector addedItemsImage=new cselector("css,div.order-item-image-holder > img","css, div > div > div > div > div > div > div > div.c-cart-product-item > a > div > img"); 
-	public static final cselector addedItemsPrice=new cselector("css, div.left-main-panel > div.items-container  div.order-item-total-price-panel > div > div","css,#app-main > div.t-cart.t--loaded > div > div:nth-child(1) > div > div > div.pw-list.items-container.u-bg-color-neutral-00.u-border-light-bottom > div:nth-child(1) > div.c-cart-product-item.u-flexbox.u-padding-md > div >  div.c-cart-product__quantity-and-price.order-item-quantity-panel > div.order-item-price-panel  span.t-product-new-price:nth-child(1)");
+	public static final cselector addedItemsPrice=new cselector("css, div.left-main-panel > div.items-container  div.order-item-total-price-panel > div > div","css,.t-product-new-price");
 	public static final cselector GHRYaddedItemsPrice=new cselector("css, div.left-main-panel > div.items-container  div.order-item-total-price-panel > div > div","css,div:nth-child(1) > div > div > div> div:nth-child(1) > div.c-cart-product-item> div > div.c-cart-product__quantity-and-price > div.order-item-price-panel > div > div > span.t-product-new-price");
 	public static final cselector addedItemsTotalPrice=new cselector("css,h4.subtotal-value.right","css,#app-footer > footer > div > div > div > div > div > div > table > tbody > tr > td.pw-ledger__value");
 	/////////////////////////////

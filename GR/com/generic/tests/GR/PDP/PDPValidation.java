@@ -5,10 +5,8 @@ import com.generic.setup.SelTestCase;
 
 public class PDPValidation extends SelTestCase {
 
-	public static void validate(String searchTerm, Boolean Personalized) throws Exception {
+	public static void validate(Boolean Personalized) throws Exception {
 		getCurrentFunctionName(true);
-		PDP.NavigateToPDP(searchTerm);
-		// int numberOfItems = PDP.getNumberOfItems();
 		Boolean bundle = PDP.bundleProduct();
 		String ProductID = null;
 		if (!isMobile() && bundle)
@@ -38,6 +36,7 @@ public class PDPValidation extends SelTestCase {
 			PDP.clickBundleItems();
 			sassert().assertTrue(PDP.validateMobileBundlePriceIsDisplayed(),
 					"Top price for the bundle item (mini PDP) is not dispayed");
+			Thread.sleep(2000);
 		}
 
 		PDP.selectSwatches(bundle, ProductID);

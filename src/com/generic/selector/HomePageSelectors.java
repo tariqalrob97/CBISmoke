@@ -26,7 +26,7 @@ public class HomePageSelectors
 	public static final cselector YMALCarousels = new cselector("body gray-disabled-arrows" ,"css,#gwt_recommendations_home_1 > div > div > div > div.body > div > div","css,#home_rr_PWA > div > div > div > div > div > div");
 	// adding this
 	public static final cselector YMALCarouselsBD = new cselector("css,#crl8-homepage-carousel > div > div > div > div > div:nth-child(2) > div > div:nth-child(1) > div > div.sc-1pao5yo-0.cQIUaE > div");
-	public static final cselector logo = new cselector("css,#logo1 a.logo-anchor","css,t-header__logo");
+	public static final cselector logo = new cselector("css,#logo1 a.logo-anchor","css,.t-header__logo");
 	public static final cselector RYaccountMenu = new cselector ("css,.gwt-MenuItem > a#accountMenu","css,div.m-accordion-navigation__content-my-account");
 	public static final cselector shopMenuRY = new cselector("css,.gwt-MenuItem a", "css,.t-header__menu-button .pw-button");
 	public static final cselector expandShopMenuRY = new cselector("css,.pw-accordion__inner-header .pw-accordion__icon");
@@ -34,6 +34,9 @@ public class HomePageSelectors
 	public static final cselector GHaccordionHeader =  new cselector("css,div.footer-container li.list-title","css,div.pw-accordion > div.pw-accordion__item");
 	public static final cselector GHglobalFooter =  new cselector("css,div.footer-container","css,footer > div.c-custom-accordion"); 
 	public static final cselector GHlogo = new cselector("css,#logoGH > a","t-header__logo");
+	public static final cselector RYLogoLinkMobile = new cselector("css,","css,.t-header__logo .pw-header-bar__title a");
+
+	
 	public static final cselector miniCartBtn = new cselector("css,#gwt_minicart_div>table>tbody>tr>td>div","css,#cartAnchor","css,.pw-header-bar__actions.t-header-bar__cart > button");
 	public static final cselector miniCartText = new cselector("css,.empty-cart-sign-in-container > .gwt-HTML.inst-copy","css,.m-mini-cart__empty-content.u-text-align-center>h2");
 	// adding this
@@ -83,7 +86,7 @@ public class HomePageSelectors
 	// Header navigation menu selectors.
 	public static final cselector navigationIcon = new cselector("css,.nav-toggle", "css,.t-header__menu-icon .pw-button");
 	public static final cselector menuItems = new cselector("css,#css-top-navigation #flyout>.menuItem>a","css,#gwt-top-navigation .active>.gwt-nav-item-has-submenu>.gwt-HTML", "css,.navigation-modal_class .pw-link");
-	public static final cselector menuItemsBD = new cselector("css,#css-top-navigation #flyout>.menuItem>a", "css,.navigation-modal__class .pw-link");
+	public static final cselector menuItemsBD = new cselector("css,#css-top-navigation #flyout>.menuItem>a", "css,.pw-nav-menu__panel .pw-list-tile a");
 	// adding this
 	public static final cselector menuItemsBDforMobile = new cselector("css,.navigation-modal__class .pw-link");
 	// adding this

@@ -564,7 +564,7 @@ public class CheckOut extends SelTestCase {
 			} else if (isGR()) {
 				state = SelectorUtil.isDisplayed(CheckOutSelectors.stepTwoIdentifierGR.get());
 			}
-			else if (isRY()) {
+			else if (isRY() || isGH()) {
 				state = SelectorUtil.isDisplayed(CheckOutSelectors.productContainerInStepTwo.get());
 			}
 
