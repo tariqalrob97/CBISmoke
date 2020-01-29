@@ -9,7 +9,7 @@ public class CheckOutSelectors
 	//Done CBI
 	//Navigation
 	public static final cselector beginSecureCheckoutButton = new cselector("css,.secure-checkout-button","css,.c-checkout-buttons__checkout .pw--primary");
-	public static final cselector guestCheckoutButton = new cselector("css,.guest-checkout-button-panel > button:nth-child(1)","css,#single-page-checkout-container > div > div.t-checkout-step0.customer-information-panel > div.guest-checkout-form > button");
+	public static final cselector guestCheckoutButton = new cselector("css,.guest-checkout-button-panel > button","css,.guest-checkout-form > button");
 	public static final cselector stepLoaderButton = new cselector("button.pw-button.pw--primary.u-width-full>div>div.c-custom-loader");
 	
 	//Step 1 Multiple Addresses
