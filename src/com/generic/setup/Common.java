@@ -180,21 +180,20 @@ public class Common extends SelTestCase {
 	 *
 	 *
 	 */
-	public static void testFail(Throwable t, String CaseDescription , String screenshotName ) {
+	public static void testFail(Throwable t, String CaseDescription, String screenshotName) {
 		logCaseDetailds(CaseDescription + "<br><b><font color='red'>Failure Reason: </font></b>"
 				+ t.getMessage().replace("\n", "").trim());
-			setTestCaseDescription(getTestCaseDescription());
-			logs.debug(MessageFormat.format(LoggingMsg.DEBUGGING_TEXT, t.getMessage()));
-			t.printStackTrace();
-			
-			logs.debug("Test Status: Failed");
-			setTestStatus("Fail: " + t.getMessage());
-			logs.debug(MessageFormat.format(LoggingMsg.CURRENT_URL, SelTestCase.getDriver().getCurrentUrl()));
-			
-			ReportUtil.takeScreenShot(getDriver(), screenshotName);
-			Assert.assertTrue(false, t.getMessage());
-	}
+		setTestCaseDescription(getTestCaseDescription());
+		logs.debug(MessageFormat.format(LoggingMsg.DEBUGGING_TEXT, t.getMessage()));
+		t.printStackTrace();
 
+		logs.debug("Test Status: Failed");
+		setTestStatus("Fail: " + t.getMessage());
+		logs.debug(MessageFormat.format(LoggingMsg.CURRENT_URL, SelTestCase.getDriver().getCurrentUrl()));
+
+		ReportUtil.takeScreenShot(getDriver(), screenshotName);
+		Assert.fail(t.getMessage());
+	}
 	
 	/**
 	 * Set test case status that will appear in the Automation Report

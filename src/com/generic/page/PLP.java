@@ -80,6 +80,7 @@ public class PLP extends SelTestCase {
 
 			boolean result = true;
 			result = result && verifyProductImagesDisplayed();
+			logs.debug("Products Images check result " + result);
 
 			try {
 			sortByPriceLowToHigh();
@@ -111,7 +112,9 @@ public class PLP extends SelTestCase {
 			List<String> H2LsortedProductsNames = getfirst3ProductsNames();
 
 			result = result && compareOperationResults(L2HproductsNames, H2LsortedProductsNames);
+			logs.debug("Sorting check result " + result);
 
+			
 			Thread.sleep(3000);
 
 			String firstProductName = getfirst3ProductsNames().get(0);
@@ -910,9 +913,10 @@ public class PLP extends SelTestCase {
 				productTitle = PDP.getTitle();
 			}
 
-			result = (productTitle.toLowerCase().contains(productName.toLowerCase()));
+			result = (productName.toLowerCase().contains(productTitle.toLowerCase())) || (productTitle.toLowerCase().contains(productName.toLowerCase())) ;
 
 			getCurrentFunctionName(false);
+			logs.debug("Result:"+result +" Current product:"+ productTitle+ " Picket product:" +productName);
 			return result;
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(
@@ -959,7 +963,7 @@ public class PLP extends SelTestCase {
 				SelectorSS = PLPSelectors.recommendedOption.get();
 			}
 
-			WebElement recommendedProduct = SelectorUtil.getElement(SelectorSS);
+			WebElement recommendedProduct = SelectorUtil.getNthElement(SelectorSS,0);
 			if (isGH() && isiPad()) {
 				// The GH option didn't contains suggestion product so submit search.
 				// (The unbxd redirect the site to PDP if the search for product id).
@@ -971,10 +975,12 @@ public class PLP extends SelTestCase {
 
 				itemTitle = recommendedProduct.getText();
 				logs.debug("Picked item: " + itemTitle);
+			}
 				recommendedProduct.click();
+			
 
 				getCurrentFunctionName(false);
-			}
+			
 			return itemTitle;
 		} catch (NoSuchElementException e) {
 			if ((e.getMessage() != null) && e.getMessage().contains("element click intercepted")) {

@@ -31,7 +31,7 @@ public class GlobalVariables extends SelTestCase {
 	public static final String CVV_Iframe_ID = "cvv_Tokenizer";
 
 	// Indexes for tax value
-	public static final int GR_TAX_CART = 1;
+	public static final int GR_TAX_CART = 0;
 	public static final int GR_TAX_CART_MOBILE = 0;
 	public static final int GR_TAX_CONFIRMATION = 0;
 
