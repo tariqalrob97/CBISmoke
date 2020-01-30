@@ -31,6 +31,8 @@ public class HomePageValidation extends SelTestCase {
 		sassert().assertTrue(HomePage.isDisplayAllSpots(), "Home page Espots display validation has some problems");
 		sassert().assertTrue(HomePage.isLoadedAllEspots(), "Home page Espots loaded validation has some problems");
 
+		if(isMobile())
+		Thread.sleep(10000);
 		sassert().assertTrue(HomePage.isDisplayedAllCarouselContent(),
 				"Home page carousal display validation has some problems");
 		sassert().assertTrue(HomePage.isLoadedAllCarouselContent(),

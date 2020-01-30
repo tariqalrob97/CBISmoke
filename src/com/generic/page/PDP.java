@@ -197,7 +197,7 @@ public class PDP extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			String Str = PDPSelectors.allSizes.get();
-			String value = "index," + index + ",FFF1";
+			String value = "FFF1";
 			SelectorUtil.initializeSelectorsAndDoActions(Str, value);
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
@@ -951,7 +951,7 @@ public class PDP extends SelTestCase {
 
 			for (int i = 0; i < products.size(); i++) {
 				if (products.get(i).getText().toLowerCase().contains(addedProductName.toLowerCase())) {
-					addToCartBtns.get(i).click();
+					SelectorUtil.clickOnWebElement(addToCartBtns.get(i));
 					return true;
 				}
 			}
@@ -1738,6 +1738,7 @@ public class PDP extends SelTestCase {
 					} else {
 						selectNthOptionFirstSwatch(i + 1);
 					}
+					Thread.sleep(3000);
 				}
 			} else {
 				int numberOfSwatchContainers = getNumberofSwatchContainers();

@@ -10,6 +10,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import com.generic.selector.CartSelectors;
+import com.generic.selector.PDPSelectors;
 import com.generic.setup.SelTestCase;
 import com.generic.setup.ExceptionMsg;
 import com.generic.setup.GlobalVariables;
@@ -269,12 +270,16 @@ public class Cart extends SelTestCase {
 	}
 
 	// Done CBI
-	public static String getFirstSavedItemsOptions() throws Exception {
+	public static List<String> getFirstSavedItemsOptions() throws Exception {
 		try {
-			getCurrentFunctionName(true);
-			SelectorUtil.initializeSelectorsAndDoActions(CartSelectors.firstAddedItemsOption.get());
+			getCurrentFunctionName(true);			
+			List<String> values = new ArrayList<String>();
+			List<WebElement>  elements = SelectorUtil.getAllElements(CartSelectors.firstAddedItemsOption.get());
+			for(WebElement  element: elements) {
+				values.add(element.getText());
+			}
 			getCurrentFunctionName(false);
-			return SelectorUtil.textValue.get();
+			return values;
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
 					+ "Options for the first product in cart selector was not found by selenium", new Object() {
@@ -284,12 +289,39 @@ public class Cart extends SelTestCase {
 	}
 
 	// Done CBI
-	public static String getlastAddedItemsOptions() throws Exception {
+	public static List<String> getlastAddedItemsOptions() throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			SelectorUtil.initializeSelectorsAndDoActions(CartSelectors.lastAddedItemsOption.get());
+			List<String> values = new ArrayList<String>();
+			List<WebElement>  elements = SelectorUtil.getAllElements(CartSelectors.lastAddedItemsOption.get());
+			for(WebElement  element: elements) {
+				values.add(element.getText());
+			}
 			getCurrentFunctionName(false);
-			return SelectorUtil.textValue.get();
+			return values;
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
+					+ "Options for the last product in cart selector was not found by selenium", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+	}
+	public static Boolean isItemEditable() throws Exception {
+		try {
+			getCurrentFunctionName(true);
+			Boolean isEditable = false;
+			if(!SelectorUtil.isNotDisplayed(CartSelectors.editFromCartLink.get())) {
+				if(isMobile()) {
+				String Str =  CartSelectors.editFromCartLink.get();
+				String editButtonClass = SelectorUtil.getAttrString(Str, "class");
+				if(!editButtonClass.toLowerCase().contains("u-visibility-hidden"))
+					isEditable = true;
+				}else {
+				isEditable = true;
+				}
+				}
+			getCurrentFunctionName(false);
+			return isEditable;
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
 					+ "Options for the last product in cart selector was not found by selenium", new Object() {

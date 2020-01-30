@@ -11,6 +11,7 @@ public class MiniCartValidation extends SelTestCase {
 
 		getCurrentFunctionName(true);
 		HomePage.clickOnMiniCart();
+		Thread.sleep(3000);
 		String emptyCartText = HomePage.getMiniCartText();
 		sassert().assertTrue(emptyCartText.contains(expectedEmptyCartText), "<font color=#f442cb>expected text is: "
 				+ expectedEmptyCartText + "<br>actual text is: " + emptyCartText + " </font>");
