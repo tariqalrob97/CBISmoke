@@ -28,7 +28,7 @@ public class PayPalValidation extends SelTestCase {
 		}
 
 		// Add products to cart
-		CheckOut.searchForProductsandAddToCart(productsCount);
+		CheckOut.addRandomProductTocart(productsCount);
 
 		// Navigating to Cart by URL
 		CheckOut.navigatetoCart();

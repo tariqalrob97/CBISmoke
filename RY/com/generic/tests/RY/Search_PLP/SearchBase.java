@@ -65,7 +65,7 @@ public class SearchBase extends SelTestCase {
 			Common.refreshBrowser();
 
 			// validate the suggested items
-			if (proprties.contains(RecommendedProductsCase))
+			if (proprties.contains(RecommendedProductsCase) && !isiPad())
 				sassert().assertTrue(PLP.searchAndVerifyResults("dress", true), "Serach validation failed");
 
 			if (proprties.contains(fullSearchCase))

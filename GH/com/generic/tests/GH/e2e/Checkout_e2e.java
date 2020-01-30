@@ -52,6 +52,9 @@ public class Checkout_e2e extends SelTestCase {
 
 			Thread.sleep(4000);
 
+			// Fill payment details in the last step
+			CheckOut.fillPayment(paymentDetails);
+
 			// Saving tax and shipping costs to compare them in the confirmation page
 			orderShipping = CheckOut.getShippingCosts();
 			orderTax = CheckOut.getTaxCosts(GlobalVariables.FG_TAX_CART);
@@ -59,14 +62,13 @@ public class Checkout_e2e extends SelTestCase {
 
 			logs.debug(MessageFormat.format(LoggingMsg.SEL_TEXT, "Shippping cost is: " + orderShipping
 					+ " ---- Tax cost is:" + orderTax + " ---- Subtotal is:" + orderSubTotal));
-
-			// Fill payment details in the last step
-			CheckOut.fillPayment(paymentDetails);
-
 			// Click place order button
+			
+			Thread.sleep(2500);
+
 			CheckOut.placeOrder();
 
-			Thread.sleep(35000);
+			Thread.sleep(3500);
 
 			CheckOut.closePromotionalModal();
 
@@ -74,21 +76,9 @@ public class Checkout_e2e extends SelTestCase {
 
 			CheckOut.closeRegisterButton();
 
-			// Check number of products in confirmation page
-			sassert().assertTrue(CheckOut.checkProductsinConfirmationPage() == productsCount,
-					"Some products are missing in confirmation page ");
+			CheckOut.checkOrderValues(productsCount,orderShipping, orderTax,orderSubTotal );
 
-			// Check if shipping costs match
-			sassert().assertTrue(CheckOut.getShippingCosts().equals(orderShipping), "Shipping cost value issue ");
-
-			// Check if tax cost match
-			sassert().assertTrue(CheckOut.getTaxCosts(GlobalVariables.FG_TAX_CONFIRMATION).equals(orderTax),
-					"Tax value issue ");
-
-			// Check if subtotal value match
-			sassert().assertTrue(CheckOut.getSubTotal().equals(orderSubTotal), "Subtotal value issue ");
-
-			getCurrentFunctionName(false);
+			CheckOut.printOrderIDtoLogs();
 
 			getCurrentFunctionName(false);
 
@@ -137,8 +127,11 @@ public class Checkout_e2e extends SelTestCase {
 			// Proceed to step 4
 			CheckOut.proceedToStepFour();
 			
-			Thread.sleep(2000);
+			Thread.sleep(3500);
 
+			// Fill payment details in the last step
+			CheckOut.fillPayment(paymentDetails);
+			
 			// Saving tax and shipping costs to compare them in the confirmation page
 			orderShipping = CheckOut.getShippingCosts();
 			orderTax = CheckOut.getTaxCosts(GlobalVariables.FG_TAX_CART);
@@ -147,9 +140,6 @@ public class Checkout_e2e extends SelTestCase {
 			logs.debug(MessageFormat.format(LoggingMsg.SEL_TEXT, "Shippping cost is: " + orderShipping
 					+ " ---- Tax cost is:" + orderTax + " ---- Subtotal is:" + orderSubTotal));
 
-			// Fill payment details in the last step
-			CheckOut.fillPayment(paymentDetails);
-
 			// Click place order button
 			CheckOut.placeOrder();
 
@@ -157,17 +147,9 @@ public class Checkout_e2e extends SelTestCase {
 			
 			CheckOut.closePromotionalModal();
 
-			// Check number of products in confirmation page
-			sassert().assertTrue(CheckOut.checkProductsinConfirmationPage() == productsCountStepTWO,"Some products are missing in confirmation page ");
+			CheckOut.checkOrderValues(productsCountStepTWO,orderShipping, orderTax,orderSubTotal );
 
-			// Check if shipping costs match
-			sassert().assertTrue(CheckOut.getShippingCosts().equals(orderShipping), "Shipping cost value issue ");
-
-			// Check if tax cost match
-			sassert().assertTrue(CheckOut.getTaxCosts(GlobalVariables.FG_TAX_CONFIRMATION).equals(orderTax), "Tax value issue ");
-
-			// Check if subtotal value match
-			sassert().assertTrue(CheckOut.getSubTotal().equals(orderSubTotal), "Subtotal value issue ");
+			CheckOut.printOrderIDtoLogs();
 
 			getCurrentFunctionName(false);
 
