@@ -69,8 +69,8 @@ public class PDPSelectors {
 	public static final String ListBoxOptionBundle = "css,#{0}>" + ListBoxOption.DesktopSelector.replace("css,", "");
 	
 	public static final cselector SelectRegistryOrWishListModal = new cselector("css,#gwt-add-to-gift-registry-modal","css,.pw-sheet__inner");
-    public static final cselector giftRegistryListBox = new cselector("css,select.gift-registry-list-bx","css,div.pw-sheet__content > div > div > select");
-    public static final cselector createNewWL = new cselector("css,select.gift-registry-list-bx > option[value='Create New Wish List']","css, div.pw-sheet__content > div > div > select > option[value='Create New Wish List']");
+    public static final cselector giftRegistryListBox = new cselector("css,select.gift-registry-list-bx","css,div.pw-sheet__content > div > div  select");
+    public static final cselector createNewWL = new cselector("css,select.gift-registry-list-bx > option[value='Create New Wish List']","css, div.pw-sheet__content > div > div  select > option[value='Create New Wish List']");
     public static final cselector RYcreateNewWL = new cselector("css,li> button.wishlist-item","css,div.t-product-details__wishlist-dropdown > button");
     public static final cselector RYcreateNewWLName = new cselector("css,li> button.wishlist-item > span","css,div.t-product-details__wishlist-dropdown > button > div");
     public static final cselector createNewWLConfirmationBtn = new cselector("css,div.gwt-submit-cancel-dialog-button-panel > button.button.primary","css, div.pw-sheet__content > div > div > button");
@@ -187,4 +187,6 @@ public class PDPSelectors {
 	public static final cselector BDMonogramCost = new cselector("css,div.gwt-custom-personalization-chosen-values-container > div > div > div.gwt-product-personalization-option-chosen-values-panel.gwt-item-personalization-cost > div.gwt-Label.product-option-chosen-values-panel-entry-value","css,div.c-personalization-panel > div:nth-child(2) > div:nth-child(3) > span:nth-child(2)");
 	public static final cselector BDpersonlizedTitle = new cselector ("css,.pw-button.add-personalization-button > div");
 	public static final cselector BDpersonalizationSaveAndCloseButton = new cselector ("css,div.gwt-submit-cancel-dialog-button-panel > button.button.primary" , "css,.m-personalization__button-save-and-close"); 
+    public static final cselector BDcreateNewWLConfirmationBtn = new cselector("css,div.gwt-submit-cancel-dialog-button-panel > button.button.primary","css, div.pw-sheet__content > div > div  button.pw--primary");
+    public static final cselector BDnameYourNewWLconfirmationBtn = new cselector("css,#gwt-wishlist-create-modal  button.button.primary","css,button.m-create-wishlist__create-button");
 }

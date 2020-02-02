@@ -714,7 +714,9 @@ public class PDP extends SelTestCase {
 				SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.GHaddToWLGRBtnEnabled.get());
 			} else if (isRY()) {
 				SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.RYaddToWLGRBtnEnabled.get());
-			} else {
+			} else if (isBD()){
+				SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.BDaddToWLGRBtnEnabledSingle.get());
+			}else {
 				SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.addToWLGRBtnEnabled.get());
 			}
 			getCurrentFunctionName(false);
@@ -995,7 +997,11 @@ public class PDP extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.WLName.get(), WLName);
-			SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.nameYourNewWLconfirmationBtn.get());
+			if(isBD())
+			    SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.BDnameYourNewWLconfirmationBtn.get());
+			else
+				SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.nameYourNewWLconfirmationBtn.get());
+
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
@@ -1040,7 +1046,10 @@ public class PDP extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			logs.debug("Click on create new wish list");
-			SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.createNewWLConfirmationBtn.get());
+			if(isBD())
+				SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.BDcreateNewWLConfirmationBtn.get());
+			else	
+			    SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.createNewWLConfirmationBtn.get());
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
@@ -1067,7 +1076,7 @@ public class PDP extends SelTestCase {
 
 				WebElement addToCardProductElement = SelectorUtil.getElement(PDPSelectors.addToCardProductName.get());
 				String viewListBtnSelector;
-				if (isGH() || isRY()) {
+				if (isGH() || isRY() || isBD()) {
 					viewListBtnSelector = PDPSelectors.GHRYviewListBtn.get();
 				} else {
 					viewListBtnSelector = PDPSelectors.viewListBtn.get();
@@ -1104,7 +1113,7 @@ public class PDP extends SelTestCase {
 			Thread.sleep(2000);
 			List<WebElement> products = SelectorUtil.getElementsList(PDPSelectors.addedProductName.get());
 			List<WebElement> addToCartBtns = new ArrayList<WebElement>();
-			if (isGH()) {
+			if (isGH() || isBD()) {
 				addToCartBtns = SelectorUtil.getElementsList(PDPSelectors.GHmyWLAddToCartBtn.get());
 			} else if (isRY()) {
 				addToCartBtns = SelectorUtil.getElementsList(PDPSelectors.RYmyWLAddToCartBtn.get());

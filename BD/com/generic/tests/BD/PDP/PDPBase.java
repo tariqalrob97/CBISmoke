@@ -75,7 +75,7 @@ public class PDPBase extends SelTestCase {
 			}
 
 			if (proprties.contains(wishListGuestValidation)) {
-			//	WistListGuestValidation.validate();
+				WistListGuestValidation.validate();
 			}
 
 			sassert().assertAll();
