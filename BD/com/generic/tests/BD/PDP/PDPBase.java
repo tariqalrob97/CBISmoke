@@ -21,6 +21,7 @@ public class PDPBase extends SelTestCase {
 	// possible scenarios
 	public static final String singlePDP = "Validate PDP Single active elements";
 	public static final String bundlePDP = "Validate PDP Bundle active elements";
+	public static final String vkPDP = "Validate PDP_VK";
 	public static final String personalizedPDP = "Validate PDP Personalized active elements";
 	public static final String singlePDPSearchTerm = "Woven Rug";
 	public static final String BundlePDPSearchTerm = "Kacie pillow";
@@ -76,6 +77,9 @@ public class PDPBase extends SelTestCase {
 
 			if (proprties.contains(wishListGuestValidation)) {
 				WistListGuestValidation.validate();
+			}
+			if (proprties.contains(vkPDP)) {
+		     	PDP_VK.validate();
 			}
 
 			sassert().assertAll();

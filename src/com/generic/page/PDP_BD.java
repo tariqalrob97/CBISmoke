@@ -162,4 +162,157 @@ public class PDP_BD extends SelTestCase{
 			throw e;
 		}
 	}
+	
+	public static int BDgetNumberOfConfigureItems(boolean bundle, int productNo) throws Exception  {
+		try {
+			getCurrentFunctionName(true);
+			int number = 0;	
+				if(isMobile()) {
+					if(bundle)
+						number = SelectorUtil.getAllElements(MessageFormat.format(PDPSelectors.BDconfigureItemsBundle.get(),productNo)).size();
+					else
+					    number = SelectorUtil.getAllElements(MessageFormat.format(PDPSelectors.BDconfigureItems.get(),productNo + 1)).size();
+				}else {
+					if(bundle)
+						number = SelectorUtil.getAllElements(MessageFormat.format(PDPSelectors.BDconfigureItemsBundle.get(),productNo)).size();
+					else 
+				    	number = SelectorUtil.getAllElements(MessageFormat.format(PDPSelectors.BDconfigureItems.get(),productNo)).size();
+			       }
+			getCurrentFunctionName(false);
+		return number;
+	  } catch (NoSuchElementException e) {
+		logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
+				+ "Get number of configure items has falied, a selector was not found by selenium", new Object() {
+				}.getClass().getEnclosingMethod().getName()));
+		throw e;
+	  }
+		
+	}
+	public static void BDSelectItemsConfigurations(boolean bundle) throws Exception{
+		try {
+			int productsNo  = 0;
+			if(bundle) {
+				 productsNo = SelectorUtil.getAllElements(PDPSelectors.BDproductsBundle.get()).size();
+			}else {
+				 productsNo = SelectorUtil.getAllElements(PDPSelectors.BDproducts.get()).size();
+			}
+			for(int i = 0; i<productsNo; i++) {
+				BDnthProductConfigureItemsSelection(i + 1,bundle);
+			}
+		}catch(NoSuchElementException e) {
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
+					+ "Select Items Configurations has falied, a selector was not found by selenium", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+	}
+	
+	public static boolean BDnthProductConfigureItemsSelection(int productNo,boolean bundle) throws Exception {
+		try {
+			getCurrentFunctionName(true);
+			boolean isSizeShownAsListbox = false;
+			int numberOfconfigureItems = PDP_BD.BDgetNumberOfConfigureItems(bundle,productNo);
+			if ((numberOfconfigureItems == 0)) {
+				logs.debug("No configuration to select");
+			} else {
+
+				for (int i = 0; i < numberOfconfigureItems; i++) {
+					if(SelectorUtil.isNotDisplayed(MessageFormat.format(PDPSelectors.BDopenedConfigureItem.get(),i + 1))) {
+						int index = i + 1 ;
+						if (!isMobile() && !bundle)
+						SelectorUtil.initializeSelectorsAndDoActions(MessageFormat.format(PDPSelectors.BDconfigureItems.get(),productNo)+":nth-child("+index+")");
+						if(isMobile() && bundle && index==1) {
+						SelectorUtil.initializeSelectorsAndDoActions(MessageFormat.format(PDPSelectors.BDitemsAccordion.get(),productNo,index));
+						}
+					}
+					if(isMobile()) {
+						if(bundle) 
+							selectOption(MessageFormat.format(PDPSelectors.BDnthConfigureItemOptionBundle.get(),productNo, i + 1));
+						else 
+						    SelectorUtil.initializeSelectorsAndDoActions(MessageFormat.format(PDPSelectors.BDnthConfigureItemOption.get(),productNo+1, i + 1));
+					}else {
+						if(bundle) 
+						    selectOption(MessageFormat.format(PDPSelectors.BDnthConfigureItemOptionBundle.get(),productNo, i + 2));
+						else 
+					     	SelectorUtil.initializeSelectorsAndDoActions(MessageFormat.format(PDPSelectors.BDnthConfigureItemOption.get(),productNo, i + 1));
+					}
+				}
+			}
+		
+			getCurrentFunctionName(false);
+			return isSizeShownAsListbox;
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
+					+ "Product Configure Items Selection has falied, a selector was not found by selenium", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+	}
+	
+	public static boolean validatePriceIsDisplayed() throws Exception {
+	try {			
+		boolean isDisplayed = false;
+		isDisplayed = SelectorUtil.isDisplayed(PDPSelectors.BDVK_PDPPrice.get());
+	getCurrentFunctionName(false);
+	return isDisplayed;
+} catch (NoSuchElementException e) {
+	logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
+			+ "price  not displayed, a selector was not found by selenium", new Object() {
+			}.getClass().getEnclosingMethod().getName()));
+	throw e;
+}
+	
+	}
+	
+	
+	public static void clickOnConfigureBtn(String ProductID) throws Exception {
+		try {
+			getCurrentFunctionName(true);
+			logs.debug("Click on Configure button");
+			if(isMobile())
+				SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.BDconfigureBtn.get());
+			else
+				SelectorUtil.initializeSelectorsAndDoActions("css,#" + ProductID + " "
+						+ PDPSelectors.BDconfigureBtn.get().replace("css,", ""));
+	
+			getCurrentFunctionName(false);
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
+					+ "Configure button selector was not found by seleniuem", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+	}
+	
+	public static void clickOnConfigureModalDoneBtn() throws Exception {
+		try {
+			getCurrentFunctionName(true);
+			logs.debug("Click on Configure modal Done button");
+				SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.BDconfigureModalDoneBtn.get());
+			getCurrentFunctionName(false);
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
+					+ "Configure modal done button selector was not found by seleniuem", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+	}
+	
+	
+	public static void selectOption(String Selector) throws Exception {
+		try {
+			getCurrentFunctionName(true);
+			Thread.sleep(1000);
+			String valuesArr = "FFF1";
+			if (!SelectorUtil.isNotDisplayed(Selector)) {
+				SelectorUtil.initializeSelectorsAndDoActions(Selector, valuesArr);
+			}
+			getCurrentFunctionName(false);
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
+			}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+
+	}
 }

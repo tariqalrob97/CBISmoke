@@ -759,9 +759,9 @@ public class PDP extends SelTestCase {
 				  Str= PDPSelectors.BDnumberOfBundleItems.get();
 			}
 			int numberOfItems = 1;
-			// if (!SelectorUtil.isNotDisplayed(Str)) {
+			 if (!SelectorUtil.isNotDisplayed(Str)) {
 			numberOfItems = SelectorUtil.getAllElements(Str).size();
-			// }
+			 }
 			logs.debug("Number of Items: " + numberOfItems);
 			if (numberOfItems == 1 && bundleProduct()) {
 				logs.debug("This is a bundle product with one item");
