@@ -882,7 +882,12 @@ private static void sortByCustomerRating() throws Exception {
 	public static void typeSearch(String searchTerm) throws Exception {
 		try {
 			getCurrentFunctionName(true);
+			if(isBD()) {
+			SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.BDsearchBox.get(), searchTerm);
+			}
+			else {
 			SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.searchBox.get(), searchTerm);
+			}
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(
@@ -897,12 +902,15 @@ private static void sortByCustomerRating() throws Exception {
 	public static void clickSearchicon() throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			if (isRY())
-				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.RYSearchIcon.get());
-			else if (isBD())
+			if (isBD()) {
 				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.BDSearchIcon.get());
-			else
+			}
+			else if (isRY()) {
+				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.RYSearchIcon.get());
+			}
+			else {
 			    SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.SearchIcon.get());
+			}
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed + "Search icon selector was not found by selenuim", new Object() {

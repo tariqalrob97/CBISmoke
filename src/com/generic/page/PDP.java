@@ -40,9 +40,13 @@ public class PDP extends SelTestCase {
 			getCurrentFunctionName(true);
 			// This is to handle production Monetate issue on iPad for search field.
 			if (isFGGR() && isiPad())
+				{
 				HomePage.updateMmonetate();
-			if (isFGGR() || (isRY() && isMobile()) || isBD() && isMobile())
+				}
+			if (isFGGR() || ((isRY() && isMobile())) || ((isBD() && isMobile())))
+				{
 				PLP.clickSearchicon();
+				}
 			String itemName = "";
 			// This is to handle iPad behavior for search modal.
 			// TODO: to use this process on all brands
@@ -50,9 +54,9 @@ public class PDP extends SelTestCase {
 				PLP.clickSearch(SearchTerm);
 				if (SelectorUtil.isElementExist(By.cssSelector(PLPSelectors.PLPPageSelector.get()))) {
 					itemName = PLP.pickPLPFirstProduct();
-
 				}
-			} else {
+			} 
+			else {
 				PLP.typeSearch(SearchTerm);
 				itemName = PLP.pickRecommendedOption();
 			}
