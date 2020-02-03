@@ -49,16 +49,23 @@ public class PayPalValidation extends SelTestCase {
 			PayPal.signIn(PayPalEmail, PayPalPassword);
 			sassert().assertTrue(PayPal.isPayPalShipToPageDisplayed(),
 					"(PayPAl Ship to) page is not displayed");
-			PayPal.clickOnContinue();
+			
+			Thread.sleep(6000);
+
 			if (userType.contains("registered")) {
-				Thread.sleep(2000);
+				PayPal.clickOnContinueRegistered();
+				PayPal.clickConfirmRegistered();
+			}
+
+			else {
 				PayPal.clickOnContinue();
+
 			}
 
 			if (SelTestCase.isDesktop())
 				CheckOut.paymentInnformation.switchBackToMainWindow(main);
 
-			Thread.sleep(2000);
+			Thread.sleep(4500);
 			CheckOut.clickCheckouStepFourConfirmationButton();
 
 			if (CheckOut.isPaymentPageSelectedAndPayPalSelected()) {

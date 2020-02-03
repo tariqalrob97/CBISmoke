@@ -1,7 +1,6 @@
 package com.generic.tests.GR.checkout;
 
 import java.util.LinkedHashMap;
-
 import com.generic.page.Cart;
 import com.generic.page.CheckOut;
 import com.generic.page.HomePage;
@@ -50,10 +49,17 @@ public class PayPalValidation extends SelTestCase {
 			PayPal.signIn(PayPalEmail, PayPalPassword);
 			sassert().assertTrue(PayPal.isPayPalShipToPageDisplayed(),
 					"(PayPAl Ship to) page is not displayed");
-			PayPal.clickOnContinue();
+
+			Thread.sleep(6000);
+
 			if (userType.contains("registered")) {
-				Thread.sleep(2000);
+				PayPal.clickOnContinueRegistered();
+				PayPal.clickConfirmRegistered();
+			}
+
+			else {
 				PayPal.clickOnContinue();
+
 			}
 
 			if (SelTestCase.isDesktop())

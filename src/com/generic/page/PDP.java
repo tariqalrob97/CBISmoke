@@ -197,7 +197,7 @@ public class PDP extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			String Str = PDPSelectors.allSizes.get();
-			String value = "index," + index + ",FFF1";
+			String value = "FFF1";
 			SelectorUtil.initializeSelectorsAndDoActions(Str, value);
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
