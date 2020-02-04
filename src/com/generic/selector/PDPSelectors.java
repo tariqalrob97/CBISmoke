@@ -95,6 +95,8 @@ public class PDPSelectors {
                                                                               
 	
 	public static final cselector addPersonalizedButton = new cselector("css,.gwt-product-content-panel>div.gwt-product-right-content-panel>div.gwt-product-detail-widget-personalization-panel> div.gwt-personalize-link-style" , "pw-button c-add-personalization-button" );
+	public static final cselector addPersonalizedButtonGH = new cselector("css,.gwt-product-detail-widget-personalization-panel >.gwt-personalize-link-style" , "css,.u-border> div > button" );
+	public static final cselector personalizationIdentiferGH = new cselector("css,.gwt-personalize-link-style" ,"css,.t-product-details-heading .u-text-uppercase.u-text-size-small" );
 	public static final cselector personalizedItems = new cselector("button third gwt-tab-header-sign-button","css,div.pw-accordion--is-prerender > button");
 	public static final cselector personalizedOpenItem = new cselector ("button third gwt-tab-header-sign-button","css,div.pw-accordion--is-open > button");
 	public static final cselector personalizedItemColors1 = new cselector("css,div.gwt-accordion-tab-content.tabopen > div > div > div.gwt-personalization-modal-accordions-content-option >div >div>div>div.gwt-image-picker-option>img","css,div.pw-accordion--is-open>div > div > div > div > div > div > div > div>div>div>div.u-margin-top.m-product-options-no-padding>div>div>div>button");
