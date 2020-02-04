@@ -10,7 +10,7 @@ import com.generic.util.SelectorUtil;
 
 public class SCPDPValidation extends SelTestCase {
 
-	public static void validate(String searchTerm) throws Exception { 
+	public static void validate(String searchTerm, String desc) throws Exception { 
 		getCurrentFunctionName(true);
 		 
 		PDP.NavigateToPDP(searchTerm);
@@ -18,7 +18,7 @@ public class SCPDPValidation extends SelTestCase {
 		
 		PDP_SC_CS.SCselectConfiguration();
 		PDP_SC_CS.SCselectFabric();
-		sassert().assertTrue(PDP_SC_CS.validatePriceIsDisplayed(),
+		sassert().assertTrue(PDP_SC_CS.validatePriceIsDisplayed(desc),
 				"The price for the item is not dispayed"); 
 		
 		PDP_SC_CS.selectColor(); 
@@ -26,7 +26,7 @@ public class SCPDPValidation extends SelTestCase {
 		if(!isMobile()) {
 			PDP_SC_CS.pickOneQuantity();
 		}
-		String bottomPrice = PDP_SC_CS.getBottomPrice();
+		String bottomPrice = PDP_SC_CS.getBottomPrice(desc);
 		sassert().assertTrue(!bottomPrice.equals("$0.00"),
 				"Bottom price is not updated correctly, Current price: " + bottomPrice);
 		Thread.sleep(2500);
@@ -34,11 +34,11 @@ public class SCPDPValidation extends SelTestCase {
 		sassert().assertTrue(PDP.validateAddToCartIsEnabled(false, " "), "Add to Cart button is not enabled");
 		PDP_SC_CS.clickAddToCartButton();
 		sassert().assertTrue(PDP_SC_CS.validateProductIsAddedToCart(), "Product is not added successfully");
-		PDP_SC_CS.clickAddToOrderSwatch();
+		PDP_SC_CS.clickAddToOrderSwatch(desc);
 		sassert().assertTrue(PDP_SC_CS.validateOrderSwatch(), "The Order a Swatch Modal is not dispayed");
 		sassert().assertTrue(PDP_SC_CS.validateOrderSwatchDropdown(), "The Order a Swatch Dropdown is not dispayed");
 		sassert().assertTrue(PDP_SC_CS.validateSearchSwatchIsDisplayed(), "The Swatch Search Input is not dispayed");
-		sassert().assertTrue(PDP_SC_CS.validateSearchSwatchWorkedAsWell("black"), "The Swatch Search did not Work successfully");
+		sassert().assertTrue(PDP_SC_CS.validateSearchSwatchWorkedAsWell("black",desc), "The Swatch Search did not Work successfully");
 		
 		//Add Single Swatch
 		PDP_SC_CS.clickAddSwatch('S');

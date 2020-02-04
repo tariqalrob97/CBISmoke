@@ -9,6 +9,7 @@ import org.openqa.selenium.WebElement;
 
 import com.generic.setup.ExceptionMsg;
 import com.generic.setup.SelTestCase;
+import com.generic.setup.brands;
 import com.generic.util.SelectorUtil;
 import com.generic.selector.PDPSelectors;
 
@@ -91,13 +92,19 @@ public class PDP_SC_CS extends SelTestCase {
 		}
 	}
 	
-	public static boolean validatePriceIsDisplayed() throws Exception {
+	public static boolean validatePriceIsDisplayed(String key) throws Exception {
 		try {
 			getCurrentFunctionName(true);
 			boolean isDisplayed;
+			String selector;
 			logs.debug("Validate if price exist");
-			String selector = PDPSelectors.BDTopPrice.get();
-			isDisplayed = SelectorUtil.isDisplayed(selector);
+			if(isCS(key)) {
+				selector = PDPSelectors.CSBDTopPrice.get();
+				isDisplayed = SelectorUtil.isDisplayed(selector);
+			}else {
+				selector = PDPSelectors.BDTopPrice.get();
+				isDisplayed = SelectorUtil.isDisplayed(selector);
+			}
 			getCurrentFunctionName(false);
 			return isDisplayed;
 		} catch (NoSuchElementException e) {
@@ -106,6 +113,13 @@ public class PDP_SC_CS extends SelTestCase {
 					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
+	}
+	
+	public static boolean isCS(String csKey) {
+		getCurrentFunctionName(true);
+		boolean result = csKey.equals("COM Shop");
+		getCurrentFunctionName(false);
+		return result;
 	}
 	
 	public static void pickOneQuantity() throws Exception {
@@ -127,14 +141,19 @@ public class PDP_SC_CS extends SelTestCase {
 		}
 	}
 
-	public static String getBottomPrice() throws Exception {
+	public static String getBottomPrice(String Key) throws Exception {
 		try {
 			getCurrentFunctionName(true);
 			logs.debug("Validate if bottom price is updated after seleting options");
 			String selector;
-		    selector = PDPSelectors.BDBottomPrice.get();
-			SelectorUtil.initializeSelectorsAndDoActions(selector);
-			String price = SelectorUtil.textValue.get();
+			if(isCS(Key)) {
+				selector = PDPSelectors.CSBDBottomPrice.get();
+				SelectorUtil.initializeSelectorsAndDoActions(selector);	
+			}else {
+				selector = PDPSelectors.BDBottomPrice.get();
+				SelectorUtil.initializeSelectorsAndDoActions(selector);	
+			}
+			String price = SelectorUtil.textValue.get();	
 			getCurrentFunctionName(false);
 			return price;
 		} catch (NoSuchElementException e) {
@@ -163,11 +182,15 @@ public class PDP_SC_CS extends SelTestCase {
 		}
 	}
 	
-	public static void clickAddToOrderSwatch() throws Exception {
+	public static void clickAddToOrderSwatch(String Key) throws Exception {
 		try {
 			getCurrentFunctionName(true);
 			String subStrArr = null;
-			subStrArr = PDPSelectors.OrderASwatchButton.get();
+			if(isCS(Key)) {
+				subStrArr = PDPSelectors.CSOrderASwatchButton.get();
+			}else {
+				subStrArr = PDPSelectors.OrderASwatchButton.get();
+			}
 			SelectorUtil.initializeSelectorsAndDoActions(subStrArr);
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
@@ -227,14 +250,14 @@ public class PDP_SC_CS extends SelTestCase {
 		}
 	}
 	
-	public static boolean validateSearchSwatchWorkedAsWell(String searchTerm) throws Exception {
+	public static boolean validateSearchSwatchWorkedAsWell(String searchTerm, String desc) throws Exception {
 		try {
 			getCurrentFunctionName(true);
 			boolean isWorked = false;
 			String selector = PDPSelectors.SearchSwatchInput.get();
 			SelectorUtil.initializeSelectorsAndDoActions(selector, searchTerm);
 			List<WebElement> searchResults = new ArrayList<>();
-			searchResults = getAllSwatchSearchResult();
+			searchResults = getAllSwatchSearchResult(desc);
 			Thread.sleep(5000);
 			WebElement selectedElement = SelectorUtil.getRandomWebElement(searchResults);
 			String descOfSelectedItem = selectedElement.getAttribute("alt");
@@ -252,10 +275,15 @@ public class PDP_SC_CS extends SelTestCase {
 		}
 	}
 	
-	public static List<WebElement> getAllSwatchSearchResult() throws Exception{
+	public static List<WebElement> getAllSwatchSearchResult(String Key) throws Exception{
 		try {
 			getCurrentFunctionName(true);
-			String subStrArr = PDPSelectors.SearchSwatchResults.get();
+			String subStrArr;
+			if(isCS(Key)) {
+				subStrArr = PDPSelectors.CSSearchSwatchResults.get();
+			}else {
+				subStrArr = PDPSelectors.SearchSwatchResults.get();
+			}
 			List<WebElement> searchResults = new ArrayList<>();
 			searchResults = SelectorUtil.getAllElements(subStrArr);
 			getCurrentFunctionName(false);
@@ -410,4 +438,25 @@ public class PDP_SC_CS extends SelTestCase {
 			throw e;
 		}
 	}
+	
+	
+	public static WebElement CSselectFinishColor() throws Exception {
+		try {
+			getCurrentFunctionName(true); 
+			WebElement selectedElement = null;
+			String subStrArr = PDPSelectors.CSFinishColorOptions.get();
+			List<WebElement> ColorOptions = new ArrayList<>();
+			ColorOptions = SelectorUtil.getAllElements(subStrArr);
+			selectedElement = SelectorUtil.getRandomWebElement(ColorOptions);
+			SelectorUtil.clickOnWebElement(selectedElement);
+			getCurrentFunctionName(false);
+			return selectedElement;
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "There is No Color options", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+	}
+	
 }
