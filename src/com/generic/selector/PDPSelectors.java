@@ -168,24 +168,25 @@ public class PDPSelectors {
 	public static final cselector BDfirstSwatchInOptions = new cselector("css,.gwt-product-option-panel-widget-panel > div  > div > div:nth-child(1)","css,button > div > div > div > div > div.pw-image");
 
 	//NEW BD
-	public static final cselector BDCSItemTitle = new cselector("css,.gwt-product-detail-product-name-label","css,.t-product-details-heading__title");
-	public static final cselector BDCSConfigOptions = new cselector("css,.gwt-fabric-with-frame-selection-container > div.gwt-selection-chip-picker > div > div","css,div.c-fabric-configurations > div:nth-child(1) > div:nth-child(2) > div > div.pw-swatch__items > div > button");
-	public static final cselector BDCSFabricOptions = new cselector("css,div.gwt-fabric-types-selection-container > div.gwt-selection-chip-picker > div > div","css,div.c-fabric-configurations > div:nth-child(2) > div:nth-child(2) > div > div.pw-swatch__items > div > button");
-	public static final cselector BDCSColorOptions = new cselector("css,.gwt-pdp-swatch-thumbnail-image","css,div.c-fabric-swatches-panel > div > div.pw-swatch__items > div > button");
-	public static final cselector BDCSBottomPrice = new cselector("css,div.gwt-price-itemNumber > div > div > div.gwt-HTML.gwt-now-price-holder.gwt-promo-discount-now-label","css,div.u-padding-lg.u-bg-color-alto.u-margin-bottom.u-border-top > div > div.u-text-size-base > span");
-	public static final cselector BDCSIncrement = new cselector("css, #incrementId");
-	public static final cselector BDCSPrice = new cselector("css,div.header-column.header-column-2 > div > div > div.gwt-HTML.gwt-now-price-holder.gwt-promo-discount-now-label","css,div.t-product-details-heading__price-wrapper > div > div > div > span.t-product-promo-price.final-price.u-text-weight-medium.u-color-accent.u-text-size-18");
+	public static final cselector BDItemTitle = new cselector("css,.gwt-product-detail-product-name-label","css,.t-product-details-heading__title");
+	public static final cselector SCBDConfigOptions = new cselector("css,.gwt-fabric-with-frame-selection-container > div.gwt-selection-chip-picker > div > div","css,div.c-fabric-configurations > div:nth-child(1) > div:nth-child(2) > div > div.pw-swatch__items > div > button");
+	public static final cselector SCBDFabricOptions = new cselector("css,div.gwt-fabric-types-selection-container > div.gwt-selection-chip-picker > div > div","css,div.c-fabric-configurations > div:nth-child(2) > div:nth-child(2) > div > div.pw-swatch__items > div > button");
+	public static final cselector BDColorOptions = new cselector("css,.gwt-pdp-swatch-thumbnail-image","css,div.c-fabric-swatches-panel > div > div.pw-swatch__items > div > button");
+	public static final cselector BDBottomPrice = new cselector("css,div.gwt-price-itemNumber > div > div > div.gwt-HTML.gwt-now-price-holder.gwt-promo-discount-now-label","css,div.u-padding-lg.u-bg-color-alto.u-margin-bottom.u-border-top > div > div.u-text-size-base > span");
+	public static final cselector IncrementBtn = new cselector("css, #incrementId");
+	public static final cselector BDTopPrice = new cselector("css,div.header-column.header-column-2 > div > div > div.gwt-HTML.gwt-now-price-holder.gwt-promo-discount-now-label","css,div.t-product-details-heading__price-wrapper > div > div > div > span.t-product-promo-price.final-price.u-text-weight-medium.u-color-accent.u-text-size-18");
 	public static final cselector OrderASwatchButton = new cselector("css,#gwt-comshop-slipcover-customization-sub-tab-panel > button","css,div.c-order-swatch > button");
 	public static final cselector OrderASwatchModal = new cselector("css,div.gwt-DialogBox.ok-cancel-dlog.slipcover-comshop-order-swatch-modelV2","css,div.pw-sheet__wrapper > div");
 	public static final cselector OrderSwatchsDropdown = new cselector("css,div.gwt-swatch-filter-panel > div.swatch-filters-panel > div > div","css,div.u-flexbox.u-padding-bottom-lg > div:nth-child(1) > button");
 	public static final cselector SearchSwatchInput = new cselector("css,div.gwt-swatch-filter-panel > input","css, div.pw-sheet__content > div > div > div:nth-child(4) > div > div > div > div > div > div > input");
 	public static final cselector SearchSwatchResults = new cselector("css,div.all-swatches-container-panel > div > div.gwt-PDP-Fabric-Image-panel:not([aria-hidden]) > img","css,div.m-order-swatch-modal__option.u-display-flex.u-padding-lg.u-border-no-color.u-margin-top-lg.u-margin-bottom-lg.u-border-alto > div > button > div > div > img");
-	public static final cselector SuggestedSwatchs = new cselector("css,div.all-swatches-container-panel > div > div > div > button","css,div.m-order-swatch-modal__option.u-display-flex.u-padding-lg.u-border-no-color.u-margin-top-lg.u-margin-bottom-lg.u-border-alto > div > div > button");
-	public static final cselector ResetFilter = new cselector("css,div.swatch-filters-panel > button","css, div.c-fabric-empty-result-panel.u-flex-1.u-text-align-end > div > button");
+	public static final cselector SuggestedSwatches = new cselector("css,div.all-swatches-container-panel > div > div > div > button","css,div.m-order-swatch-modal__option.u-display-flex.u-padding-lg.u-border-no-color.u-margin-top-lg.u-margin-bottom-lg.u-border-alto > div > div > button");
+	public static final cselector ResetFilterBtn = new cselector("css,div.swatch-filters-panel > button","css, div.c-fabric-empty-result-panel.u-flex-1.u-text-align-end > div > button");
 	public static final cselector firstSuggestedSwatch = new cselector("css,div.all-swatches-container-panel > div > div:nth-child(1) > div > button","css, div.m-order-swatch-modal__option.u-display-flex.u-padding-lg.u-border-no-color.u-margin-top-lg.u-margin-bottom-lg.u-border-alto > div:nth-child(1) > div > button");
 	public static final cselector SwatchLimitMsg = new cselector("css,div.order-selected-swatch-panel > div.gwt-HTML.swatch-detail-header-exceeded-limitation","css,div.pw-dangerous-html > div > div.gwt-HTML.swatch-detail-header-exceeded-limitation");
 	public static final cselector AddSwatchesToCartBtn = new cselector("css,div.swatches-to-cart-button-panel > button","css,div.u-margin-top.u-margin-bottom-lg > button");
-	public static final cselector AddedSwatchesItems = new cselector("css,div.addToCartProductsContainer > div > div > div","css,div.pw-sheet__content > div > div > div > div > div");
-	public static final cselector closeMiniCart = new cselector("css,#sheet__header-1 > div > div.pw-header-bar__actions > button");
+	public static final cselector AddedSwatchesItems = new cselector("css,div.addToCartProductsContainer > div > div > div","css,div > div.pw-sheet__content > div > div > div > div.u-margin-start-lg.u-margin-top.u-color-neutral-110.u-text-weight-light.u-text-size-base > div");
+	public static final cselector closeModal = new cselector("css,div.gwt-DialogBox.ok-cancel-dlog.gwt_addtocart_div > div > table > tbody > tr.dialogTop > td.dialogTopCenter > div > div > div > button","css,.captionContainer > button","css,.m-products_added_to_cart_modal  .c-icon-label-button");
+	public static final cselector BDAddToCartModal = new cselector("css,.gwt-DialogBox.ok-cancel-dlog.gwt_addtocart_div","css,div.pw-sheet__wrapper > div > div.pw-sheet__content");
 
 }

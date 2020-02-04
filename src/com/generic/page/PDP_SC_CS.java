@@ -13,7 +13,7 @@ import com.generic.util.SelectorUtil;
 import com.generic.selector.PDPSelectors;
 
 
-public class CSPDP extends SelTestCase {
+public class PDP_SC_CS extends SelTestCase {
 	
 	public static boolean validateTheRightPDP(String targetedItem) throws Exception {
 		boolean isRightItem = false;
@@ -21,7 +21,7 @@ public class CSPDP extends SelTestCase {
 			getCurrentFunctionName(true);
 			logs.debug("Validate if you are in the right PDP");
 			
-			String itemTitle = SelectorUtil.getElement(PDPSelectors.BDCSItemTitle.get()).getText();
+			String itemTitle = SelectorUtil.getElement(PDPSelectors.BDItemTitle.get()).getText();
 			isRightItem = itemTitle.contains("Slipcover");
 			 
 			return isRightItem;
@@ -34,51 +34,39 @@ public class CSPDP extends SelTestCase {
 		
 	}
 	
-	public static void selectConfiguration() throws Exception {
+	public static void SCselectConfiguration() throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			String subStrArr = PDPSelectors.BDCSConfigOptions.get();
+			String subStrArr = PDPSelectors.SCBDConfigOptions.get();
 			List<WebElement> configOptions = new ArrayList<>();
 			configOptions = SelectorUtil.getAllElements(subStrArr);
-			int numberOfAvaibleOptions = configOptions.size();
-			
-			if (numberOfAvaibleOptions > 0) {
-			    WebElement selectedElement = SelectorUtil.getRandomWebElement(configOptions);
-				SelectorUtil.clickOnWebElement(selectedElement);
+			WebElement selectedElement = SelectorUtil.getRandomWebElement(configOptions);
+			SelectorUtil.clickOnWebElement(selectedElement);
 			logs.debug("The configuration Selected is :" + selectedElement.getText());
-			}else {
-				logs.debug("There is No configuration options");
-			}
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(
-					ExceptionMsg.PageFunctionFailed + "Configuration selector was not found by seleniuem", new Object() {
+					ExceptionMsg.PageFunctionFailed + "There is No configuration options", new Object() {
 					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
 	
-	public static void selectFabric() throws Exception {
+	public static void SCselectFabric() throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			String subStrArr = PDPSelectors.BDCSFabricOptions.get();
+			String subStrArr = PDPSelectors.SCBDFabricOptions.get();
 			List<WebElement> FabricOptions = new ArrayList<>();
 			FabricOptions = SelectorUtil.getAllElements(subStrArr);
-			int numberOfAvaibleOptions = FabricOptions.size();
-			
-			if (numberOfAvaibleOptions > 0) {
-			    WebElement selectedElement = SelectorUtil.getRandomWebElement(FabricOptions);
-				SelectorUtil.clickOnWebElement(selectedElement);
+			WebElement selectedElement = SelectorUtil.getRandomWebElement(FabricOptions);
+			SelectorUtil.clickOnWebElement(selectedElement);
 			logs.debug("The Fabric Selected is :" + selectedElement.getText());
-			}else {
-				logs.debug("There is No Fabric options");
-			}
 			//Reset The Fabric by select the default option
 			SelectorUtil.clickOnWebElement(FabricOptions.get(0));
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(
-					ExceptionMsg.PageFunctionFailed + "Fabric selector was not found by seleniuem", new Object() {
+					ExceptionMsg.PageFunctionFailed + "There is No Fabric options", new Object() {
 					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
@@ -88,24 +76,16 @@ public class CSPDP extends SelTestCase {
 		try {
 			getCurrentFunctionName(true); 
 			WebElement selectedElement = null;
-			String subStrArr = PDPSelectors.BDCSColorOptions.get();
+			String subStrArr = PDPSelectors.BDColorOptions.get();
 			List<WebElement> ColorOptions = new ArrayList<>();
 			ColorOptions = SelectorUtil.getAllElements(subStrArr);
-			int numberOfAvaibleOptions = ColorOptions.size();
-			
-			if (numberOfAvaibleOptions > 0) {
-			    selectedElement = SelectorUtil.getRandomWebElement(ColorOptions);
-				SelectorUtil.clickOnWebElement(selectedElement);
-			
-			
-			}else {
-				logs.debug("There is No Color options");
-			}
+			selectedElement = SelectorUtil.getRandomWebElement(ColorOptions);
+			SelectorUtil.clickOnWebElement(selectedElement);
 			getCurrentFunctionName(false);
 			return selectedElement;
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(
-					ExceptionMsg.PageFunctionFailed + "Color selector was not found by seleniuem", new Object() {
+					ExceptionMsg.PageFunctionFailed + "There is No Color options", new Object() {
 					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
@@ -116,7 +96,7 @@ public class CSPDP extends SelTestCase {
 			getCurrentFunctionName(true);
 			boolean isDisplayed;
 			logs.debug("Validate if price exist");
-			String selector = PDPSelectors.BDCSPrice.get();
+			String selector = PDPSelectors.BDTopPrice.get();
 			isDisplayed = SelectorUtil.isDisplayed(selector);
 			getCurrentFunctionName(false);
 			return isDisplayed;
@@ -131,7 +111,7 @@ public class CSPDP extends SelTestCase {
 	public static void pickOneQuantity() throws Exception {
 		try {
 			
-			String subStrArr = PDPSelectors.BDCSIncrement.get();
+			String subStrArr = PDPSelectors.IncrementBtn.get();
 			WebElement increment = SelectorUtil.getElement(subStrArr);
 			
 			SelectorUtil.clickOnWebElement(increment);
@@ -152,7 +132,7 @@ public class CSPDP extends SelTestCase {
 			getCurrentFunctionName(true);
 			logs.debug("Validate if bottom price is updated after seleting options");
 			String selector;
-		    selector = PDPSelectors.BDCSBottomPrice.get();
+		    selector = PDPSelectors.BDBottomPrice.get();
 			SelectorUtil.initializeSelectorsAndDoActions(selector);
 			String price = SelectorUtil.textValue.get();
 			getCurrentFunctionName(false);
@@ -256,24 +236,16 @@ public class CSPDP extends SelTestCase {
 			List<WebElement> searchResults = new ArrayList<>();
 			searchResults = getAllSwatchSearchResult();
 			Thread.sleep(5000);
-			
-			int numberOfAvaibleOptions = searchResults.size();
-			
-			if (numberOfAvaibleOptions > 0) {
-			    WebElement selectedElement = SelectorUtil.getRandomWebElement(searchResults);
-			    String descOfSelectedItem = selectedElement.getAttribute("alt");
-			    isWorked = descOfSelectedItem.toLowerCase().contains(searchTerm.toLowerCase()) ? true : false ;
-			}else {
-				logs.debug("There is No Search Results to Validate it ..");
-				
-			}
+			WebElement selectedElement = SelectorUtil.getRandomWebElement(searchResults);
+			String descOfSelectedItem = selectedElement.getAttribute("alt");
+			isWorked = descOfSelectedItem.toLowerCase().contains(searchTerm.toLowerCase()) ? true : false ;
 			//Reset Or Clear the Search Input
-			SelectorUtil.clickOnWebElement(SelectorUtil.getElement(PDPSelectors.ResetFilter.get()));
+			SelectorUtil.clickOnWebElement(SelectorUtil.getElement(PDPSelectors.ResetFilterBtn.get()));
 			getCurrentFunctionName(false);
 			return isWorked;
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(
-					ExceptionMsg.PageFunctionFailed + "Swatch Search selector was not found by selenium",
+					ExceptionMsg.PageFunctionFailed + "There is No Search Results to Validate it ..",
 					new Object() {
 					}.getClass().getEnclosingMethod().getName()));
 			throw e;
@@ -296,17 +268,17 @@ public class CSPDP extends SelTestCase {
 		}
 	}
 	
-	public static List<WebElement> getAllSuggestedSwatchs() throws Exception{
+	public static List<WebElement> getAllSuggestedSwatches() throws Exception{
 		try {
 			getCurrentFunctionName(true);
-			String subStrArr = PDPSelectors.SuggestedSwatchs.get();
+			String subStrArr = PDPSelectors.SuggestedSwatches.get();
 			List<WebElement> searchResults = new ArrayList<>();
 			searchResults = SelectorUtil.getAllElements(subStrArr);
 			getCurrentFunctionName(false);
 			return searchResults;
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(
-					ExceptionMsg.PageFunctionFailed + "Suggested Swatchs selector was not found by seleniuem", new Object() {
+					ExceptionMsg.PageFunctionFailed + "Suggested Swatches selector was not found by seleniuem", new Object() {
 					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
@@ -315,7 +287,7 @@ public class CSPDP extends SelTestCase {
 	public static void clickAddSwatch(char key) throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			List<WebElement> allSwatches = getAllSuggestedSwatchs();
+			List<WebElement> allSwatches = getAllSuggestedSwatches();
 			if(key == 'S') {
 				SelectorUtil.clickOnWebElement(allSwatches.get(0));
 				logs.debug("Add a Swatch Successfully");
@@ -352,7 +324,7 @@ public class CSPDP extends SelTestCase {
 		}
 	}
 	
-	public static boolean validateAddMoreThan10Swatchs() throws Exception {
+	public static boolean validateAddMoreThan10Swatches() throws Exception {
 		try {
 			getCurrentFunctionName(true);
 			boolean isDisplayed;
@@ -386,20 +358,19 @@ public class CSPDP extends SelTestCase {
 	
 	public static boolean validateNumAddedSwatchesIsRight() throws Exception {
 		try {
-			boolean isCorrectNum = true;
+			boolean isCorrectNum = false;
 			getCurrentFunctionName(true);
 			List<WebElement> addedSwatchesList = new ArrayList<>();
 			addedSwatchesList = getAllAddedSwatches();
 			int numberOfAddedItems = addedSwatchesList.size();
-			
-			if (numberOfAddedItems < 10) {
-				isCorrectNum = false;
+			if (numberOfAddedItems == 10) {
+				isCorrectNum = true;
 			}
 			getCurrentFunctionName(false);
 			return isCorrectNum;
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(
-					ExceptionMsg.PageFunctionFailed + "Added Swatches Item selector was not found by selenium",
+					ExceptionMsg.PageFunctionFailed + "validate the of number Adde dSwatches has failed",
 					new Object() {
 					}.getClass().getEnclosingMethod().getName()));
 			throw e;
@@ -416,19 +387,25 @@ public class CSPDP extends SelTestCase {
 			return addedSwatchesList;
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(
-					ExceptionMsg.PageFunctionFailed + "Swatchs Item selector was not found by seleniuem", new Object() {
+					ExceptionMsg.PageFunctionFailed + "Swatches Item selector was not found by seleniuem", new Object() {
 					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
 	}
-	public static void closeMiniCart() throws Exception {
+	
+	public static boolean validateProductIsAddedToCart() throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			SelectorUtil.clickOnWebElement(SelectorUtil.getElement(PDPSelectors.closeMiniCart.get()));
+				boolean isDisplayed;
+				Thread.sleep(4000);
+				isDisplayed = SelectorUtil.isDisplayed(PDPSelectors.BDAddToCartModal.get());
+				SelectorUtil.clickOnWebElement(SelectorUtil.getElement(PDPSelectors.closeModal.get()));
 			getCurrentFunctionName(false);
-		}catch(NoSuchElementException e) {
+			return isDisplayed;
+		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(
-					ExceptionMsg.PageFunctionFailed + "Swatchs Item selector was not found by seleniuem", new Object() {
+					ExceptionMsg.PageFunctionFailed + "Add to cart modal selector was not found by selenium",
+					new Object() {
 					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}

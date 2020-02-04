@@ -83,7 +83,7 @@ public class PDPBase extends SelTestCase {
 			}
 			
 			if(proprties.contains(slipCoverPDP)) {
-				PDPCSValidation.validate(slipCoverPDPSearchTerm);
+				SCPDPValidation.validate(slipCoverPDPSearchTerm);
 			}
 
 			sassert().assertAll();
