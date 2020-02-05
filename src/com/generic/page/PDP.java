@@ -2007,5 +2007,28 @@ public class PDP extends SelTestCase {
 			throw e;
 		}
 	}
+	
+	public static void clickAddToCartButtonNoBundle() throws Exception {
+		try {
+			getCurrentFunctionName(true);
+		
+			if (SelTestCase.isFGGR())
+				SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.addToCartBtn.get());
+
+			if (SelTestCase.isGHRY()) 
+				SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.GHRYaddToCartBtn.get());
+			
+			if (SelTestCase.isBD()) 
+				SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.addToCartBtnBD.get());
+			
+			getCurrentFunctionName(false);
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Add to cart button selector was not found by selenium",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+	}
 
 }

@@ -46,7 +46,7 @@ public class Registration extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			logs.debug(MessageFormat.format(LoggingMsg.TYPING_ELEMENT_VALUE, "firstname ", firstName));
-			if (isGH() || isRY()) {
+			if (isGH() || isRY() || isBD()) {
 				if (isMobile()) {
 					List<WebElement> fields = SelectorUtil.getAllElements(RegistrationSelectors.firstNameGH.get());
 					SelectorUtil.writeToFieldPWA(fields.get(0),firstName);
@@ -72,7 +72,7 @@ public class Registration extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			logs.debug(MessageFormat.format(LoggingMsg.TYPING_ELEMENT_VALUE, "lastname ", lastName));
-			if (isGH() || isRY()) {
+			if (isGH() || isRY() || isBD()) {
 				if (isMobile()) {
 					List<WebElement> fields = SelectorUtil.getAllElements(RegistrationSelectors.lastNameGH.get());
 					SelectorUtil.writeToFieldPWA(fields.get(2),lastName);
@@ -174,7 +174,7 @@ public class Registration extends SelTestCase {
 			getCurrentFunctionName(true);
 			if (!isRY()) {
 				logs.debug(MessageFormat.format(LoggingMsg.TYPING_ELEMENT_VALUE, "companyName", comapnyName));
-				if (isGH()) {
+				if (isGH() || isBD()) {
 					if (isMobile()) {
 						List<WebElement> fields = SelectorUtil
 								.getAllElements(RegistrationSelectors.companyNameGH.get());
@@ -303,7 +303,7 @@ public class Registration extends SelTestCase {
 	private static void typePhone(String phone) throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			if (isGH() || isRY()) {
+			if (isGH() || isRY() || isBD()) {
 				if (isMobile()) {
 					List<WebElement> fields = SelectorUtil.getAllElements(RegistrationSelectors.phoneGH.get());
 					SelectorUtil.writeToFieldPWA(fields.get(8), phone);
@@ -352,7 +352,7 @@ public class Registration extends SelTestCase {
 	private static void typeAddressLine1(String address) throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			if (isGH() || isRY()) {
+			if (isGH() || isRY() || isBD()) {
 				if (isMobile()) {
 					List<WebElement> fields = SelectorUtil.getAllElements(RegistrationSelectors.AddressLine1GH.get());
 					SelectorUtil.writeToFieldPWA(fields.get(4),address);
@@ -375,7 +375,7 @@ public class Registration extends SelTestCase {
 	private static void typeCity(String city) throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			if (isGH() || isRY()) {
+			if (isGH() || isRY() || isBD()) {
 				if (isMobile()) {
 					List<WebElement> fields = SelectorUtil.getAllElements(RegistrationSelectors.cityGH.get());
 					SelectorUtil.writeToFieldPWA(fields.get(6),city);
@@ -397,7 +397,7 @@ public class Registration extends SelTestCase {
 	private static void typeState(String state) throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			if (isGH() || isRY()) {
+			if (isGH() || isRY()|| isBD()) {
 				SelectorUtil.initializeSelectorsAndDoActions(RegistrationSelectors.stateGH.get(), state);
 			} else
 				SelectorUtil.initializeSelectorsAndDoActions(RegistrationSelectors.state.get(), state);
@@ -416,7 +416,7 @@ public class Registration extends SelTestCase {
 	private static void typeZipcode(String zipcode) throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			if (isGH() || isRY()) {
+			if (isGH() || isRY()|| isBD()) {
 				if (isMobile()) {
 					List<WebElement> fields = SelectorUtil.getAllElements(RegistrationSelectors.ZipcodeGH.get());
 					SelectorUtil.writeToFieldPWA(fields.get(7),zipcode);
