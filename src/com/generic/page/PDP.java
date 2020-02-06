@@ -40,9 +40,13 @@ public class PDP extends SelTestCase {
 			getCurrentFunctionName(true);
 			// This is to handle production Monetate issue on iPad for search field.
 			if (isFGGR() && isiPad())
+				{
 				HomePage.updateMmonetate();
-			if (isFGGR() || (isRY() && isMobile()) || isBD() && isMobile())
+				}
+			if (isFGGR() || ((isRY() && isMobile())) || ((isBD() && isMobile())))
+				{
 				PLP.clickSearchicon();
+				}
 			String itemName = "";
 			// This is to handle iPad behavior for search modal.
 			// TODO: to use this process on all brands
@@ -50,9 +54,9 @@ public class PDP extends SelTestCase {
 				PLP.clickSearch(SearchTerm);
 				if (SelectorUtil.isElementExist(By.cssSelector(PLPSelectors.PLPPageSelector.get()))) {
 					itemName = PLP.pickPLPFirstProduct();
-
 				}
-			} else {
+			} 
+			else {
 				PLP.typeSearch(SearchTerm);
 				itemName = PLP.pickRecommendedOption();
 			}
@@ -123,12 +127,13 @@ public class PDP extends SelTestCase {
 				subStrArr = PDPSelectors.BDaddToCartBtn.get();
 
 				// Bundle product selector.
+			 if(!isMobile() && isBD()) {
 				int numberOfItems = getNumberOfItems();
 				if (numberOfItems > 1) {
 					String ProductID = getProductID(0);
 					subStrArr = MessageFormat.format(PDPSelectors.GHAddToCartBtnEnabledBundle.get(), ProductID);
 				}
-
+			 }
 			SelectorUtil.initializeSelectorsAndDoActions(subStrArr);
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
@@ -423,7 +428,10 @@ public class PDP extends SelTestCase {
 
 			boolean isDisplayed;
 			logs.debug("Validate if top price exist for Bundle PDP");
-			isDisplayed = SelectorUtil.isDisplayed(PDPSelectors.topPriceBundleDesktop.get());
+			if(isBD())
+				isDisplayed = SelectorUtil.isDisplayed(PDPSelectors.BDtopPriceBundleDesktop.get());
+			else
+				isDisplayed = SelectorUtil.isDisplayed(PDPSelectors.topPriceBundleDesktop.get());
 
 			getCurrentFunctionName(false);
 			return isDisplayed;
@@ -494,11 +502,17 @@ public class PDP extends SelTestCase {
 			String selectorEnabled = PDPSelectors.addToWLGRBtnEnabledSingle.get();
 			if(isBD())
 				selectorEnabled = PDPSelectors.BDaddToWLGRBtnEnabledSingle.get();	
-			PDPSelectors.addToCartBtnDisabledSingle.get();
+				
 			if (!isMobile() && Bundle) {
-				logs.debug(PDPSelectors.addToWLGRBtnEnabledBundle);
-				selectorEnabled = MessageFormat.format(PDPSelectors.addToWLGRBtnEnabledBundle, ProductID);
+				if(isBD())
+					selectorEnabled = PDPSelectors.BDaddToWLGRBtnEnabledSingle.get();
+				else{
+					PDPSelectors.addToCartBtnDisabledSingle.get();
+					logs.debug(PDPSelectors.addToWLGRBtnEnabledBundle);
+					selectorEnabled = MessageFormat.format(PDPSelectors.addToWLGRBtnEnabledBundle, ProductID);
+				
 				logs.debug(PDPSelectors.addToCartBtnDisabledBundle);
+				}
 				MessageFormat.format(PDPSelectors.addToCartBtnDisabledBundle, ProductID);
 			}
 			isDisplayed = SelectorUtil.isDisplayed(selectorEnabled);
@@ -573,10 +587,15 @@ public class PDP extends SelTestCase {
 
 			if (!isMobile() && Bundle) {
 
-				logs.debug(PDPSelectors.addToCartBtnEnabledBundle);
-				selectorEnabled = MessageFormat.format(PDPSelectors.addToCartBtnEnabledBundle, ProductID);
-				logs.debug(PDPSelectors.addToCartBtnDisabledBundle);
-				MessageFormat.format(PDPSelectors.addToCartBtnDisabledBundle, ProductID);
+				if(isBD()) {
+					selectorEnabled = MessageFormat.format(PDPSelectors.BDaddToCartBtnEnabledBundle, ProductID);
+					logs.debug(PDPSelectors.BDaddToCartBtnEnabledBundle);
+				}else {
+					logs.debug(PDPSelectors.addToCartBtnEnabledBundle);
+					selectorEnabled = MessageFormat.format(PDPSelectors.addToCartBtnEnabledBundle, ProductID);
+					logs.debug(PDPSelectors.addToCartBtnDisabledBundle);
+					MessageFormat.format(PDPSelectors.addToCartBtnDisabledBundle, ProductID);
+				}
 			}
 			isDisplayed = SelectorUtil.isDisplayed(selectorEnabled);
 			getCurrentFunctionName(false);
@@ -598,10 +617,14 @@ public class PDP extends SelTestCase {
 			String selector = PDPSelectors.bottomPriceSingle.get();
 					if(isGHRY()) {
 			selector = PDPSelectors.GHRYBottomPriceSingle.get();
-		}
+	   	}else if (isBD())
+			selector = PDPSelectors.BDbottomPriceSingle.get();
       if (!SelTestCase.getBrowserName().contains(GlobalVariables.browsers.iPhone) && getNumberOfItems() > 1) {
 				String ProductID = getProductID(0);
-				selector = MessageFormat.format(PDPSelectors.bottomPriceBundle, ProductID);
+				if(isBD())
+				    selector = MessageFormat.format(PDPSelectors.BDbottomPriceBundle, ProductID);
+				else
+				    selector = MessageFormat.format(PDPSelectors.bottomPriceBundle, ProductID);
 			}
 			SelectorUtil.initializeSelectorsAndDoActions(selector);
 			String price = SelectorUtil.textValue.get();
@@ -633,7 +656,14 @@ public class PDP extends SelTestCase {
 				selector = PDPSelectors.GHRYBottomPriceSingle.get();
 			}
 			if (bundle) {
-				if (isGH()) {
+				if(isBD()) {
+					if(isMobile())
+						selector = PDPSelectors.BDbottomPriceBundleMobile.get();
+					else
+					    selector = MessageFormat.format(PDPSelectors.BDbottomPriceBundle, ProductID);
+					
+				}
+				else if (isGH()) {
 					selector= MessageFormat.format(PDPSelectors.GHBottomPriceBundle.get(), ProductID);
 				} else if(!isMobile()) {
 					selector = MessageFormat.format(PDPSelectors.bottomPriceBundle, ProductID);
@@ -663,7 +693,7 @@ public class PDP extends SelTestCase {
 			if (!isMobile()) {
 				Thread.sleep(4000);
 				isDisplayed = SelectorUtil.isDisplayed(PDPSelectors.addToCartModal.get());
-			} else if (isMobile() && isGHRY()) {
+			} else if (isMobile() &&( isGHRY() || isBD())) {
 				isDisplayed = SelectorUtil.isDisplayed(PDPSelectors.addToCartModal.get());
 			} else {
 				HomePage.clickOnMiniCart();
@@ -688,7 +718,9 @@ public class PDP extends SelTestCase {
 				SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.GHaddToWLGRBtnEnabled.get());
 			} else if (isRY()) {
 				SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.RYaddToWLGRBtnEnabled.get());
-			} else {
+			} else if (isBD()){
+				SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.BDaddToWLGRBtnEnabledSingle.get());
+			}else {
 				SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.addToWLGRBtnEnabled.get());
 			}
 			getCurrentFunctionName(false);
@@ -731,9 +763,9 @@ public class PDP extends SelTestCase {
 				  Str= PDPSelectors.BDnumberOfBundleItems.get();
 			}
 			int numberOfItems = 1;
-			// if (!SelectorUtil.isNotDisplayed(Str)) {
+			 if (!SelectorUtil.isNotDisplayed(Str)) {
 			numberOfItems = SelectorUtil.getAllElements(Str).size();
-			// }
+			 }
 			logs.debug("Number of Items: " + numberOfItems);
 			if (numberOfItems == 1 && bundleProduct()) {
 				logs.debug("This is a bundle product with one item");
@@ -828,7 +860,7 @@ public class PDP extends SelTestCase {
 	public static void selectSwatches(Boolean bundle, String ProductID) throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			if (isFGGR() ||  isBD()) {
+			if (isFGGR()) {
 				if (!isMobile() && bundle) {
 					FGGRselectSwatchesBundle(ProductID);
 
@@ -969,7 +1001,11 @@ public class PDP extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.WLName.get(), WLName);
-			SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.nameYourNewWLconfirmationBtn.get());
+			if(isBD())
+			    SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.BDnameYourNewWLconfirmationBtn.get());
+			else
+				SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.nameYourNewWLconfirmationBtn.get());
+
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
@@ -1014,7 +1050,10 @@ public class PDP extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			logs.debug("Click on create new wish list");
-			SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.createNewWLConfirmationBtn.get());
+			if(isBD())
+				SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.BDcreateNewWLConfirmationBtn.get());
+			else	
+			    SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.createNewWLConfirmationBtn.get());
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
@@ -1041,7 +1080,7 @@ public class PDP extends SelTestCase {
 
 				WebElement addToCardProductElement = SelectorUtil.getElement(PDPSelectors.addToCardProductName.get());
 				String viewListBtnSelector;
-				if (isGH() || isRY()) {
+				if (isGH() || isRY() || isBD()) {
 					viewListBtnSelector = PDPSelectors.GHRYviewListBtn.get();
 				} else {
 					viewListBtnSelector = PDPSelectors.viewListBtn.get();
@@ -1078,7 +1117,7 @@ public class PDP extends SelTestCase {
 			Thread.sleep(2000);
 			List<WebElement> products = SelectorUtil.getElementsList(PDPSelectors.addedProductName.get());
 			List<WebElement> addToCartBtns = new ArrayList<WebElement>();
-			if (isGH()) {
+			if (isGH() || isBD()) {
 				addToCartBtns = SelectorUtil.getElementsList(PDPSelectors.GHmyWLAddToCartBtn.get());
 			} else if (isRY()) {
 				addToCartBtns = SelectorUtil.getElementsList(PDPSelectors.RYmyWLAddToCartBtn.get());
@@ -1258,19 +1297,29 @@ public class PDP extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			boolean isDisplayed = false;
-			String addPersonalizedButtonSelector = PDPSelectors.addPersonalizedButton.get();
-			if (!isMobile() && Bundle) {
-				addPersonalizedButtonSelector = "css,#" + ProductID + ">"
-						+ PDPSelectors.addPersonalizedButton.get().replace("css,", "");
+            String addPersonalizedButtonSelector;
+            if(isBD())
+             addPersonalizedButtonSelector = PDPSelectors.BDaddPersonalizedButton.get();
+            else
+             addPersonalizedButtonSelector = PDPSelectors.addPersonalizedButton.get();
+            
+            if (!isMobile() && Bundle) {
+                if(isBD())
+                    addPersonalizedButtonSelector = "css,#" + ProductID + " "
+                            + PDPSelectors.BDaddPersonalizedButton.get().replace("css,", "");
+                else{
+                addPersonalizedButtonSelector = "css,#" + ProductID + ">"
+                        + PDPSelectors.addPersonalizedButton.get().replace("css,", "");
 				logs.debug("addPersonalizedButtonSelector:  " + addPersonalizedButtonSelector);
-			}
-			isDisplayed = SelectorUtil.isDisplayed(addPersonalizedButtonSelector);
-			getCurrentFunctionName(false);
-			return isDisplayed;
-		} catch (NoSuchElementException e) {
-			return false;
-		}
-	}
+				}
+            }
+            isDisplayed = SelectorUtil.isDisplayed(addPersonalizedButtonSelector);
+            getCurrentFunctionName(false);
+            return isDisplayed;
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+    }
 
 	public static void clickAddPersonalizationButton() throws Exception {
 		try {
@@ -1301,11 +1350,18 @@ public class PDP extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			String addPersonalizedButtonSelector = PDPSelectors.addPersonalizedButton.get();
+			if(isBD())
+				addPersonalizedButtonSelector = PDPSelectors.BDaddPersonalizedButton.get();
 
 			if (!isMobile() && Bundle) {
-				addPersonalizedButtonSelector = "css,#" + ProductID + ">"
+				if(isBD())
+					addPersonalizedButtonSelector = "css,#" + ProductID + " "
+							+ PDPSelectors.BDaddPersonalizedButton.get().replace("css,", "");
+				else{
+				    addPersonalizedButtonSelector = "css,#" + ProductID + ">"
 						+ PDPSelectors.addPersonalizedButton.get().replace("css,", "");
 				logs.debug("addPersonalizedButtonSelector:  " + addPersonalizedButtonSelector);
+				}
 			}
 
 			SelectorUtil.initializeSelectorsAndDoActions(addPersonalizedButtonSelector);
@@ -1326,9 +1382,17 @@ public class PDP extends SelTestCase {
 			getCurrentFunctionName(true);
 			boolean isFree = true;
 			String addPersonalizedButtonSelector = PDPSelectors.personlizedTitle.get();// for iPhone
+			if(isBD())
+				addPersonalizedButtonSelector = PDPSelectors.BDpersonlizedTitle.get();
 			if (!isMobile()) {
 				addPersonalizedButtonSelector = PDPSelectors.addPersonalizedButton.get();// for single PDP
+				if(isBD())
+					addPersonalizedButtonSelector = PDPSelectors.BDaddPersonalizedButton.get();// for single PDP
 				if (Bundle) {// for bundle PDP
+					if(isBD())
+					addPersonalizedButtonSelector = "css,#" + ProductID + " "
+								+ PDPSelectors.BDaddPersonalizedButton.get().replace("css,", "");
+					else
 					addPersonalizedButtonSelector = "css,#" + ProductID + ">"
 							+ PDPSelectors.addPersonalizedButton.get().replace("css,", "");
 
@@ -1359,6 +1423,8 @@ public class PDP extends SelTestCase {
 			String subStrArr = PDPSelectors.personalizationSaveAndCloseButton.get();
 			if (isGH()) {
 				subStrArr = PDPSelectors.GHPersonalizationSaveAndCloseButton.get();
+			}else if(isBD()) {
+				subStrArr = PDPSelectors.BDpersonalizationSaveAndCloseButton.get();
 			}
 			SelectorUtil.initializeSelectorsAndDoActions(subStrArr);
 			getCurrentFunctionName(false);
@@ -1414,19 +1480,27 @@ public class PDP extends SelTestCase {
 			getCurrentFunctionName(true);
 			closeOpendItem();
 			List<WebElement> elementsList = SelectorUtil.getAllElements(PDPSelectors.personalizedItems.get());
+			if(isBD())
+				elementsList = SelectorUtil.getAllElements(PDPSelectors.BDpersonalizedItems.get());
 			for (int i = 0; i < elementsList.size() - 1; i++) {
 				WebElement element = elementsList.get(i);
 				SelectorUtil.clickOnWebElement(element);
-				if (isPersonalizedInputSwatchesDisplayed(PDPSelectors.personalizedInputValue.get())) {// input container
+				String personalizedInputValue = PDPSelectors.personalizedInputValue.get();
+				String personalizedItemColors1 = PDPSelectors.personalizedItemColors1.get();
+
+				if(isBD()) {
+					personalizedInputValue = PDPSelectors.BDpersonalizedInputValue.get();
+				}
+				if (isPersonalizedInputSwatchesDisplayed(personalizedInputValue)) {// input container
 																										// like MONOGRAM
 																										// or any value
-					WebElement input = SelectorUtil.getElement(PDPSelectors.personalizedInputValue.get());
+					WebElement input = SelectorUtil.getElement(personalizedInputValue);
 					input.sendKeys(RandomUtilities.getRandomStringWithLength(3));
-				} else if (isPersonalizedInputSwatchesDisplayed(PDPSelectors.personalizedItemColors1.get())) { // like
+				} else if (isPersonalizedInputSwatchesDisplayed(personalizedItemColors1)) { // like
 																												// item
 																												// color
 					List<WebElement> itemColors = SelectorUtil
-							.getAllElements(PDPSelectors.personalizedItemColors1.get());
+							.getAllElements(personalizedItemColors1);
 					if (itemColors.size() > 0) {
 						WebElement firstItemColor = itemColors.get(0);
 						SelectorUtil.clickOnWebElement(firstItemColor);
@@ -1454,15 +1528,29 @@ public class PDP extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			closeOpendItem();
-			List<WebElement> elementsList = SelectorUtil.getAllElements(PDPSelectors.personalizedItems.get());
+			List<WebElement> elementsList = new ArrayList<WebElement>();
+			if(isBD())
+			     elementsList = SelectorUtil.getAllElements(PDPSelectors.BDpersonalizedItems.get());
+			else
+		         elementsList = SelectorUtil.getAllElements(PDPSelectors.personalizedItems.get());
 
+			
 			for (int i = 0; i < elementsList.size(); i++) {
 				WebElement element = elementsList.get(i);
+				if(!isBD())
 				SelectorUtil.clickOnWebElement(element);
-				if (isPersonalizedInputSwatchesDisplayed(PDPSelectors.personalizedInputValue.get())) {// input container
-																										// like MONOGRAM
-																										// or any value
-					WebElement input = SelectorUtil.getElement(PDPSelectors.personalizedInputValue.get());
+				
+				String inputSwatches = PDPSelectors.personalizedInputValue.get();;
+				String personalizedItemColor2 = PDPSelectors.personalizedItemColors2.get();;
+				
+				if(isBD()) {
+					inputSwatches = PDPSelectors.BDpersonalizedInputValue.get();
+					personalizedItemColor2 = PDPSelectors.BDpersonalizedItemColors2.get();
+					}
+					
+				if (isPersonalizedInputSwatchesDisplayed(inputSwatches)) {// input container
+																										// like MONOGRAM																				// or any value
+					WebElement input = SelectorUtil.getElement(inputSwatches);
 					input.sendKeys(RandomUtilities.getRandomStringWithLength(3));
 				} else if (isPersonalizedInputSwatchesDisplayed(PDPSelectors.personalizedItemColors1.get())) { // like
 																												// item
@@ -1473,11 +1561,11 @@ public class PDP extends SelTestCase {
 						WebElement firstItemColor = itemColors.get(0);
 						SelectorUtil.clickOnWebElement(firstItemColor);
 					}
-				} else if (isPersonalizedInputSwatchesDisplayed(PDPSelectors.personalizedItemColors2.get())) { // like
+				} else if (isPersonalizedInputSwatchesDisplayed(personalizedItemColor2)) { // like
 																												// thread
 																												// color
 					List<WebElement> itemColors = SelectorUtil
-							.getAllElements(PDPSelectors.personalizedItemColors2.get());
+							.getAllElements(personalizedItemColor2);
 					if (itemColors.size() > 0) {
 						WebElement firstItemColor = itemColors.get(0);
 						SelectorUtil.clickOnWebElement(firstItemColor);
@@ -1547,10 +1635,16 @@ public class PDP extends SelTestCase {
 			String addedPersonlizedDetailsSelector = PDPSelectors.addedPersonlizedDetails.get();
 			if(isGH()) {
 				addedPersonlizedDetailsSelector  =  PDPSelectors.GHAddedPersonlizedDetails.get();
+			}else if(isBD()) {
+				addedPersonlizedDetailsSelector  =  PDPSelectors.BDaddedPersonlizedDetails.get();
 			}
 			if (!isMobile() && Bundle) {
+				if(isBD())
+				addedPersonlizedDetailsSelector = "css,#" + ProductID + " "
+						+ addedPersonlizedDetailsSelector.replace("css,", "");
+				else
 				addedPersonlizedDetailsSelector = "css,#" + ProductID + ">"
-						+ PDPSelectors.addedPersonlizedDetails.get().replace("css,", "");
+				+ PDPSelectors.addedPersonlizedDetails.get().replace("css,", "");
 			}
 			List<WebElement> addedPersonlizedDetailsItems = SelectorUtil
 					.getAllElements(addedPersonlizedDetailsSelector);
@@ -1736,20 +1830,27 @@ public class PDP extends SelTestCase {
 	* @return integer.
 	* @throws Exception
  	*/
-	public static int getQuantity(boolean bundle) throws Exception {
+	public static int getQuantity(boolean bundle,String ProductID) throws Exception {
 		try {
 			getCurrentFunctionName(true);
 			String quantitySelector = PDPSelectors.quantity.get();
 
 			// Bundle product selector.
 			if (bundle) {
-				String ProductID = getProductID(0);
+			
+			 if (ProductID.isEmpty()) {
+					 ProductID = getProductID(0);
+			 }
+
 				quantitySelector = MessageFormat.format(PDPSelectors.quantityBundle.get(), ProductID);
+				if(ProductID == null) {
+					 quantitySelector = PDPSelectors.quantityBundle.get();
+				}
 			}
 			WebElement quantity = SelectorUtil.getElement(quantitySelector);
 
 			String quantityText = quantity.getAttribute("value");
-			if (isMobile()) {
+			if (isMobile() && !isBD()) {
 				// The qunatity is a div not an input.
 				quantityText = quantity.getText();
 			}
@@ -1763,7 +1864,47 @@ public class PDP extends SelTestCase {
 			throw e;
 		}
 	}
+	public static int getQuantity(boolean bundle)throws Exception {
+		try {
+			getCurrentFunctionName(true);
+			String quantitySelector = PDPSelectors.quantity.get();
+     
+			// Bundle product selector.
+			if (bundle && isMobile()) {
+		      quantitySelector = PDPSelectors.BDQuantityBundleMobile.get();	
+			}
+			WebElement quantity = SelectorUtil.getElement(quantitySelector);
+			String quantityText = quantity.getText();
+			int quantityValue = Integer.parseInt(quantityText);
+			getCurrentFunctionName(false);
+			return quantityValue;
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
+			}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+	}
+	public static void selectQuantity(boolean bundle ,String ProductID) throws Exception {
+		try {
+			getCurrentFunctionName(true);
+			String incrementQuantitySelector = PDPSelectors.incrementQuantity.get();
+			// Bundle product selector.
+			if (bundle) {
+				incrementQuantitySelector = MessageFormat.format(PDPSelectors.incrementQuantityBundle, ProductID);
+				if(isBD() && isMobile()) {
+					incrementQuantitySelector = PDPSelectors.incrementQuantity.get();
+				}
+			}
+			SelectorUtil.initializeSelectorsAndDoActions(incrementQuantitySelector);
+			getCurrentFunctionName(false);
 
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
+			}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+	}
+	
 	public static void GHRYselectSwatches(Boolean bundle) throws Exception {
 		try {
 			getCurrentFunctionName(true);
@@ -1829,12 +1970,24 @@ public class PDP extends SelTestCase {
 	public static int getNumberofSwatchContainersBundle() throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			String Str ;
+			String Str = "";
+			int numberOfSwatchContainers = 0;
 			if(!isBD())
 			 Str = "css,#" + getProductID(0) + ">" + PDPSelectors.FGGRSwatchesOptions.get().replace("css,", "");
-			else
-			 Str = "css,#" + getProductID(0) + " " + PDPSelectors.BDSwatchesOptions.get().replace("css,", "");
-			int numberOfSwatchContainers = SelectorUtil.getAllElements(Str).size();
+			else {
+			if(isMobile()) {
+			      String  optionsContainer  = PDPSelectors.BDoptionsContainer.get();
+
+			if(SelectorUtil.isNotDisplayed(optionsContainer)) {
+				return numberOfSwatchContainers;	
+			 }else {
+				Str = PDPSelectors.BDBundleSwatchesOptions.get();
+			 }
+			 }else {
+			 Str = "css,#" + getProductID(0) + " " + PDPSelectors.BDBundleSwatchesOptions.get().replace("css,", "");
+			 }
+			 }
+		     numberOfSwatchContainers = SelectorUtil.getAllElements(Str).size();
 			logs.debug("Number of Swatch Containers: " + numberOfSwatchContainers);
 			getCurrentFunctionName(false);
 			return numberOfSwatchContainers;
@@ -1870,7 +2023,15 @@ public class PDP extends SelTestCase {
 	public static String getSwatchContainersdivClassBundle(int index, String ProductID) throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			String Str = "css,#" + ProductID + ">" + PDPSelectors.FGGRSwatchesOptions.get().replace("css,", "");
+			String Str;
+			if(!isBD())
+			 Str = "css,#" + ProductID + ">" + PDPSelectors.FGGRSwatchesOptions.get().replace("css,", "");
+			else
+			 Str = "css,#" + ProductID + " " + PDPSelectors.BDSwatchesOptions.get().replace("css,", "");
+			if(isBD() && isMobile()) {
+			 Str = PDPSelectors.BDSwatchesOptions.get();
+			}
+
 			String SwatchContainerClass = SelectorUtil.getAttrString(Str, "class", index);
 			logs.debug("SwatchContainerClass: " + SwatchContainerClass);
 			getCurrentFunctionName(false);

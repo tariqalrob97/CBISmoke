@@ -21,6 +21,7 @@ public class PDPBase extends SelTestCase {
 	// possible scenarios
 	public static final String singlePDP = "Validate PDP Single active elements";
 	public static final String bundlePDP = "Validate PDP Bundle active elements";
+	public static final String vkPDP = "Validate PDP_VK";
 	public static final String personalizedPDP = "Validate PDP Personalized active elements";
 	public static final String slipCoverPDP = "Validate PDP Slip Cover active elements";
 	public static final String COMShopPDP = "Validate PDP COM Shop active elements";
@@ -32,11 +33,10 @@ public class PDPBase extends SelTestCase {
 	public static final String slipCoverPDPSearchTerm = "sa083";
 	public static final String comShopPDPSearchTerm = "uc033";
 
-
 	public static final String wishListGuestValidation = "Wish List Guest Validation";
 
 	// used sheet in test
-	public static final String testDataSheet = SheetVariables.PDPSheet;
+	public static final String testDataSheet = SheetVariables.PDPSheet_BD;
 
 	private static XmlTest testObject;
 
@@ -83,7 +83,10 @@ public class PDPBase extends SelTestCase {
 			}
 
 			if (proprties.contains(wishListGuestValidation)) {
-			//	WistListGuestValidation.validate();
+				WistListGuestValidation.validate();
+			}
+			if (proprties.contains(vkPDP)) {
+		     	PDP_VK.validate();
 			}
 			
 			if(proprties.contains(slipCoverPDP)) {
