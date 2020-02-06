@@ -1094,37 +1094,64 @@ public class PDP extends SelTestCase {
 	}
 
 	// Done SMK
-	public static boolean PersonalizedItem(Boolean Bundle, String ProductID) throws Exception {
+	public static boolean PersonalizedItem(Boolean Bundle, String ProductID) {
 		try {
 			getCurrentFunctionName(true);
 			boolean isDisplayed = false;
-			String addPersonalizedButtonSelector = PDPSelectors.addPersonalizedButton.get();
-			if (!isMobile() && Bundle) {
-				addPersonalizedButtonSelector = "css,#" + ProductID + ">"
-						+ PDPSelectors.addPersonalizedButton.get().replace("css,", "");
-				logs.debug("addPersonalizedButtonSelector:  " + addPersonalizedButtonSelector);
+
+			if (isGH()) {
+
+				isDisplayed = SelectorUtil.isDisplayed(PDPSelectors.personalizationIdentiferGH.get());
+				getCurrentFunctionName(false);
+				logs.debug("PDP is personalizable result is:"+isDisplayed);
+				return isDisplayed;
+
+			} else {
+				String addPersonalizedButtonSelector = PDPSelectors.addPersonalizedButton.get();
+
+				if (!isMobile() && Bundle) {
+					addPersonalizedButtonSelector = "css,#" + ProductID + ">"
+							+ PDPSelectors.addPersonalizedButton.get().replace("css,", "");
+					logs.debug("addPersonalizedButtonSelector:  " + addPersonalizedButtonSelector);
+				}
+
+				isDisplayed = SelectorUtil.isDisplayed(addPersonalizedButtonSelector);
+				getCurrentFunctionName(false);
+				logs.debug("PDP is personalizable result is:"+isDisplayed);
+				return isDisplayed;
+
 			}
-			isDisplayed = SelectorUtil.isDisplayed(addPersonalizedButtonSelector);
-			getCurrentFunctionName(false);
-			return isDisplayed;
-		} catch (NoSuchElementException e) {
+
+		} catch (Exception e) {
+			logs.debug("PDP is personalizable result is:"+false);
 			return false;
+
 		}
+
 	}
 
 	public static void clickAddPersonalizationButton(Boolean Bundle, String ProductID) throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			String addPersonalizedButtonSelector = PDPSelectors.addPersonalizedButton.get();
 
-			if (!isMobile() && Bundle) {
-				addPersonalizedButtonSelector = "css,#" + ProductID + ">"
-						+ PDPSelectors.addPersonalizedButton.get().replace("css,", "");
-				logs.debug("addPersonalizedButtonSelector:  " + addPersonalizedButtonSelector);
+			if (isGH()) {
+				SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.addPersonalizedButtonGH.get());
+				getCurrentFunctionName(false);
+
+			} else {
+
+				String addPersonalizedButtonSelector = PDPSelectors.addPersonalizedButton.get();
+
+				if (!isMobile() && Bundle) {
+					addPersonalizedButtonSelector = "css,#" + ProductID + ">"
+							+ PDPSelectors.addPersonalizedButton.get().replace("css,", "");
+					logs.debug("addPersonalizedButtonSelector:  " + addPersonalizedButtonSelector);
+				}
+
+				SelectorUtil.initializeSelectorsAndDoActions(addPersonalizedButtonSelector);
+				getCurrentFunctionName(false);
 			}
 
-			SelectorUtil.initializeSelectorsAndDoActions(addPersonalizedButtonSelector);
-			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(
 					ExceptionMsg.PageFunctionFailed + "Personalization button selector was not found by seleniuem",
