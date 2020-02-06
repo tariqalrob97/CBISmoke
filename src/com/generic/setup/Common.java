@@ -319,6 +319,11 @@ public class Common extends SelTestCase {
 		 * /300441924, color=claycourt, size=SizeUni, £24.26 4, qty=1 } } ]
 		 */
 		LinkedHashMap<String, Object> products = new LinkedHashMap<>();
+		ArrayList<String> FGproducts = new ArrayList<String>();
+		ArrayList<String> GRproducts = new ArrayList<String>();
+		ArrayList<String> GHproducts = new ArrayList<String>();
+		ArrayList<String> RYproducts = new ArrayList<String>();
+		ArrayList<String> BDproducts = new ArrayList<String>();
 
 		dataProviderUtils TDP = dataProviderUtils.getInstance();
 		Object[][] data = TDP.getData(SheetVariables.products, 1);
@@ -326,34 +331,34 @@ public class Common extends SelTestCase {
 		// data map
 		int header = 0;
 		int name = 0;
-		int id = 1;
-		int title = 2;
-		int url = 3;
-		int qty = 4;
-		int color = 5;
-		int fleece = 6;
-		int memory = 7;
-		int size = 8;
-		int bundleProducts = 9;
-		int desc = 10;
-		int price = 11;
+		int brand = 1;
+		int url = 2;
+		
 
 		for (int row = 1; row < data.length; row++) {
-			LinkedHashMap<String, Object> product = new LinkedHashMap<>();
-			product.put((String) data[header][id], data[row][id]);
-			product.put((String) data[header][title], data[row][title]);
-			product.put((String) data[header][url], data[row][url]);
-			product.put((String) data[header][qty], data[row][qty]);
-			product.put((String) data[header][color], data[row][color]);
-			product.put((String) data[header][fleece], data[row][fleece]);
-			product.put((String) data[header][memory], data[row][memory]);
-			product.put((String) data[header][size], data[row][size]);
-			product.put((String) data[header][bundleProducts], data[row][bundleProducts]);
-			product.put((String) data[header][desc], data[row][desc]);
-			product.put((String) data[header][price], data[row][price]);
 
-			products.put((String) data[row][name], product);
+			if (isFG() && brands.FG.equalsIgnoreCase((String) data[row][brand])) {
+				FGproducts.add((String) data[row][url]);
+			}
+			else if (isGR()&& brands.GR.equalsIgnoreCase((String) data[row][brand])) {
+				GRproducts.add((String) data[row][url]);
+			}
+			else if (isGH()&& brands.GH.equalsIgnoreCase((String) data[row][brand])) {
+				GHproducts.add((String) data[row][url]);
+			}
+			else if (isRY()&& brands.RY.equalsIgnoreCase((String) data[row][brand])) {
+				RYproducts.add((String) data[row][url]);
+			}
+			else if (isBD()&& brands.BD.equalsIgnoreCase((String) data[row][brand])) {
+				BDproducts.add((String) data[row][url]);
+			}
 		}
+		products.put(brands.FG, FGproducts);
+		products.put(brands.GR, GRproducts);
+		products.put(brands.GH, GHproducts);
+		products.put(brands.RY, RYproducts);
+		products.put(brands.BD, BDproducts);
+		
 		logs.debug("Products: " + Arrays.asList(products) + "");
 		return products;
 	}// readProducts
