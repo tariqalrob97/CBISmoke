@@ -54,8 +54,12 @@ public class Registration extends SelTestCase {
 					SelectorUtil.initializeSelectorsAndDoActions(RegistrationSelectors.firstNameGH.get(), firstName);
 			}
 
-			else
+			else if(isBD() && isMobile()) {
+				SelectorUtil.initializeSelectorsAndDoActions(RegistrationSelectors.firstNameBD.get(), firstName);
+			}
+			else {
 				SelectorUtil.initializeSelectorsAndDoActions(RegistrationSelectors.firstName.get(), firstName);
+			}
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(
@@ -79,8 +83,8 @@ public class Registration extends SelTestCase {
 				} else
 					SelectorUtil.initializeSelectorsAndDoActions(RegistrationSelectors.lastNameGH.get(), lastName);
 
-			} else
-				SelectorUtil.initializeSelectorsAndDoActions(RegistrationSelectors.lastName.get(), lastName);
+			} 
+			else SelectorUtil.initializeSelectorsAndDoActions(RegistrationSelectors.lastName.get(), lastName);
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(
@@ -310,7 +314,10 @@ public class Registration extends SelTestCase {
 				} else
 					SelectorUtil.initializeSelectorsAndDoActions(RegistrationSelectors.phoneGH.get(), phone);
 
-			} else if (isGR() || isFG() || isBD()) {
+			} else if (isBD() && isMobile()) {
+				SelectorUtil.initializeSelectorsAndDoActions(RegistrationSelectors.phoneBD.get(), phone);
+			}
+			else {
 				SelectorUtil.initializeSelectorsAndDoActions(RegistrationSelectors.phone.get(), phone);
 			}
 			getCurrentFunctionName(false);

@@ -1,6 +1,7 @@
 package com.generic.tests.BD.PDP;
 
 import com.generic.page.PDP;
+import com.generic.page.PDP_BD;
 import com.generic.page.PDP;
 
 import com.generic.setup.SelTestCase;
@@ -36,19 +37,30 @@ public class PDPValidation extends SelTestCase {
 		sassert().assertTrue(PDP.validatePriceIsDisplayed(bundle, ProductID), priceErrorMessage);
 
 		// for bundle PDP mobile, validate the price is displayed in mini PDP page
-		if (isMobile() && bundle) {
-			PDP.clickBundleItems();
-			sassert().assertTrue(PDP.validateMobileBundlePriceIsDisplayed(),
-					"Top price for the bundle item (mini PDP) is not dispayed");
+		boolean priceShownInSizeOption = PDP_BD.BDselectSwatches(bundle, ProductID);
+		if(isMobile()) {
+			if(PDP.getQuantity(bundle) == 0) {
+				PDP.selectQuantity(bundle, ProductID);
+			}
+		}else {
+			if(PDP.getQuantity(bundle,ProductID) == 0) {
+				PDP.selectQuantity(bundle, ProductID);
+			}
 		}
-		PDP.selectSwatches(bundle, ProductID);
-		String bottomPrice = PDP.getBottomPrice(bundle, ProductID);
+		String bottomPrice ;
+		if(priceShownInSizeOption) {
+			 bottomPrice = PDP_BD.BDgetBottomPrice(ProductID,bundle);
+
+		}else {
+			 bottomPrice = PDP.getBottomPrice(bundle, ProductID);
+
+		}
 		sassert().assertTrue(!bottomPrice.equals("$0.00"),
 				"Bottom price is not updated correctly, Current price: " + bottomPrice);
 		Thread.sleep(2500);
 		// click add personalized button
 		if (Personalized && PDP.PersonalizedItem(bundle, ProductID)) {
-			String initialPrice = bottomPrice;
+			String initialPrice = PDP_BD.getPersonaliztionCost(ProductID,bundle);
 			boolean isFreePersonalization = PDP.isFreePersonalization(bundle, ProductID);
 			PDP.clickAddPersonalizationButton(bundle, ProductID);
 			sassert().assertTrue(PDP.validatePersonalizedModal(), "Personalization Modal is not dispayed");
@@ -62,7 +74,7 @@ public class PDPValidation extends SelTestCase {
 			sassert().assertTrue(PDP.validateAddedPersonalizedDetails(bundle, ProductID),
 					"Added personalization details is not dispayed");
 			if (!isFreePersonalization) {
-				String finalPrice = PDP.getBottomPrice(); // take final price after added personalization
+				String finalPrice = PDP_BD.isPersonaliztionCostDisplayedInMonogramDetails(ProductID,bundle); // take final price after added personalization
 				logs.debug("compare price" + initialPrice + finalPrice);
 				sassert().assertTrue(PDP.validateTotalPriceAfterAddedPersonalized(initialPrice, finalPrice),
 						"Bottom price is not updated correctly, Current price: " + finalPrice);
