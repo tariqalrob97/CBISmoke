@@ -222,7 +222,7 @@ public class PDP_SC_CS extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			boolean isDisplayed;
-			isDisplayed = SelectorUtil.isDisplayed(PDPSelectors.OrderSwatchsDropdown.get());
+			isDisplayed = SelectorUtil.isDisplayed(PDPSelectors.OrderSwatchesDropdown.get());
 			getCurrentFunctionName(false);
 			return isDisplayed;
 		} catch (NoSuchElementException e) {
