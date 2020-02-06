@@ -222,7 +222,7 @@ public class PDP_SC_CS extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			boolean isDisplayed;
-			isDisplayed = SelectorUtil.isDisplayed(PDPSelectors.OrderSwatchsDropdown.get());
+			isDisplayed = SelectorUtil.isDisplayed(PDPSelectors.OrderSwatchesDropdown.get());
 			getCurrentFunctionName(false);
 			return isDisplayed;
 		} catch (NoSuchElementException e) {
@@ -323,7 +323,7 @@ public class PDP_SC_CS extends SelTestCase {
 				for(int i=1 ; i < 12 ; i++) {
 					SelectorUtil.clickOnWebElement(allSwatches.get(i));
 				}
-				logs.debug("Add more than 10 swathes");
+				logs.debug("Add more than 10 swatches");
 			}
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
@@ -346,7 +346,7 @@ public class PDP_SC_CS extends SelTestCase {
 			return isDisable;
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(
-					ExceptionMsg.PageFunctionFailed + "price selector was not found by seleniuem", new Object() {
+					ExceptionMsg.PageFunctionFailed + "Add Swatch Button was not found by seleniuem", new Object() {
 					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
