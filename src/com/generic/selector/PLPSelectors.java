@@ -11,6 +11,7 @@ public class PLPSelectors {
  
 	public static final cselector GHsearchClose = new cselector("css,button.pw-search__close");
 	public static final cselector searchBox = new cselector("css,#searchBox input#headerBox","css,form>div>div>input");
+	public static final cselector BDsearchBox = new cselector("css,#searchBox input#headerBox","css,form>div>div>input");
 	public static final cselector recommendedOption =new cselector("css,li.unbxd-as-popular-product.unbxd-as-popular-product-grid .unbxd-as-popular-product-info","css,.c-arrange.u-flexbox.c--align-middle.u-align-center");
 
 	public static final cselector BDrecommendedOption =new cselector("css,li.unbxd-as-popular-product.unbxd-as-popular-product-grid .unbxd-as-popular-product-info","css,li.unbxd-as-keysuggestion","css,.c-arrange.u-flexbox.c--align-middle.u-align-center");
