@@ -8,12 +8,11 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.xml.XmlTest;
 import java.util.LinkedHashMap;
-
 import com.generic.setup.Common;
 import com.generic.setup.LoggingMsg;
 import com.generic.setup.SelTestCase;
 import com.generic.setup.SheetVariables;
-import com.generic.tests.GR.checkout.PayPalValidation;
+import com.generic.tests.FG.checkout.PayPalValidation;
 import com.generic.util.dataProviderUtils;
 import com.generic.util.SASLogger;
 
