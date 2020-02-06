@@ -22,6 +22,7 @@ public class GiftRegistry extends SelTestCase {
 	public static String eventDateYear;
 	public static String registryName;
 	public static String emptyMessage;
+	public static String BDemptymessage = "your gift registry is currently empty. browse the site and click \"add to gift registry\" on product you like.";
 
 	// Constants.
 	public static String singlePDPSearchTerm = "Rugs";
@@ -84,6 +85,9 @@ public class GiftRegistry extends SelTestCase {
 			} else if (isGR()) {
 				createRegistryButtonSelector = GiftRegistrySelectors.GRCreateRegistryButton.get();
 			}
+			else if(isBD()) {
+				createRegistryButtonSelector = GiftRegistrySelectors.BDCreateRegistryButton.get();
+			}
 
 			SelectorUtil.initializeSelectorsAndDoActions(createRegistryButtonSelector);
 			Thread.sleep(1500);
@@ -131,15 +135,24 @@ public class GiftRegistry extends SelTestCase {
 
 			Thread.sleep(1500);
 			SelectorUtil.waitGWTLoadedEventPWA();
+			
 
 			// Check the confirmation modal.
+			if(!isBD()) {
 			validateConfirmationModal();
-
+			}
+			
+			if(!isBD()) {
 			// Check the created gift registry.
 			validateCreatedGiftRegistry();
-
-			SelectorUtil.initializeSelectorsAndDoActions(GiftRegistrySelectors.beginAddingItemsButton.get());
-
+			}
+			
+			if(isBD()) {
+			SelectorUtil.initializeSelectorsAndDoActions(GiftRegistrySelectors.beginAddingItemsButtonBD.get());
+			}
+			else {
+			SelectorUtil.initializeSelectorsAndDoActions(GiftRegistrySelectors.beginAddingItemsButton.get());	
+			}
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(
@@ -204,11 +217,17 @@ public class GiftRegistry extends SelTestCase {
 		try {
 			logs.debug("Navigate to Gift registry page.");
 			getCurrentFunctionName(true);
-			if (isMobile()) {
+			if (isBD()) {
+				/*WebElement giftRegistryLink = SelectorUtil.getMenuLinkMobilePWA(GRPageLink);
+				// Navigate to the Sign in/Create account page.
+				SelectorUtil.clickOnWebElement(giftRegistryLink);*/
+				SelectorUtil.initializeSelectorsAndDoActions(GiftRegistrySelectors.GRLinkforBD.get());
+			} else if(isMobile() && !(isBD())) {
 				WebElement giftRegistryLink = SelectorUtil.getMenuLinkMobilePWA(GRPageLink);
 				// Navigate to the Sign in/Create account page.
 				SelectorUtil.clickOnWebElement(giftRegistryLink);
-			} else {
+			}
+			else {
 				SelectorUtil.initializeSelectorsAndDoActions(GiftRegistrySelectors.GRLink.get());
 			}
 			getCurrentFunctionName(false);
@@ -234,7 +253,12 @@ public class GiftRegistry extends SelTestCase {
 			WebElement confirmationModal = SelectorUtil.getElement(GiftRegistrySelectors.confirmationModalGR.get());
 			sassert().assertTrue(confirmationModal != null,
 					"Error Confirmation gift registry created modal not displayed");
+			if(isBD()) {
+			SelectorUtil.initializeSelectorsAndDoActions(GiftRegistrySelectors.manageRegisrtyButtonBD.get());
+			}
+			else {
 			SelectorUtil.initializeSelectorsAndDoActions(GiftRegistrySelectors.manageRegistryButton.get());
+			}
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(
@@ -270,9 +294,14 @@ public class GiftRegistry extends SelTestCase {
 			// Validate the empty registry.
 			String emptyMsg = SelectorUtil.getElement(GiftRegistrySelectors.emptyRegistryMsg.get()).getText().trim()
 					.toLowerCase();
-			sassert().assertTrue(emptyMsg.equals(emptyMessage.toLowerCase().trim()),
-					"Error empty messages is not as expected " + emptyMessage.toLowerCase().trim() + " : " + emptyMsg);
-
+			if(isBD()) {
+			sassert().assertTrue(emptyMsg.contains(BDemptymessage.toLowerCase().trim()),"Error empty messages is not as expected ");
+			}
+			
+			else {
+			sassert().assertTrue(emptyMsg.contains(emptyMessage.toLowerCase().trim()),"Error empty messages is not as expected ");
+			}
+			
 			// Validate gift card container.
 			WebElement giftCardContainer = SelectorUtil.getElement(GiftRegistrySelectors.giftCardContainer.get());
 			sassert().assertTrue(giftCardContainer != null,
@@ -285,7 +314,7 @@ public class GiftRegistry extends SelTestCase {
 			throw e;
 		}
 	}
-
+	//int value = Integer.parseInt((GiftRegistrySelectors.miniCartText.get().toString()).replaceAll("[^0-9]", ""));
 	/**
 	 * Validate manage gift registry (Step 2).
 	 * 
@@ -299,21 +328,45 @@ public class GiftRegistry extends SelTestCase {
 			getCurrentFunctionName(true);
 
 			// Go to PDP by search and select the swatches.
+			Thread.sleep(2000);
 			goToPDPAndSelectSwatches();
 
 			// Click on save to gift registry button.
+			if(isBD()) {
+				SelectorUtil.initializeSelectorsAndDoActions(GiftRegistrySelectors.BDsaveToGR.get());
+			}
+			else {
 			SelectorUtil.initializeSelectorsAndDoActions(GiftRegistrySelectors.saveToGR.get());
+			}
 			Thread.sleep(1000);
 
 			// Verify that "Select A Registry Or Wish list" modal is displayed.
 			validateSelectGRModal();
+			logs.debug("Start checking the number of items in the cart");
 			int numberOfItemAddedToCart = 0;
-			if (isGR() && isMobile()
-					&& !SelectorUtil.isElementExist(By.cssSelector(GiftRegistrySelectors.miniCartText.get()))) {
+			String str;
+			if(isBD()) {
+			//str = GiftRegistrySelectors.miniCartTextBD.get();
+			str = SelectorUtil.getElement(GiftRegistrySelectors.miniCartTextBD.get()).getText();
+			logs.debug("Step 1 : for BD " + str);
+			//str = "NO ITEMS IN THE CART."; 
+			}
+			else {
+			//str = GiftRegistrySelectors.miniCartText.get();
+			str = SelectorUtil.getElement(GiftRegistrySelectors.miniCartText.get()).getText();
+			logs.debug("Step 2 : for others " + str);
+			}
+		    str = str.replaceAll("[^-?0-9]+", "");
+			if (isGR() && isMobile() && !SelectorUtil.isElementExist(By.cssSelector(str))) {
+				logs.debug("GR and Mobile and Minicart is not exsist");
 				numberOfItemAddedToCart = 0;
-			} else {
-				numberOfItemAddedToCart = Integer
-						.parseInt(SelectorUtil.getElement(GiftRegistrySelectors.miniCartText.get()).getText());
+			}
+			else {
+				if (str.contains("NO ITEMS")) {
+			    	numberOfItemAddedToCart = 0;
+			    }
+				//numberOfItemAddedToCart = Integer.parseInt(str);
+				logs.debug(" Minicart is exsist");
 			}
 
 			logs.debug("Number of items before add to cart: " + numberOfItemAddedToCart);
@@ -325,7 +378,7 @@ public class GiftRegistry extends SelTestCase {
 
 				if (isFG()) {
 					GRListBoxSelector = GiftRegistrySelectors.FGListBoxGR.get();
-				} else if (isGR()) {
+				} else if (isGR() || isBD()) {
 					GRListBoxSelector = GiftRegistrySelectors.GRListBoxGR.get();
 				}
 
@@ -333,30 +386,36 @@ public class GiftRegistry extends SelTestCase {
 
 				// No need to click on select button in PWA because the selected option will
 				// submitted when change the select option value.
+				String selectGRSelector = "";
 				if (!isMobile()) {
-					String selectGRSelector = "";
 					if (isFG()) {
 						selectGRSelector = GiftRegistrySelectors.FGAddToGiftRegistySelectButton.get();
 					}
-
 					if (isGR()) {
 						selectGRSelector = GiftRegistrySelectors.GRAddToGiftRegistySelectButton.get();
+					}
+					if (isBD()) {
+						selectGRSelector = GiftRegistrySelectors.BDAddToGiftRegistySelectButton.get();	
 					}
 					// Click select button at desktop and tablet.
 					SelectorUtil.initializeSelectorsAndDoActions(selectGRSelector);
 				}
-
+				if(isBD() && isMobile()) {
+					selectGRSelector = GiftRegistrySelectors.BDAddToGiftRegistySelectButton.get();
+					SelectorUtil.initializeSelectorsAndDoActions(selectGRSelector);
+				}
 				SelectorUtil.waitGWTLoadedEventPWA();
 				// Create a gift registry.
 				createRegistrySteps(email);
 
-			} else {
+			}
+			else {
 				logs.debug("Add product to created gift registry: " + registryName);
 
 				String GRListBoxSelector = "";
 				if (isFG()) {
 					GRListBoxSelector = GiftRegistrySelectors.FGListBoxGR.get();
-				} else if (isGR()) {
+				} else if (isGR() || isBD()) {
 					GRListBoxSelector = GiftRegistrySelectors.GRListBoxGR.get();
 				}
 				// Make sure that the current selected option is not the target registry.
@@ -376,6 +435,9 @@ public class GiftRegistry extends SelTestCase {
 				} else if (isGR()) {
 					selectGRSelector = GiftRegistrySelectors.GRAddToGiftRegistySelectButton.get();
 				}
+				else if(isBD()) {
+					selectGRSelector = GiftRegistrySelectors.BDAddToGiftRegistySelectButton.get();
+				}
 
 				// Click on save to gift registry button.
 				SelectorUtil.initializeSelectorsAndDoActions(selectGRSelector);
@@ -384,11 +446,133 @@ public class GiftRegistry extends SelTestCase {
 			Thread.sleep(1500);
 			SelectorUtil.waitGWTLoadedEventPWA();
 
+			if(isBD() && isMobile()) {
+				PDP.selectSwatches();
+				// Click on save to gift registry button.
+				if(isBD()) {
+					SelectorUtil.initializeSelectorsAndDoActions(GiftRegistrySelectors.BDsaveToGR.get());
+				}
+				else {
+				SelectorUtil.initializeSelectorsAndDoActions(GiftRegistrySelectors.saveToGR.get());
+				}
+				Thread.sleep(1000);
+
+				// Verify that "Select A Registry Or Wish list" modal is displayed.
+				validateSelectGRModal();
+				logs.debug("Start checking the number of items in the cart");
+				numberOfItemAddedToCart = 0;
+				
+				if(isBD()) {
+				//str = GiftRegistrySelectors.miniCartTextBD.get();
+				str = SelectorUtil.getElement(GiftRegistrySelectors.miniCartTextBD.get()).getText();
+				logs.debug("Step 1 : for BD " + str);
+				//str = "NO ITEMS IN THE CART."; 
+				}
+				else {
+				//str = GiftRegistrySelectors.miniCartText.get();
+				str = SelectorUtil.getElement(GiftRegistrySelectors.miniCartText.get()).getText();
+				logs.debug("Step 2 : for others " + str);
+				}
+			    str = str.replaceAll("[^-?0-9]+", "");
+				if (isGR() && isMobile() && !SelectorUtil.isElementExist(By.cssSelector(str))) {
+					logs.debug("GR and Mobile and Minicart is not exsist");
+					numberOfItemAddedToCart = 0;
+				}
+				else {
+					if (str.contains("NO ITEMS")) {
+				    	numberOfItemAddedToCart = 0;
+				    }
+					//numberOfItemAddedToCart = Integer.parseInt(str);
+					logs.debug(" Minicart is exsist");
+				}
+
+				logs.debug("Number of items before add to cart: " + numberOfItemAddedToCart);
+
+				if (registryName.equals("") || registryName == null) {
+					logs.debug("Create new gift registry.");
+					setRegistryName(RandomUtilities.getRandomName());
+					String GRListBoxSelector = "";
+
+					if (isFG()) {
+						GRListBoxSelector = GiftRegistrySelectors.FGListBoxGR.get();
+					} else if (isGR() || isBD()) {
+						GRListBoxSelector = GiftRegistrySelectors.GRListBoxGR.get();
+					}
+
+					SelectorUtil.initializeSelectorsAndDoActions(GRListBoxSelector, "FFFS" + createGiftRegistryString);
+
+					// No need to click on select button in PWA because the selected option will
+					// submitted when change the select option value.
+					String selectGRSelector = "";
+					if (!isMobile()) {
+						if (isFG()) {
+							selectGRSelector = GiftRegistrySelectors.FGAddToGiftRegistySelectButton.get();
+						}
+						if (isGR()) {
+							selectGRSelector = GiftRegistrySelectors.GRAddToGiftRegistySelectButton.get();
+						}
+						if (isBD()) {
+							selectGRSelector = GiftRegistrySelectors.BDAddToGiftRegistySelectButton.get();	
+						}
+						// Click select button at desktop and tablet.
+						SelectorUtil.initializeSelectorsAndDoActions(selectGRSelector);
+					}
+					if(isBD() && isMobile()) {
+						selectGRSelector = GiftRegistrySelectors.BDAddToGiftRegistySelectButton.get();
+						SelectorUtil.initializeSelectorsAndDoActions(selectGRSelector);
+					}
+					SelectorUtil.waitGWTLoadedEventPWA();
+					// Create a gift registry.
+					createRegistrySteps(email);
+
+				}
+				else {
+					logs.debug("Add product to created gift registry: " + registryName);
+
+					String GRListBoxSelector = "";
+					if (isFG()) {
+						GRListBoxSelector = GiftRegistrySelectors.FGListBoxGR.get();
+					} else if (isGR() || isBD()) {
+						GRListBoxSelector = GiftRegistrySelectors.GRListBoxGR.get();
+					}
+					// Make sure that the current selected option is not the target registry.
+					SelectorUtil.initializeSelectorsAndDoActions(GRListBoxSelector);
+					String selectedGiftRegistry = SelectorUtil.textValue.get();
+
+					if (!selectedGiftRegistry.contains(registryName)) {
+						// Selected created registry.
+						SelectorUtil.initializeSelectorsAndDoActions(GRListBoxSelector,
+								MessageFormat.format(commands.actions.selectOption, "\"" + registryName + "\""));
+					}
+
+					String selectGRSelector = "";
+					if (isFG()) {
+						selectGRSelector = GiftRegistrySelectors.FGAddToGiftRegistySelectButton.get();
+
+					} else if (isGR()) {
+						selectGRSelector = GiftRegistrySelectors.GRAddToGiftRegistySelectButton.get();
+					}
+					else if(isBD()) {
+						selectGRSelector = GiftRegistrySelectors.BDAddToGiftRegistySelectButton.get();
+					}
+
+					// Click on save to gift registry button.
+					SelectorUtil.initializeSelectorsAndDoActions(selectGRSelector);
+				}
+
+				Thread.sleep(1500);
+				SelectorUtil.waitGWTLoadedEventPWA();
+			}
 			// Validate product added to gift registry modal.
 			validateAddToGRModal();
 
 			// Click on view registry button.
+			if(isBD()) {
+			SelectorUtil.initializeSelectorsAndDoActions(GiftRegistrySelectors.viewRegistryButtonBD.get());
+			}
+			else {
 			SelectorUtil.initializeSelectorsAndDoActions(GiftRegistrySelectors.viewRegistryButton.get());
+			}
 
 			SelectorUtil.waitGWTLoadedEventPWA();
 			Thread.sleep(1500);
@@ -397,9 +581,15 @@ public class GiftRegistry extends SelTestCase {
 			validateAddProductGR();
 
 			SelectorUtil.waitGWTLoadedEventPWA();
-
+	        
+	        
 			// Click on add to cart.
+			if(isBD()) {
+				SelectorUtil.initializeSelectorsAndDoActions(GiftRegistrySelectors.BDaddGRProductToCart.get());
+			}
+			else {
 			SelectorUtil.initializeSelectorsAndDoActions(GiftRegistrySelectors.addGRProductToCart.get());
+			}
 
 			Thread.sleep(1500);
 			SelectorUtil.waitGWTLoadedEventPWA();
@@ -515,11 +705,10 @@ public class GiftRegistry extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			logs.debug("Validate add to cart from gift registry.");
-			if (isFG() && isMobile()) {
+			 if (isFG() && isMobile()) {
 				Thread.sleep(500);
 				// No add to cart modal displayed at mobile.
-				int numberOfItemAddedToCart = Integer
-						.parseInt(SelectorUtil.getElement(GiftRegistrySelectors.miniCartText.get()).getText());
+				int numberOfItemAddedToCart = Integer.parseInt(SelectorUtil.getElement(GiftRegistrySelectors.miniCartText.get()).getText());
 				int tries = 0;
 				while (numberOfItemAddedToCart == oldNumberOfItemAddedToCart && tries < 20) {
 					Thread.sleep(1000);
@@ -532,7 +721,13 @@ public class GiftRegistry extends SelTestCase {
 						"Error: Product added corectlly to cart from Gift registry");
 			} else {
 
-				String addToCartModalSelector = GiftRegistrySelectors.addCartFromGRModal.get();
+				String addToCartModalSelector;
+				if(isBD()) {
+				addToCartModalSelector = GiftRegistrySelectors.BDaddCartFromGRModal.get();
+				}
+				else {
+				addToCartModalSelector = GiftRegistrySelectors.addCartFromGRModal.get();
+				}
 				if (isGR() && isMobile()) {
 					addToCartModalSelector = GiftRegistrySelectors.movableMiniCart.get();
 				} else {
@@ -561,7 +756,14 @@ public class GiftRegistry extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			logs.debug("Validate select registry/wishlist modal.");
-			WebElement selectGRModal = SelectorUtil.getElement(GiftRegistrySelectors.selectGRModal.get());
+			WebElement selectGRModal;
+			if(isBD()) {
+				selectGRModal = SelectorUtil.getElement(GiftRegistrySelectors.BDselectGRModal.get());
+			}
+			else {
+				selectGRModal = SelectorUtil.getElement(GiftRegistrySelectors.selectGRModal.get());
+			}
+			
 			sassert().assertTrue(selectGRModal != null, "Error: Select gift registry modal displayed.");
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
@@ -598,9 +800,13 @@ public class GiftRegistry extends SelTestCase {
 				}
 			}
 			logs.debug("Validate product added to cart from gift registry.");
-			int numberOfItemAddedToCart = SelectorUtil.getAllElements(GiftRegistrySelectors.cartProductContainer.get())
-					.size();
-			logs.debug("Number of items at cart: " + numberOfItemAddedToCart);
+			int numberOfItemAddedToCart;
+			if(isBD()) {
+			numberOfItemAddedToCart = SelectorUtil.getAllElements(GiftRegistrySelectors.BDcartProductContainer.get()).size();
+			}
+			else {
+				numberOfItemAddedToCart = SelectorUtil.getAllElements(GiftRegistrySelectors.cartProductContainer.get()).size();
+			}
 			sassert().assertTrue(oldNumberOfItemAddedToCart < numberOfItemAddedToCart,
 					"Error: Product added corectlly to shopping cart from Gift registry");
 
