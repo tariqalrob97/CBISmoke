@@ -969,18 +969,17 @@ public class PLP extends SelTestCase {
 				// (The unbxd redirect the site to PDP if the search for product id).
 				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.GHSearchButton.get());
 			} else if (isRY()) {
-				imgID = recommendedProduct.getAttribute("innerHTML");
-				itemTitle = imgID.substring(imgID.indexOf("Ryllace") + 8, imgID.indexOf("Ryllace") + 13);
+			    itemTitle = SelectorUtil.getAttrString(SelectorSS+">img", "alt");
 			} else {
 
 				itemTitle = recommendedProduct.getText();
 				logs.debug("Picked item: " + itemTitle);
 			}
+      
 				recommendedProduct.click();
 			
 
 				getCurrentFunctionName(false);
-			
 			return itemTitle;
 		} catch (NoSuchElementException e) {
 			if ((e.getMessage() != null) && e.getMessage().contains("element click intercepted")) {

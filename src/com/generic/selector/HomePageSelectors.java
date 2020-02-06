@@ -62,7 +62,7 @@ public class HomePageSelectors
 	public static final String moduleHeroImgBD = "css,#main-link > img";
 	// adding this
 	public static final String moduleHeroImgBDforMobile = "css,#main-link > img";
-	public static final cselector carusals =new cselector( "css,.tilePanel>div>div>a>img","css,.genericESpot>div>div>div>.pw-scroller>div>.pw-scroller__content>.pw-scroller__item>article>a>div>div>div>div>div>img");
+	public static final cselector carusals =new cselector( "css,.tilePanel>div>div>a>img","css,.genericESpot>div>div>div>.pw-scroller>div>.pw-scroller__content>.pw-scroller__item>article>a>div>div>div>div>div img");
 	// adding this
 	public static final cselector carusalsBD =new cselector( "css,#module6 > div > div.row.gutter-4.masonry-blocks");
 	public static final cselector espots = new cselector("css,.genericESpot>div>div>div>a>img","css,.pw-responsive-html>div>#mainContent>div>div>div>.genericESpot>div>.col-xs-12>div>a>img");

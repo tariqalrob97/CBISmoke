@@ -26,6 +26,7 @@ public class WistListGuestValidation extends SelTestCase {
 		//validate if selected product displayed in the WL and click on add to cart button
 		sassert().assertTrue(PDP.addedProductIsDisplayedInTheWL(selectedProductName), "Added product is not displayed in the Wish list");
 		if (!isMobile()) {
+			Thread.sleep(2000);
 		sassert().assertTrue(PDP.validateAddToCartModalIsDisplayed(), "Add to cart confirmation modal not displayed.");
 		PDP.clickOnCheckout();
 		sassert().assertTrue(PDP.addedProductIsDisplayedInShoppingCart(selectedProductName), "Product not added to the cart.");

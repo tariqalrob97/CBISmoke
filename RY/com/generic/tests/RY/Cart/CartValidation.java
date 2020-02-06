@@ -43,8 +43,9 @@ public class CartValidation extends SelTestCase {
 				"Added item price displayed validation has some problems");
 		sassert().assertTrue(Cart.checkAddedItemTotalPriceDisplay(),
 				"Added item total price displayed validation has some problems");
+		if(Cart.isItemEditable()) {
 
-		String optionsBefore = Cart.getFirstSavedItemsOptions();
+		List <String> optionsBefore = Cart.getFirstSavedItemsOptions();
 		
 		Thread.sleep(3000);
 
@@ -53,11 +54,12 @@ public class CartValidation extends SelTestCase {
 		
 		Thread.sleep(3000);
 		
-		String optionsAfter = Cart.getlastAddedItemsOptions();
-				
+		List <String> optionsAfter = Cart.getlastAddedItemsOptions();
+		
+		logs.debug("optionsBefore"+optionsBefore+"optionsAfter"+optionsAfter);
 		//Check if the edit is saved correctly
 		sassert().assertTrue(!optionsBefore.equals(optionsAfter), "Edit item validation has some problems");
-		
+		}
 		//Save total before moving item
 		String totalPriceBeforeMove = Cart.getTotalPrice();
 		
@@ -90,6 +92,7 @@ public class CartValidation extends SelTestCase {
 			Cart.navigatetoWishList();
 			Cart.selectWLByName(WLName);
 		}else {
+			Thread.sleep(5000);
 			Cart.validateAddedToWLModalIsDisplayed();
 			sassert().assertTrue(!totalPriceBeforeMove.equals(totalPriceAfterMove), "Move item to wish list validation has some problems");
 			Cart.clickOnViewListBtn();

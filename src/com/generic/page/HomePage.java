@@ -657,7 +657,9 @@ if(isBD()){
 		try {
 			getCurrentFunctionName(true);
 			boolean loaded = true;
-			for (int i = 0; i < elements.size(); i++) {
+			for (int i = 0; i < elements.size(); i++) {	
+				JavascriptExecutor jse = (JavascriptExecutor) getDriver();
+				jse.executeScript("arguments[0].scrollIntoView(false)", elements.get(i));
 				if (!elements.get(i).isDisplayed())
 					loaded = false;
 			}
