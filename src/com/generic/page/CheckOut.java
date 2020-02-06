@@ -18,6 +18,7 @@ import com.generic.selector.PayPalSelectors;
 import com.generic.setup.ExceptionMsg;
 import com.generic.setup.GlobalVariables;
 import com.generic.setup.LoggingMsg;
+import com.generic.setup.PDPs;
 import com.generic.setup.SelTestCase;
 import com.generic.util.RandomUtilities;
 import com.generic.util.SelectorUtil;
@@ -227,7 +228,7 @@ public class CheckOut extends SelTestCase {
 		public static void typeCVV(String CVV) throws Exception {
 			try {
 				getCurrentFunctionName(true);				
-				if (isFG() || isGR()) {
+				if (isFG() || isGR() || isBD()) {
 					// Switch to cvv iframe
 					Thread.sleep(2800);
 
@@ -242,6 +243,7 @@ public class CheckOut extends SelTestCase {
 					SelectorUtil.initializeSelectorsAndDoActions(CheckOutSelectors.cvvGH.get(), CVV);
 
 				}
+				
 				Thread.sleep(2000);
 
 				// Switch to default frame
@@ -564,7 +566,7 @@ public class CheckOut extends SelTestCase {
 			} else if (isGR()) {
 				state = SelectorUtil.isDisplayed(CheckOutSelectors.stepTwoIdentifierGR.get());
 			}
-			else if (isRY()) {
+			else if (isRY() || isGH()) {
 				state = SelectorUtil.isDisplayed(CheckOutSelectors.productContainerInStepTwo.get());
 			}
 
@@ -705,6 +707,7 @@ public class CheckOut extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			int taxIndex = 1;
+			List<WebElement> elements =SelectorUtil.getAllElements(CheckOutSelectors.shippingAndTaxCost.get()); 
 			
 			if (isRY() && !isMobile()) {
 				taxIndex = 1 + grTaxIndex;
@@ -712,9 +715,14 @@ public class CheckOut extends SelTestCase {
 			
 			if (isMobile()) {
 				taxIndex = 2 + grTaxIndex;
+				
+				if(elements.size()==8 && isFG())
+					taxIndex++;
 			}
+			
+			
 			getCurrentFunctionName(false);
-			return SelectorUtil.getNthElement(CheckOutSelectors.shippingAndTaxCost.get(), taxIndex).getText();
+			return elements.get(taxIndex).getText();
 
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(
@@ -1193,5 +1201,85 @@ public class CheckOut extends SelTestCase {
 		}
 
 	}
+	
+	public static void addRandomProductTocart(int prodCount) throws Exception {
+		try {
+			getCurrentFunctionName(true);
+
+			for (int count = 0; count < prodCount; count++) {
+				Thread.sleep(3000);
+				PDPs.navigateToRandomPDP();
+				Thread.sleep(3000);
+				PDP.clickAddToCartButtonNoBundle();
+				Thread.sleep(3500);
+			}
+			getCurrentFunctionName(false);
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Order ID Container selector was not found by selenium ",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+
+	}
+	
+	
+	public static void checkOrderValues(int AddedProdsCount,String orderShippingInStepFour,String orderTaxInStepFour,String orderSubTotalInStepFour ) throws Exception {
+		try {
+			getCurrentFunctionName(true);
+			
+			// Check number of products in confirmation page
+			sassert().assertEquals(CheckOut.checkProductsinConfirmationPage(), AddedProdsCount,"Some products are missing in confirmation page ");
+
+			// Check if shipping costs match
+			sassert().assertEquals(CheckOut.getShippingCosts(), orderShippingInStepFour, "Shipping cost value issue ");
+
+			// Check if tax cost match
+			sassert().assertEquals(CheckOut.getTaxCosts(GlobalVariables.FG_TAX_CONFIRMATION), orderTaxInStepFour,"Tax value issue ");
+
+			// Check if subtotal value match
+			sassert().assertEquals(CheckOut.getSubTotal(), orderSubTotalInStepFour, "Subtotal value issue ");
+			
+			getCurrentFunctionName(false);
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Order ID Container selector was not found by selenium ",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+
+	}
+	
+	
+	public static void checkOrderValuesGR(int AddedProdsCount,String orderShippingInStepFour,String orderTaxInStepFour,String orderSubTotalInStepFour ) throws Exception {
+		try {
+			getCurrentFunctionName(true);
+			
+			// Check number of products in confirmation page
+			sassert().assertEquals(CheckOut.checkProductsinConfirmationPage(), AddedProdsCount,"Some products are missing in confirmation page ");
+
+			// Check if shipping costs match
+			sassert().assertEquals(CheckOut.getShippingCosts(), orderShippingInStepFour, "Shipping cost value issue ");
+
+			// Check if tax cost match
+			sassert().assertEquals(CheckOut.getTaxCosts(GlobalVariables.GR_TAX_CONFIRMATION), orderTaxInStepFour,"Tax value issue ");
+
+			// Check if subtotal value match
+			sassert().assertEquals(CheckOut.getSubTotal(), orderSubTotalInStepFour, "Subtotal value issue ");
+			
+			getCurrentFunctionName(false);
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Order ID Container selector was not found by selenium ",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+
+	}
+	
+
 
 }
