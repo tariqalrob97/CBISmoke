@@ -45,6 +45,7 @@ public class Common extends SelTestCase {
 
 				System.setProperty("webdriver.chrome.driver", PagesURLs.getDriversPath(browser));
 				ChromeOptions co = new ChromeOptions();
+				co.addArguments("--ignore-certificate-errors");
 				driverInstance = new ChromeDriver(co);
 				driverInstance.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 				driverInstance.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
@@ -65,6 +66,7 @@ public class Common extends SelTestCase {
 				chromeOptions.put("mobileEmulation", mobileEmulation);
 
 				ChromeOptions options = new ChromeOptions();
+				options.addArguments("--ignore-certificate-errors");
 
 				if (getCONFIG().getProperty("chached_chrome").equalsIgnoreCase("yes")) {
 					options.addArguments("user-data-dir=" + System.getProperty("user.home")
