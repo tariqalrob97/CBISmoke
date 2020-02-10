@@ -693,7 +693,7 @@ public class PDP extends SelTestCase {
 			if (!isMobile()) {
 				Thread.sleep(4000);
 				isDisplayed = SelectorUtil.isDisplayed(PDPSelectors.addToCartModal.get());
-			} else if (isMobile() &&( isGHRY() || isBD())) {
+			} else if (isMobile() &&( isGHRY()) || isBD()) {
 				isDisplayed = SelectorUtil.isDisplayed(PDPSelectors.addToCartModal.get());
 			} else {
 				HomePage.clickOnMiniCart();
