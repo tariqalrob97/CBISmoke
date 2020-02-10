@@ -22,7 +22,7 @@ public class GuestCheckoutSingleAddress extends SelTestCase {
 			String orderShipping;
 
 			// Add products to cart
-			CheckOut.searchForProductsandAddToCart(productsCount);
+			CheckOut.addRandomProductTocart(productsCount);
 
 			// Navigating to Cart by URL
 			CheckOut.navigatetoCart();
@@ -55,20 +55,22 @@ public class GuestCheckoutSingleAddress extends SelTestCase {
 			
 			Thread.sleep(3500);
 
+			// Fill payment details in the last step
+			CheckOut.fillPayment(paymentDetails);
+			
 			// Saving tax and shipping costs to compare them in the confirmation page
 			orderShipping = CheckOut.getShippingCostsRYInStep4();
 			orderTax = CheckOut.getTaxCostsRYInStep4();
 			orderSubTotal = CheckOut.getSubTotal();
 
 			logs.debug(MessageFormat.format(LoggingMsg.SEL_TEXT, "Shippping cost is: " + orderShipping + " ---- Tax cost is:" + orderTax + " ---- Subtotal is:" + orderSubTotal));
-
-			// Fill payment details in the last step
-			CheckOut.fillPayment(paymentDetails);
+			
+			Thread.sleep(2500);
 
 			// Click place order button
 			CheckOut.placeOrder();
 
-			Thread.sleep(2000);
+			Thread.sleep(2500);
 
 			CheckOut.closePromotionalModal();
 
@@ -76,17 +78,9 @@ public class GuestCheckoutSingleAddress extends SelTestCase {
 
 			CheckOut.closeRegisterButton();
 
-			// Check number of products in confirmation page
-			sassert().assertTrue(CheckOut.checkProductsinConfirmationPage() == productsCount,"Some products are missing in confirmation page, in confirmation page"+ CheckOut.checkProductsinConfirmationPage()+"But added:"+productsCount);
+			CheckOut.checkOrderValues(productsCount,orderShipping, orderTax,orderSubTotal );
 
-			// Check if shipping costs match
-			sassert().assertTrue(CheckOut.getShippingCosts().equals(orderShipping), "Shipping cost value issue "+CheckOut.getShippingCosts() + "vs" + orderShipping);
-
-			// Check if tax cost match
-			sassert().assertTrue(CheckOut.getTaxCosts(GlobalVariables.FG_TAX_CONFIRMATION).equals(orderTax), "Tax value issue " +CheckOut.getTaxCosts(GlobalVariables.FG_TAX_CONFIRMATION) +"vs" + orderTax);
-
-			// Check if subtotal value match
-			sassert().assertTrue(CheckOut.getSubTotal().equals(orderSubTotal), "Subtotal value issue " + CheckOut.getSubTotal() +"vs" + orderSubTotal);
+			CheckOut.printOrderIDtoLogs();
 
 			getCurrentFunctionName(false);
 

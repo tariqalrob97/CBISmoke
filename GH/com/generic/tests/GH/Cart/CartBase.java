@@ -58,7 +58,7 @@ public class CartBase extends SelTestCase {
 		try {
 			CartValidation.cartValidation();
 			sassert().assertAll();
-			Common.testPass();
+			Common.testPass(CaseDescription);
 			
 		} catch (Throwable t) {
 			if ((getTestStatus() != null) && getTestStatus().equalsIgnoreCase("skip")) {

@@ -33,6 +33,7 @@ import ru.yandex.qatools.ashot.Screenshot;
 import ru.yandex.qatools.ashot.shooting.ShootingStrategies;
 
 import com.generic.selector.LoginSelectors;
+import com.generic.setup.Common;
 import com.generic.setup.ExceptionMsg;
 import com.generic.setup.GlobalVariables;
 import com.generic.setup.LoggingMsg;
@@ -909,9 +910,24 @@ public class SelectorUtil extends SelTestCase {
 
 			Thread.sleep(500);
 		} catch (Exception e) {
-			logs.debug(MessageFormat.format(LoggingMsg.FORMATTED_ERROR_MSG, e.getMessage()));
-			throw new NoSuchElementException("No such element: " + Arrays.asList(webElementsInfo));
+			if ((e.getMessage() != null) && e.getMessage().contains("element click intercepted")) {
+					logs.debug(MessageFormat.format(LoggingMsg.FORMATTED_ERROR_MSG, e.getMessage()));
+					logs.debug("Refresh the browser to close the Intercepted windows");
+					Common.refreshBrowser();
+					logs.debug(MessageFormat.format(LoggingMsg.DEBUGGING_TEXT, Arrays.asList(webElementsInfo)));
+					SelectorUtil.initializeElementsSelectorsMaps(webElementsInfo, isValidationStep);
+					logs.debug(MessageFormat.format(LoggingMsg.DEBUGGING_TEXT, Arrays.asList(webElementsInfo)));
 
+					for (String key : webElementsInfo.keySet()) {
+						LinkedHashMap<String, Object> webElementInfo = webElementsInfo.get(key);
+						SelectorUtil.doAppropriateAction(webElementInfo, action);
+					}
+
+					Thread.sleep(500);
+			} else {
+				logs.debug(MessageFormat.format(LoggingMsg.FORMATTED_ERROR_MSG, e.getMessage()));
+				throw new NoSuchElementException("No such element: " + Arrays.asList(webElementsInfo));
+			}
 		} finally {
 			valuesArr.clear();
 			subStrArr.clear();

@@ -94,7 +94,7 @@ public class HomePageBase extends SelTestCase {
 			}
 
 			sassert().assertAll();
-			Common.testPass();
+			Common.testPass(CaseDescription);
 		}catch (Throwable t) {
 			if ((getTestStatus() != null) && getTestStatus().equalsIgnoreCase("skip")) {
 				throw new SkipException("Skipping this exception");

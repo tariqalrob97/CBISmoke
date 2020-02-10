@@ -10,7 +10,7 @@ public class PDP_VK extends SelTestCase{
 		getCurrentFunctionName(true);
 		String searchTerm = "#MO263";
 		PDP.NavigateToPDP(searchTerm);
-	    Boolean bundle = PDP.getNumberOfItems() > 1;
+	    Boolean bundle = PDP.bundleProduct();
 			String ProductID = "";
 			if (!isMobile() && bundle) 
 				ProductID = PDP.getProductID(0);

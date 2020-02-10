@@ -5,11 +5,9 @@ import com.generic.setup.SelTestCase;
 
 public class PDPValidation extends SelTestCase {
 
-	public static void validate(String searchTerm, Boolean Personalized) throws Exception {
+	public static void validate(Boolean Personalized) throws Exception {
 		getCurrentFunctionName(true);
-		PDP.NavigateToPDP(searchTerm);
-		// int numberOfItems = PDP.getNumberOfItems();
-		Boolean bundle = PDP.getNumberOfItems() > 1;
+		Boolean bundle = PDP.bundleProduct();
 		String ProductID = null;
 		if (!isMobile() && bundle)
 			ProductID = PDP.getProductID(0);
@@ -61,7 +59,7 @@ public class PDPValidation extends SelTestCase {
 			sassert().assertTrue(PDP.validateAddedPersonalizedDetails(bundle, ProductID),
 					"Added personalization details is not dispayed");
 			if (!isFreePersonalization) {
-				String finalPrice = PDP.getBottomPrice(); // take final price after added personalization
+				String finalPrice = PDP.getBottomPrice(bundle, ProductID); // take final price after added personalization
 				logs.debug("compare price" + initialPrice + finalPrice);
 				sassert().assertTrue(PDP.validateTotalPriceAfterAddedPersonalized(initialPrice, finalPrice),
 						"Bottom price is not updated correctly, Current price: " + finalPrice);

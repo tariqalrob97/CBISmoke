@@ -9,7 +9,6 @@ import org.openqa.selenium.WebElement;
 
 import com.generic.page.PDP;
 import com.generic.selector.PDPSelectors;
-import com.generic.setup.Common;
 import com.generic.setup.GlobalVariables;
 import com.generic.setup.SelTestCase;
 import com.generic.util.RandomUtilities;
@@ -17,65 +16,58 @@ import com.generic.util.SelectorUtil;
 
 public class PDPValidation extends SelTestCase {
 
-	public static void validate(String searchTerm) throws Exception {
+	public static void validate(Boolean Personalized) throws Exception {
 		getCurrentFunctionName(true);
-		// To be removed after R1 build, this is to handle blank page in mobile for new session.
-		if (isMobile())
-			Common.refreshBrowser();
-
-		// Navigate to PDP page.
-		PDP.NavigateToPDP(searchTerm);
-
 		// Verify user is navigated to PDP page.
 		validateIsPDPPage();
 		SelectorUtil.waitGWTLoadedEventPWA();
 
-		Boolean bundle = PDP.getNumberOfItems() > 1;
+		Boolean bundle = PDP.bundleProduct();
 		String ProductID = null;
-
+		
 		// For bundle PDP mobile, validate the price is displayed in mini PDP page
 		 if (isMobile() && bundle) {
-		 	PDP.clickBundleItems();
+			 PDP.clickBundleItems();
 		 	sassert().assertTrue(PDP.validateMobileBundlePriceIsDisplayed(),
 		 			"Top price for the bundle item (mini PDP) is not dispayed");
 		 }
-		if (bundle)
-			ProductID = PDP.getProductID(0);
+			if (bundle)
+				ProductID = PDP.getProductID(0);
+			
 		String priceErrorMessage;
 		// price error message
 		//for single PDP, validate the price is displayed below the title of the page for both desktop and mobile
 		//for bundle PDP Desktop, validate the top price is displayed for the collection. (this is not displayed in mobile).
 		//for bundle PDP mobile and desktop,validate the prices are displayed in bundle landing page for all items.
 
-		if (!bundle) {
-			priceErrorMessage = "Top price is not dispayed";
-		} else if (!isMobile() && bundle) {
-			priceErrorMessage = "Top price for the bundle items are not dispayed";
-		} else {
+		if (bundle)
 			priceErrorMessage = "Price for the bundle items are not dispayed";
-		}
+		else
+			priceErrorMessage = "Top price is not dispayed";
 
 		// The desktop and tablet didn't contains a top price.
 		if (isMobile()) {
-			sassert().assertTrue(PDP.validatePriceIsDisplayed(), priceErrorMessage);
+			sassert().assertTrue(PDP.validatePriceIsDisplayed(bundle, ProductID), priceErrorMessage);
 		}
 		// Select all required swatches.
-		PDP.selectSwatches();
-
+		PDP.selectSwatches(bundle, ProductID);
+		// update the product id after the refresh
+		if (bundle)
+			ProductID = PDP.getProductID(0);
 		String bottomPrice = PDP.getBottomPrice(bundle, ProductID);
 		sassert().assertTrue(!bottomPrice.equals("$0.00"), "Bottom price is not updated correctly, Current price: " + bottomPrice);
 
 		// Check if the personalization button exist.
-		if (PDP.PersonalizedItem()) {
+		if (Personalized && PDP.PersonalizedItem(bundle, ProductID)) {
 
 			// Click on "add Personalization" button
-			PDP.clickAddPersonalizationButton();
+			PDP.clickAddPersonalizationButton(bundle, ProductID);
 
 			// Verify "Personalization" modal is opened correctly.
 			sassert().assertTrue(PDP.validatePersonalizedModal(), "Personalization Modal is not dispayed");
 
 			// Select all required swatches in personalized modal.
-			if (SelTestCase.getBrowserName().contains(GlobalVariables.browsers.iPhone)) {
+			if (isMobile()) {
 				selectPersonalizationModalSwatchesForiPhone();
 			} else {
 				selectPersonalizationModalSwatches();
@@ -91,10 +83,10 @@ public class PDPValidation extends SelTestCase {
 		int initialNumberOfCartItems = PDP.getNumberOfCartItems();
 
 		// Verify "Add to Registry / Wish list" is enabled.
-		sassert().assertTrue(PDP.validateAddToWLGRIsEnabled(), "Add to WL/GR button is not enabled");
+		sassert().assertTrue(PDP.validateAddToWLGRIsEnabled(bundle, ProductID), "Add to WL/GR button is not enabled");
 
 		// Verify "Add to Cart" is enabled.
-		sassert().assertTrue(PDP.validateAddToCartIsEnabled(), "Add to Cart button is not enabled");
+		sassert().assertTrue(PDP.validateAddToCartIsEnabled(bundle, ProductID), "Add to Cart button is not enabled");
 
 		int quantity = PDP.getQuantity(bundle,"");
 
@@ -110,6 +102,7 @@ public class PDPValidation extends SelTestCase {
 
 		getCurrentFunctionName(false);
 	}
+
 
 	public static void selectPersonalizationModalSwatches() throws Exception {
 		getCurrentFunctionName(true);

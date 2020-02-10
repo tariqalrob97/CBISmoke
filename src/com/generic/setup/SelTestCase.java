@@ -79,6 +79,8 @@ public class SelTestCase {
 	public static LinkedHashMap<String, Object> addresses = null;
 	public static LinkedHashMap<String, Object> invintory = null;
 	public static LinkedHashMap<String, Object> paymentCards = null;
+	public static LinkedHashMap<String, Object> products = null;
+	
 	private static String URL;
 
 	public static boolean isFGGR() {
@@ -429,11 +431,13 @@ public class SelTestCase {
 	}
 
 	@BeforeSuite
-	public static void excelSheetReader() throws Exception {
+	public static void excelSheetReader(XmlTest test) throws Exception {
+		testObj.set(test);
 		logs.debug("loading data store");
 		users = Common.readUsers();
 		addresses = Common.readAddresses();
 		paymentCards = Common.readPaymentcards();
+		products = Common.readLocalInventory();
 
 	}
 

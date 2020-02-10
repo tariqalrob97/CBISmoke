@@ -12,7 +12,7 @@ public class PDPValidation extends SelTestCase {
 		getCurrentFunctionName(true);
 		PDP.NavigateToPDP(searchTerm);
 		// int numberOfItems = PDP.getNumberOfItems();
-		Boolean bundle = PDP.getNumberOfItems() > 1;
+		Boolean bundle = PDP.bundleProduct();
 		String ProductID = null;
 		if (!isMobile() && bundle)
 			ProductID = PDP.getProductID(0);
@@ -39,7 +39,7 @@ public class PDPValidation extends SelTestCase {
 		// for bundle PDP mobile, validate the price is displayed in mini PDP page
 		boolean priceShownInSizeOption = PDP_BD.BDselectSwatches(bundle, ProductID);
 		if(isMobile()) {
-			if(PDP.getQuantity(bundle) == 0) {
+			if(PDP.getQuantity(bundle, ProductID) == 0) {
 				PDP.selectQuantity(bundle, ProductID);
 			}
 		}else {

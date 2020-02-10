@@ -1,12 +1,9 @@
 package com.generic.tests.BD.PDP;
 
-import com.generic.page.HomePage;
 import com.generic.page.PDP;
 import com.generic.page.PDP_BD;
-import com.generic.page.PLP;
 import com.generic.setup.SelTestCase;
 import com.generic.setup.Common;
-import com.generic.setup.GlobalVariables.browsers;
 
 public class WistListGuestValidation extends SelTestCase {
 	public static void validate() throws Exception {
@@ -14,7 +11,7 @@ public class WistListGuestValidation extends SelTestCase {
 		if (isMobile())
 			Common.refreshBrowser();
 	    String selectedProductName = PDP.NavigateToPDP("Rugs");
-	    Boolean bundle = PDP.getNumberOfItems() > 1;
+	    Boolean bundle = PDP.bundleProduct();
 		String ProductID = null;
 		if (!isMobile() && bundle)
 			ProductID = PDP.getProductID(0);

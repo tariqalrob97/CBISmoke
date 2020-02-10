@@ -22,6 +22,7 @@ import com.generic.setup.PDPs;
 import com.generic.setup.SelTestCase;
 import com.generic.util.RandomUtilities;
 import com.generic.util.SelectorUtil;
+import com.generic.page.PayPal;
 
 public class CheckOut extends SelTestCase {
 
@@ -875,300 +876,51 @@ public class CheckOut extends SelTestCase {
 
 	}
 
-	// Done CBI
-	public static class PayPal {
-
-		public static void clickOnContinue() throws Exception {
-			try {
-				getCurrentFunctionName(true);
-				List<String> subStrArr = new ArrayList<String>();
-				List<String> valuesArr = new ArrayList<String>();
-				logs.debug("clicking on Agree and continue btn");
-				subStrArr.add(PayPalSelectors.confirmButtonTop);
-				valuesArr.add("");
-				SelectorUtil.initializeSelectorsAndDoActions(subStrArr, valuesArr);
-				getCurrentFunctionName(false);
-			} catch (NoSuchElementException e) {
-				logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
-				}.getClass().getEnclosingMethod().getName()));
-				throw e;
-			}
-
-		}
-
-		public static void paymentPageClickContinue() throws Exception {
-			try {
-				getCurrentFunctionName(true);
-				if (!SelectorUtil.isNotDisplayed(CartSelectors.paymentPageCheckNextBtn.get()))
-					SelectorUtil.initializeSelectorsAndDoActions(CartSelectors.paymentPageCheckNextBtn.get());
-				getCurrentFunctionName(false);
-			} catch (NoSuchElementException e) {
-				logs.debug(MessageFormat.format(
-						ExceptionMsg.PageFunctionFailed + "Payment next button selector was not found by selenium ",
-						new Object() {
-						}.getClass().getEnclosingMethod().getName()));
-				throw e;
-			}
-		}
-
-		public static String getConfirmationTotalValue() throws Exception {
-			try {
-				getCurrentFunctionName(true);
-				String str = null;
-				if (!isMobile() || isFGGR())
-					str = CheckOutSelectors.confirmationTotal.get();
-				else if (isGHRY() && isMobile())
-					str = CheckOutSelectors.GHConfirmationTotal.get();
-				WebElement price = SelectorUtil.getElement(str);
-				getCurrentFunctionName(false);
-				return price.getText().replace("$", "").replace(",", "").trim();
-			} catch (NoSuchElementException e) {
-				logs.debug(MessageFormat.format(
-						ExceptionMsg.PageFunctionFailed
-								+ "Confirmation  total value element selector was not found by selenium ",
-						new Object() {
-						}.getClass().getEnclosingMethod().getName()));
-				throw e;
-			}
-		}
-
-		public static String getConfirmationPageTaxValue() throws Exception {
-			try {
-				getCurrentFunctionName(true);
-				WebElement price = SelectorUtil.getElement(CheckOutSelectors.confirmationPageTax.get());
-				getCurrentFunctionName(false);
-				return price.getText().replace("$", "").replace(",", "").trim();
-			} catch (NoSuchElementException e) {
-				logs.debug(MessageFormat.format(
-						ExceptionMsg.PageFunctionFailed + "Tax value element selector was not found by selenium ",
-						new Object() {
-						}.getClass().getEnclosingMethod().getName()));
-				throw e;
-			}
-		}
-
-		public static String getConfirmationPageShippingValue() throws Exception {
-			try {
-				getCurrentFunctionName(true);
-				WebElement price = SelectorUtil.getElement(CheckOutSelectors.confirmationShipping.get());
-				getCurrentFunctionName(false);
-				return price.getText().replace("$", "").replace(",", "").trim();
-			} catch (NoSuchElementException e) {
-				logs.debug(MessageFormat.format(
-						ExceptionMsg.PageFunctionFailed + "Shipping value element selector was not found by selenium ",
-						new Object() {
-						}.getClass().getEnclosingMethod().getName()));
-				throw e;
-			}
-		}
-
-		public static String getConfirmationPageSubtotalValue() throws Exception {
-			try {
-				getCurrentFunctionName(true);
-				WebElement price = SelectorUtil.getElement(CheckOutSelectors.confirmationPageSubtotal.get());
-				getCurrentFunctionName(false);
-				return price.getText().replace("$", "").replace(",", "").trim();
-			} catch (NoSuchElementException e) {
-				logs.debug(MessageFormat.format(
-						ExceptionMsg.PageFunctionFailed + "Subtotal value element selector was not found by selenium ",
-						new Object() {
-						}.getClass().getEnclosingMethod().getName()));
-				throw e;
-			}
-		}
-
-		public static boolean isPayPalPayment() throws Exception {
-
-			try {
-				getCurrentFunctionName(true);
-				WebElement price = SelectorUtil.getElement(CheckOutSelectors.confirmationPageAccountType.get());
-				boolean result = false;
-				if (price.getText().trim().equals("PayPal Account"))
-					result = true;
-				getCurrentFunctionName(false);
-				return result;
-			} catch (NoSuchElementException e) {
-				logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
-						+ "PayPal identification sring selector was not found by selenium ", new Object() {
-						}.getClass().getEnclosingMethod().getName()));
-				throw e;
-			}
-		}
-
-		public static boolean checkConfirmationPageImg() throws Exception {
-			try {
-				getCurrentFunctionName(true);
-				boolean isDisplayed = SelectorUtil.isDisplayed(CheckOutSelectors.confirmationPageProductImg.get())
-						&& SelectorUtil.isImgLoaded(CheckOutSelectors.confirmationPageProductImg.get());
-				getCurrentFunctionName(false);
-				return isDisplayed;
-			} catch (NoSuchElementException e) {
-				logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
-						+ "Image in confirmation page selector was not found by selenium ", new Object() {
-						}.getClass().getEnclosingMethod().getName()));
-				throw e;
-			}
-		}
-
-		public static boolean checkOrderNumberAndEmailAndShippingAddress() throws Exception {
-			try {
-				getCurrentFunctionName(true);
-				boolean isDisplayed = SelectorUtil.isDisplayed(CheckOutSelectors.orderNumber.get())
-						&& SelectorUtil.isDisplayed(CheckOutSelectors.email.get())
-						&& SelectorUtil.isDisplayed(CheckOutSelectors.shippingAddress.get());
-				getCurrentFunctionName(false);
-				return isDisplayed;
-			} catch (NoSuchElementException e) {
-				logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
-						+ "Some selector for order number or email or shipping address is not found by selenium ",
-						new Object() {
-						}.getClass().getEnclosingMethod().getName()));
-				throw e;
-			}
-		}
-
-		public static int getCountOFProductForConfPage() throws Exception {
-			try {
-				getCurrentFunctionName(true);
-
-				List<String> subStrArr = new ArrayList<String>();
-				subStrArr.add(CheckOutSelectors.paypalConfermationPageAllProduct.get());
-				List<WebElement> elements = SelectorUtil.getAllElements(subStrArr);
-				getCurrentFunctionName(false);
-				return elements.size();
-			} catch (NoSuchElementException e) {
-				logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
-						+ "Product selector in confirmation page was not found by selenium ", new Object() {
-						}.getClass().getEnclosingMethod().getName()));
-				throw e;
-			}
-		}
-
-		public static boolean isSubmitConfermationMessageDisplayed() throws Exception {
-			try {
-				getCurrentFunctionName(true);
-				String str = null;
-				boolean isDisplayed = false;
-				if (isFGGR() || !isMobile())
-					str = CheckOutSelectors.paypalSubmitConfermationMessage.get();
-				else if (isGHRY() && isMobile())
-					str = CheckOutSelectors.GHPaypalSubmitConfermationMessage.get();
-				isDisplayed = SelectorUtil.isDisplayed(str);
-				getCurrentFunctionName(false);
-				return isDisplayed;
-			} catch (NoSuchElementException e) {
-				logs.debug(MessageFormat.format(
-						ExceptionMsg.PageFunctionFailed + "PayPal confirmation msg selector was not found by selenium ",
-						new Object() {
-						}.getClass().getEnclosingMethod().getName()));
-				throw e;
-			}
-		}
-
-		public static void closePayPalSubmitPopup() throws Exception {
-			try {
-				getCurrentFunctionName(true);
-				if (!SelectorUtil.isNotDisplayed(CheckOutSelectors.paymentSubmitPopUpClose.get()))
-					SelectorUtil.initializeSelectorsAndDoActions(CheckOutSelectors.paymentSubmitPopUpClose.get());
-				getCurrentFunctionName(false);
-			} catch (NoSuchElementException e) {
-				logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
-						+ "Close PayPal modal button selector was not found by selenium ", new Object() {
-						}.getClass().getEnclosingMethod().getName()));
-				throw e;
-			}
-		}
-
-		public static void closePayPalSubmitRegestration() throws Exception {
-			try {
-				getCurrentFunctionName(true);
-				closePayPalSubmitPopup();
-				if (!SelectorUtil.isNotDisplayed(CheckOutSelectors.paymentPayPalSubmitRegistrationCloseBtn.get()))
-					SelectorUtil.initializeSelectorsAndDoActions(
-							CheckOutSelectors.paymentPayPalSubmitRegistrationCloseBtn.get());
-				closePayPalSubmitPopup();
-
-				getCurrentFunctionName(false);
-			} catch (NoSuchElementException e) {
-				logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
-						+ "Close paypal registration button selector was not found by selenium ", new Object() {
-						}.getClass().getEnclosingMethod().getName()));
-				throw e;
-			}
-		}
-
-		public static void clickPayPalOrderSubmit() throws Exception {
-			try {
-				getCurrentFunctionName(true);
-				SelectorUtil.initializeSelectorsAndDoActions(CheckOutSelectors.paymentPagePayPalSubmitBtn.get());
-				getCurrentFunctionName(false);
-			} catch (NoSuchElementException e) {
-				logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
-						+ "Submit button for paypal selector was not found by selenium ", new Object() {
-						}.getClass().getEnclosingMethod().getName()));
-				throw e;
-			}
-		}
-
-		public static boolean isOrderSummaryDisplayed() throws Exception {
-			try {
-				getCurrentFunctionName(true);
-				boolean isDisplayed = SelectorUtil.isDisplayed(CartSelectors.addedItemsTotalPrice.get());
-				getCurrentFunctionName(false);
-				return isDisplayed;
-			} catch (NoSuchElementException e) {
-				logs.debug(MessageFormat.format(
-						ExceptionMsg.PageFunctionFailed + "Order summary element selector was not found by selenium ",
-						new Object() {
-						}.getClass().getEnclosingMethod().getName()));
-				throw e;
-			}
-		}
-
-		public static boolean isPaymentPageSelectedAndPayPalSelected() throws Exception {
-			try {
-				getCurrentFunctionName(true);
-				boolean isDisplayed = SelectorUtil.isDisplayed(CheckOutSelectors.paymentPagePayPalTitle.get());
-				getCurrentFunctionName(false);
-				return isDisplayed;
-			} catch (NoSuchElementException e) {
-				logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
-						+ "paypal elemet selector in payment was not found by selenium ", new Object() {
-						}.getClass().getEnclosingMethod().getName()));
-				throw e;
-			}
-		}
-
-		public static boolean isPayPalModelDisplayed() throws Exception {
-			try {
-				getCurrentFunctionName(true);
-				boolean isDisplayed = SelectorUtil.isDisplayed(PayPalSelectors.userName);
-				getCurrentFunctionName(false);
-				return isDisplayed;
-			} catch (NoSuchElementException e) {
-				logs.debug(MessageFormat.format(
-						ExceptionMsg.PageFunctionFailed + "Paypal modal selector was not found by selenium ",
-						new Object() {
-						}.getClass().getEnclosingMethod().getName()));
-				throw e;
-			}
-		}
-
-		public static boolean isPayPalShipToPageDisplayed() throws Exception {
-			try {
-				getCurrentFunctionName(true);
-				boolean isDisplayed = SelectorUtil.isDisplayed(PayPalSelectors.continueBtn);
-				getCurrentFunctionName(false);
-				return isDisplayed;
-			} catch (NoSuchElementException e) {
-				logs.debug(MessageFormat.format(
-						ExceptionMsg.PageFunctionFailed + "PayPal shipping address selector was not found by selenium ",
-						new Object() {
-						}.getClass().getEnclosingMethod().getName()));
-				throw e;
-			}
+	public static void clickCheckouStepFourConfirmationButton() throws Exception {
+		try {
+			getCurrentFunctionName(true);
+			if (!SelectorUtil.isNotDisplayed(CartSelectors.paymentPageCheckNextBtn.get()))
+				SelectorUtil.initializeSelectorsAndDoActions(CartSelectors.paymentPageCheckNextBtn.get());
+			getCurrentFunctionName(false);
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Confirmation button in step 4 selector was not found by selenium ",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
+			throw e;
 		}
 	}
+	
+	
+	public static boolean isPaymentPageSelectedAndPayPalSelected() throws Exception {
+		try {
+			getCurrentFunctionName(true);
+			boolean isDisplayed = SelectorUtil.isDisplayed(CheckOutSelectors.paymentPagePayPalTitle.get());
+			getCurrentFunctionName(false);
+			return isDisplayed;
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
+					+ "paypal elemet selector in payment was not found by selenium ", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+	}
+
+	
+	public static void clickPayPalOrderSubmit() throws Exception {
+		try {
+			getCurrentFunctionName(true);
+			SelectorUtil.initializeSelectorsAndDoActions(CheckOutSelectors.paymentPagePayPalSubmitBtn.get());
+			getCurrentFunctionName(false);
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
+					+ "Submit button for paypal selector was not found by selenium ", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+	}
+	
+
 
 	public static void clickCreditCardPayment() throws Exception {
 		try {

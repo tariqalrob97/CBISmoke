@@ -2,20 +2,17 @@ package com.generic.tests.GH.PDP;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
-import org.testng.Assert;
 import org.testng.SkipException;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.xml.XmlTest;
 
+import com.generic.page.PDP;
 import com.generic.setup.Common;
 import com.generic.setup.LoggingMsg;
 import com.generic.setup.SelTestCase;
 import com.generic.setup.SheetVariables;
-import com.generic.tests.GH.PDP.PDPValidation;
-import com.generic.tests.GH.PDP.WistListGuestValidation;
-import com.generic.util.ReportUtil;
 import com.generic.util.SASLogger;
 import com.generic.util.dataProviderUtils;
 
@@ -26,10 +23,9 @@ public class PDPBase extends SelTestCase {
 	public static final String singlePDP = "Validate PDP Single active elements";
 	public static final String bundlePDP = "Validate PDP Bundle active elements";
 	public static final String personalizedPDP = "Validate PDP Personalized active elements";
-	public static final String singlePDPSearchTerm = "shirt";
-
+	public static final String singlePDPSearchTerm = "shoes";
 	public static final String BundlePDPSearchTerm = "41589";
-	public static final String personalizedPDPSearchTerm = "Resort Cotton";
+	public static final String personalizedPDPSearchTerm = "2750";
 
 	public static final String wishListGuestValidation = "Wish List Guest Validation";
 
@@ -71,13 +67,17 @@ public class PDPBase extends SelTestCase {
 		try {
 
 			if (proprties.contains(singlePDP)) {
-				PDPValidation.validate(singlePDPSearchTerm);
+				PDP.NavigateToPDP(singlePDPSearchTerm);
+				Thread.sleep(10000);
+				PDPValidation.validate(false);
 			}
 			if (proprties.contains(bundlePDP)) {
-				PDPValidation.validate(BundlePDPSearchTerm);
+				PDP.NavigateToPDP(BundlePDPSearchTerm);
+				PDPValidation.validate(false);
 			}
 			if (proprties.contains(personalizedPDP)) {
-				PDPValidation.validate(personalizedPDPSearchTerm);
+				PDP.NavigateToPDP(personalizedPDPSearchTerm);
+				PDPValidation.validate(true);
 			}
 
 			if (proprties.contains(wishListGuestValidation)) {
