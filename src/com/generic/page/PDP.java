@@ -1566,7 +1566,7 @@ public class PDP extends SelTestCase {
 			for (int index = 0; index < list.size(); index++) {
 				String classValue = SelectorUtil.getAttrString(subStrArr, "class", index);
 				if (!classValue.contains("no-available") && !classValue.contains("disabled")) {
-					String nthSel = subStrArr + ">div";
+					String nthSel = subStrArr ;//+ ">div";
 					WebElement item = getDriver().findElements(By.cssSelector(nthSel)).get(index);
 					JavascriptExecutor jse = (JavascriptExecutor) getDriver();
 					jse.executeScript("arguments[0].scrollIntoView(false)", item);
