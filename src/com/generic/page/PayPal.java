@@ -173,6 +173,8 @@ public class PayPal extends SelTestCase {
 				str = CheckOutSelectors.confirmationTotal.get();
 			else if (isGHRY() && isMobile())
 				str = CheckOutSelectors.GHConfirmationTotal.get();
+			else if(isBD() && isMobile())
+				str = CheckOutSelectors.BDConfirmationTotal.get();
 			WebElement price = SelectorUtil.getElement(str);
 			getCurrentFunctionName(false);
 			return price.getText().replace("$", "").replace(",", "").trim();
@@ -307,12 +309,14 @@ public class PayPal extends SelTestCase {
 				str = CheckOutSelectors.paypalSubmitConfermationMessage.get();
 			else if (isGHRY() && isMobile())
 				str = CheckOutSelectors.GHPaypalSubmitConfermationMessage.get();
+			else if(isBD() && isMobile())
+				str = CheckOutSelectors.BDPaypalSubmitConfermationMessage.get();
 			isDisplayed = SelectorUtil.isDisplayed(str);
 			getCurrentFunctionName(false);
 			return isDisplayed;
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(
-					ExceptionMsg.PageFunctionFailed + "PayPal confirmation msg selector was not found by selenium ",
+					ExceptionMsg.PageFunctionFailed + "GHPaypalSubmitConfermationMessage ",
 					new Object() {
 					}.getClass().getEnclosingMethod().getName()));
 			throw e;
