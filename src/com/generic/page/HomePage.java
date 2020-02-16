@@ -844,9 +844,6 @@ if(isBD()){
 					validateSubMenuNavigation = false;
 				}
 
-				if (isGH()) {
-					Thread.sleep(3000);
-				}
 
 			}
 			getCurrentFunctionName(false);

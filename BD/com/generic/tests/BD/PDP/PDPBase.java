@@ -96,7 +96,7 @@ public class PDPBase extends SelTestCase {
 			
 			if(proprties.contains(COMShopPDP)) {
 				CSPDPValidation.validate(comShopPDPSearchTerm , desc);
-
+			}
 			if (proprties.contains(pcPDP)) {
 				PDP_PC.validate();
 
