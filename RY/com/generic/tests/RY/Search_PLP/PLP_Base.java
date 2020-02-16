@@ -2,13 +2,11 @@ package com.generic.tests.RY.Search_PLP;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
-import java.util.LinkedHashMap;
 import org.testng.SkipException;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.xml.XmlTest;
-import com.generic.page.PDP;
 import com.generic.page.PLP;
 import com.generic.setup.Common;
 import com.generic.setup.LoggingMsg;
@@ -25,7 +23,6 @@ public class PLP_Base extends SelTestCase {
 	private static XmlTest testObject;
 
 	private static ThreadLocal<SASLogger> Testlogs = new ThreadLocal<SASLogger>();
-	private static LinkedHashMap<String, Object> users;
 
 	@BeforeTest
 	public static void initialSetUp(XmlTest test) throws Exception {
@@ -66,11 +63,11 @@ public class PLP_Base extends SelTestCase {
 					getDriver().get("https://stagewcs.ryllace.com/store/plus-size-sweaters");
 					Thread.sleep(12000);
 				}
-				PDP.closeSignUpModalIfDisplayed();
+//				PDP.closeSignUpModalIfDisplayed();
 				sassert().assertTrue(PLP.VerifyPLP(), "PLP Validation failed");
 			}
 			sassert().assertAll();
-			Common.testPass();
+			Common.testPass(CaseDescription);
 
 		} catch (Throwable t) {
 			if ((getTestStatus() != null) && getTestStatus().equalsIgnoreCase("skip")) {

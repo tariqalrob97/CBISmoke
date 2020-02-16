@@ -7,17 +7,12 @@ import com.generic.setup.GlobalVariables;
 import com.generic.setup.SelTestCase;
 
 public class MiniCartValidation extends SelTestCase {
-
-	public static final String PDPSearchTerm = "elizabeth";
 	
 	public static void validate() throws Exception {
 		String expectedEmptyCartText="empty";
 		
 		getCurrentFunctionName(true);
-		if(isMobile())
-			Common.refreshBrowser();
 		HomePage.clickOnMiniCart();
-		PDP.closeSignUpModalIfDisplayed();
 		Thread.sleep(2000);
 		String emptyCartText = HomePage.getMiniCartText();
 		sassert().assertTrue(emptyCartText.contains(expectedEmptyCartText), "<font color=#f442cb>expected text is: " + expectedEmptyCartText
@@ -27,7 +22,7 @@ public class MiniCartValidation extends SelTestCase {
 			HomePage.clickOnMiniCartCloseBtn();	
 			sassert().assertTrue(HomePage.validateMiniCartIsClosed(), "Mini cart modal is not closed");
 		}
-		PDP.NavigateToPDP(PDPSearchTerm);
+		PDP.NavigateToPDP();
 		PDP.addProductsToCart();
 		if (!isMobile()) {
 			PDP.clickAddToCartCloseBtn();

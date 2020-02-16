@@ -83,9 +83,14 @@ public class HomePage extends SelTestCase {
 			logs.debug("Clicking on Site logo");
 			if (isGH()) {
 				SelectorUtil.initializeSelectorsAndDoActions(HomePageSelectors.GHlogo.get());
+			} else if (isRY() && isMobile()) {
+				SelectorUtil.initializeSelectorsAndDoActions(HomePageSelectors.RYLogoLinkMobile.get(),
+						"ForceAction,click");
+
 			} else {
-				SelectorUtil.initializeSelectorsAndDoActions(HomePageSelectors.logo.get());
+				SelectorUtil.initializeSelectorsAndDoActions(HomePageSelectors.logo.get(), "ForceAction,click");
 			}
+			Thread.sleep(2000);
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat
@@ -652,7 +657,9 @@ if(isBD()){
 		try {
 			getCurrentFunctionName(true);
 			boolean loaded = true;
-			for (int i = 0; i < elements.size(); i++) {
+			for (int i = 0; i < elements.size(); i++) {	
+				JavascriptExecutor jse = (JavascriptExecutor) getDriver();
+				jse.executeScript("arguments[0].scrollIntoView(false)", elements.get(i));
 				if (!elements.get(i).isDisplayed())
 					loaded = false;
 			}

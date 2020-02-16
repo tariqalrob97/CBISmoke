@@ -1,5 +1,7 @@
 package com.generic.tests.GH.checkout;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.LinkedHashMap;
 
 import com.generic.page.Cart;
@@ -8,26 +10,24 @@ import com.generic.page.HomePage;
 import com.generic.page.Login;
 import com.generic.page.PayPal;
 import com.generic.page.Registration;
-import com.generic.page.Login;
-import com.generic.setup.GlobalVariables;
 import com.generic.setup.LoggingMsg;
 import com.generic.setup.SelTestCase;
+import com.generic.util.RandomUtilities;
 
 public class PayPalValidation extends SelTestCase {
 
-	public static void validate(String userType, int productsCount, LinkedHashMap<String, String> userDetalis,
+	public static void validate(String userType, int productsCount,
 			LinkedHashMap<String, String> paymentDetails) throws Exception {
 
 		// Perform login
 		if (userType.contains("registered")) {
-			String userMail = getSubMailAccount(userDetalis.get(Registration.keys.email));
-			String userPassword = userDetalis.get(Registration.keys.password);
-			Login.fillLoginFormAndClickSubmit(userMail, userPassword);
-			sassert().assertTrue(Login.checkUserAccount(), LoggingMsg.USER_IS_NOT_LOGGED_IN_SUCCESSFULLY);
-			if(SelTestCase.isMobile())
-			HomePage.clickOnCloseButton();
+			String fName = "FirstVisa";
+			String lName = "LastVisa";
+			String userMail = RandomUtilities.getRandomEmail();
+			String userPassword = "TestITG226";
+			//Perform Registration
+			Registration.registerFreshUser(userMail, userPassword, fName, lName);
 		}
-
 		// Add products to cart
 		CheckOut.searchForProductsandAddToCart(productsCount);
 
@@ -45,44 +45,55 @@ public class PayPalValidation extends SelTestCase {
 		if (SelTestCase.isDesktop())
 			main =  CheckOut.paymentInnformation.switchToPayPalWindow();
 		Thread.sleep(1000);
-		if (CheckOut.PayPal.isPayPalModelDisplayed()) {
+		if (PayPal.isPayPalModelDisplayed()) {
 			String PayPalEmail = paymentDetails.get(CheckOut.paymentInnformation.keys.number);
 			String PayPalPassword = paymentDetails.get(CheckOut.paymentInnformation.keys.CVCC); 
 			PayPal.signIn(PayPalEmail, PayPalPassword);
-			sassert().assertTrue(CheckOut.PayPal.isPayPalShipToPageDisplayed(), "(PayPAl Ship to) page is not displayed");
-			PayPal.clickOnContinue();
+			sassert().assertTrue(PayPal.isPayPalShipToPageDisplayed(), "(PayPAl Ship to) page is not displayed");
+		
+			Thread.sleep(6000);
+
 			if (userType.contains("registered")) {
-				Thread.sleep(2000);
-				CheckOut.PayPal.clickOnContinue();
+				PayPal.clickOnContinueRegistered();
+				PayPal.clickConfirmRegistered();
 			}
-			
+
+			else {
+				PayPal.clickOnContinue();
+
+			}
+
 			if (SelTestCase.isDesktop())
 				 CheckOut.paymentInnformation.switchBackToMainWindow(main);
 
 			Thread.sleep(2000);
-			CheckOut.PayPal.paymentPageClickContinue();
+			CheckOut.clickCheckouStepFourConfirmationButton();
 			
-			if (CheckOut.PayPal.isPaymentPageSelectedAndPayPalSelected()) {
-				sassert().assertTrue(CheckOut.PayPal.isOrderSummaryDisplayed(), "Order summary is not displayed");
+			if (CheckOut.isPaymentPageSelectedAndPayPalSelected()) {
+				
+				sassert().assertTrue(PayPal.isOrderSummaryDisplayed(), "Order summary is not displayed");
 				float newSubTotal = Float.parseFloat(Cart.getTotalPrice().replace("$", "").replace(",", "").trim());
+				
 				sassert().assertTrue(subtotalValue == newSubTotal, "Subtotal value is incorrect");
 				float shippingValue = Float.parseFloat(Cart.getShippingValue());
 				float tax = Float.parseFloat(Cart.getTaxValue());
-				CheckOut.PayPal.clickPayPalOrderSubmit();
+				
+				CheckOut.clickPayPalOrderSubmit();
 				Thread.sleep(3000);
 
-				CheckOut.PayPal.closePayPalSubmitRegestration();
-				sassert().assertTrue(CheckOut.PayPal.isSubmitConfermationMessageDisplayed(),
+				PayPal.closePayPalSubmitRegestration();
+				
+				sassert().assertTrue(PayPal.isSubmitConfermationMessageDisplayed(),
 						"Order confirmation page is not displayed");
-				sassert().assertTrue(CheckOut.PayPal.checkOrderNumberAndEmailAndShippingAddress(),
+				sassert().assertTrue(PayPal.checkOrderNumberAndEmailAndShippingAddress(),
 						"Order number or email or shipping address is not displayed");
-				sassert().assertTrue(CheckOut.PayPal.checkConfirmationPageImg(), "Product image is not displayed");
-				sassert().assertTrue(CheckOut.PayPal.isPayPalPayment(), "Payment type is PayPal");
+				sassert().assertTrue(PayPal.checkConfirmationPageImg(), "Product image is not displayed");
+				sassert().assertTrue(PayPal.isPayPalPayment(), "Payment type is PayPal");
 
-				float confirmationSubtotal = Float.parseFloat(CheckOut.PayPal.getConfirmationPageSubtotalValue());
-				float confirmationTax = Float.parseFloat(CheckOut.PayPal.getConfirmationPageTaxValue());
-				float confirmationShipping = Float.parseFloat(CheckOut.PayPal.getConfirmationPageShippingValue());
-				float total = Float.parseFloat(CheckOut.PayPal.getConfirmationTotalValue());
+				float confirmationSubtotal = Float.parseFloat(PayPal.getConfirmationPageSubtotalValue());
+				float confirmationTax = Float.parseFloat(PayPal.getConfirmationPageTaxValue());
+				float confirmationShipping = Float.parseFloat(PayPal.getConfirmationPageShippingValue());
+				float total = Float.parseFloat(PayPal.getConfirmationTotalValue());
 
 				if (confirmationTax != tax)
 					sassert().assertTrue(false, "Tax value is not same");

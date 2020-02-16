@@ -65,7 +65,7 @@ public class CLPBase extends SelTestCase {
 					Testlogs.get().debug("please check proprties provided in excel sheet");
 				}
 			sassert().assertAll();
-			Common.testPass();
+			Common.testPass(CaseDescription);
 		} catch (Throwable t) {
 			if ((getTestStatus() != null) && getTestStatus().equalsIgnoreCase("skip")) {
 				throw new SkipException("Skipping this exception");
