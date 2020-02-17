@@ -316,7 +316,7 @@ public class PayPal extends SelTestCase {
 			return isDisplayed;
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(
-					ExceptionMsg.PageFunctionFailed + "GHPaypalSubmitConfermationMessage ",
+					ExceptionMsg.PageFunctionFailed + "PayPal confirmation msg selector was not found by selenium ",
 					new Object() {
 					}.getClass().getEnclosingMethod().getName()));
 			throw e;
