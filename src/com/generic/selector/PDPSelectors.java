@@ -237,4 +237,10 @@ public class PDPSelectors {
     public static final cselector BDconfigureItemsBundle = new cselector("css,.gwt-vk-item-display-panel:nth-child({0}) > div.gwt-vk-item-panel","css,.c-variable-kit-product> div:nth-child({0})>.pw-accordion.c-variable-kit-product__bellows > .pw-accordion__item");
     public static final cselector BDconfigureModalDoneBtn = new cselector("css,div.gwt-submit-cancel-dialog-button-panel > button","css,.c-variable-kit-product__save-button button");
     public static final cselector BDitemsAccordion = new cselector("css,.c-variable-kit-product> div:nth-child({0}) .pw-accordion__item.c-variable-kit-product__bellows-item:nth-child({1}) > button");
+    
+    //Fabric
+    public static final cselector FabricAddtoCartBtn = new cselector("css,#gwt-product-detail-widget-id-475942 .gwt-bundle-add-to-cart-btn >button","css,#gwt-product-detail-widget-id-526932 .gwt-bundle-add-to-cart-btn > button","css,.u-margin-start-negative-md .u-margin-bottom-md .u-padding-start-md button");
+    public static final cselector FabricAddFreeSwatchtoCartBtn = new cselector("css,#gwt-product-detail-widget-id-475951 .gwt-bundle-add-to-cart-btn >button","css,#gwt-product-detail-widget-id-527000 .gwt-bundle-add-to-cart-btn >button","css,.t-product-details__fabric-swatch-content .t-product-details__swatch-qty-cart .u-width-2of3 .u-padding-start-md > button");
+    public static final cselector pickOneFreeSwatch = new cselector("css,#gwt-product-detail-widget-id-475951 .csb-quantity-ctl > #incrementId","css,#gwt-product-detail-widget-id-527000 .csb-quantity-ctl > #incrementId","css,div.t-product-details__swatch-qty-cart.u-flexbox > div:nth-child(1) > div > div > div > div > button.pw-button.pw--icon-only.increment-quantity.u-padding-0.u-border-0");
+
 }

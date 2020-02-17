@@ -25,6 +25,8 @@ public class PDPBase extends SelTestCase {
 	public static final String personalizedPDP = "Validate PDP Personalized active elements";
 	public static final String slipCoverPDP = "Validate PDP Slip Cover active elements";
 	public static final String COMShopPDP = "Validate PDP COM Shop active elements";
+	public static final String FabricPDP = "Validate PDP Fabric active elements";
+
 
 
 	public static final String singlePDPSearchTerm = "Woven Rug";
@@ -32,6 +34,8 @@ public class PDPBase extends SelTestCase {
 	public static final String personalizedPDPSearchTerm = "Resort Cotton";
 	public static final String slipCoverPDPSearchTerm = "sa083";
 	public static final String comShopPDPSearchTerm = "uc033";
+	public static final String FabricPDPSearchTerm = "Red Fabric";
+
 
 	public static final String wishListGuestValidation = "Wish List Guest Validation";
 
@@ -95,6 +99,10 @@ public class PDPBase extends SelTestCase {
 			
 			if(proprties.contains(COMShopPDP)) {
 				CSPDPValidation.validate(comShopPDPSearchTerm , desc);
+			}
+			
+			if(proprties.contains(FabricPDP)) {
+				FabricPDPValidation.validate(FabricPDPSearchTerm);
 			}
 
 			sassert().assertAll();

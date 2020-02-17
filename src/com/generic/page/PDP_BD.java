@@ -315,4 +315,93 @@ public class PDP_BD extends SelTestCase{
 		}
 
 	}
+	
+	public static boolean validateTheRightPDP(String targetedItem) throws Exception {
+		boolean isRightItem = false;
+		try {
+			getCurrentFunctionName(true);
+			logs.debug("Validate if you are in the right PDP");
+			
+			String itemTitle = SelectorUtil.getElement(PDPSelectors.BDItemTitle.get()).getText();
+			isRightItem = itemTitle.contains("Fabric");
+			 
+			return isRightItem;
+		}catch(NoSuchElementException e) {
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "PDP Item Title selector was not found by selenium", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+		
+	}
+	
+	public static boolean validateFabricAddToCartIsEnabled() throws Exception {
+		try {
+			getCurrentFunctionName(true);
+			boolean isDisplayed;
+			logs.debug("Validate if Add To Cart Is Displayed");
+			
+			String selectorEnabled = PDPSelectors.FabricAddtoCartBtn.get();
+			isDisplayed = SelectorUtil.isDisplayed(selectorEnabled);
+			getCurrentFunctionName(false);
+			return isDisplayed;
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Add to cart button selector was not found by selenium",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+	}
+	
+	public static void clickAddToCartButton() throws Exception {
+		try {
+			getCurrentFunctionName(true);
+			String subStrArr = null;
+			subStrArr = PDPSelectors.FabricAddtoCartBtn.get();
+			SelectorUtil.initializeSelectorsAndDoActions(subStrArr);
+			getCurrentFunctionName(false);
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Add to cart button selector was not found by selenium",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+	}
+	
+	public static void pickOneQuantity() throws Exception {
+		try {
+			
+			String subStrArr = PDPSelectors.pickOneFreeSwatch.get();
+			WebElement increment = SelectorUtil.getElement(subStrArr);
+			
+			SelectorUtil.clickOnWebElement(increment);
+			logs.debug("Select One Item");
+		
+			getCurrentFunctionName(false);
+			
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Increment selector was not found by seleniuem", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+	}
+	
+	public static void clickAddToFreeSwatch() throws Exception {
+		try {
+			getCurrentFunctionName(true);
+			String subStrArr = null;
+			subStrArr = PDPSelectors.FabricAddFreeSwatchtoCartBtn.get();
+			SelectorUtil.initializeSelectorsAndDoActions(subStrArr);
+			getCurrentFunctionName(false);
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Add free swatch to cart button selector was not found by selenium",
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+	}
 }
