@@ -14,7 +14,9 @@ public class WistListGuestValidation extends SelTestCase {
 			Common.refreshBrowser();
 		   String selectedProductName = PDP.NavigateToPDP("Slippers");
 		PDP.selectSwatches();
+		Thread.sleep(2000);
 		PDP.clickAddToWLGR();
+		Thread.sleep(2000);
 		PDP.clickOnCreateNewWL();
 		sassert().assertTrue(PDP.validateNameYourNewWLModalIsDisplayed(), "Name your new wish list modal is not dispayed");
         String WLName = PDP.getWishListName();

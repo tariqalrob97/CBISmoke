@@ -27,6 +27,7 @@ import com.generic.setup.LoggingMsg;
 import com.generic.setup.SelTestCase;
 import com.generic.util.RandomUtilities;
 import com.generic.util.SelectorUtil;
+import com.generic.util.StringUtils;
 
 public class PDP extends SelTestCase {
 
@@ -54,6 +55,7 @@ public class PDP extends SelTestCase {
 				PLP.typeSearch(SearchTerm);
 				itemName = PLP.pickRecommendedOption();
 			}
+			itemName = StringUtils.unescapeHtml(itemName);
 			getCurrentFunctionName(false);
 			return itemName;
 		} catch (NoSuchElementException e) {
@@ -563,7 +565,8 @@ public class PDP extends SelTestCase {
 			if (isGH()) {
 				SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.GHaddToWLGRBtnEnabled.get());
 			} else if (isRY()) {
-				SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.RYaddToWLGRBtnEnabled.get());
+				WebElement element = SelectorUtil.getElement(PDPSelectors.RYaddToWLGRBtnEnabled.get());
+				   element.click();	
 			} else if (isBD()) {
 				SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.BDaddToWLGRBtnEnabledSingle.get());
 			} else {
@@ -1563,7 +1566,7 @@ public class PDP extends SelTestCase {
 			for (int index = 0; index < list.size(); index++) {
 				String classValue = SelectorUtil.getAttrString(subStrArr, "class", index);
 				if (!classValue.contains("no-available") && !classValue.contains("disabled")) {
-					String nthSel = subStrArr + ">div";
+					String nthSel = subStrArr ;//+ ">div";
 					WebElement item = getDriver().findElements(By.cssSelector(nthSel)).get(index);
 					JavascriptExecutor jse = (JavascriptExecutor) getDriver();
 					jse.executeScript("arguments[0].scrollIntoView(false)", item);
