@@ -27,6 +27,7 @@ import com.generic.setup.LoggingMsg;
 import com.generic.setup.SelTestCase;
 import com.generic.util.RandomUtilities;
 import com.generic.util.SelectorUtil;
+import com.generic.util.StringUtils;
 
 public class PDP extends SelTestCase {
 
@@ -54,6 +55,7 @@ public class PDP extends SelTestCase {
 				PLP.typeSearch(SearchTerm);
 				itemName = PLP.pickRecommendedOption();
 			}
+			itemName = StringUtils.unescapeHtml(itemName);
 			getCurrentFunctionName(false);
 			return itemName;
 		} catch (NoSuchElementException e) {
@@ -563,7 +565,8 @@ public class PDP extends SelTestCase {
 			if (isGH()) {
 				SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.GHaddToWLGRBtnEnabled.get());
 			} else if (isRY()) {
-				SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.RYaddToWLGRBtnEnabled.get());
+				WebElement element = SelectorUtil.getElement(PDPSelectors.RYaddToWLGRBtnEnabled.get());
+				   element.click();	
 			} else if (isBD()) {
 				SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.BDaddToWLGRBtnEnabledSingle.get());
 			} else {
@@ -583,12 +586,18 @@ public class PDP extends SelTestCase {
 	public static String getProductID(int index) throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			String Str = PDPSelectors.itemsID.get();
+			String Str = PDPSelectors.itemsID.get(); 
 			if (isGH()) {
 				if (isMobile()) {
 					Thread.sleep(2500);
 				}
 				Str = PDPSelectors.GHItemsID.get();
+			}
+			else if(isBD()) {
+				if (isMobile()) {
+					Thread.sleep(2500);
+				}
+				Str = PDPSelectors.BDitemsID.get(); // last edit was here, just run to check it with iPhone X
 			}
 			String ID = SelectorUtil.getAttrString(Str, "id", index);
 			getCurrentFunctionName(false);
@@ -621,8 +630,10 @@ public class PDP extends SelTestCase {
 
 			if (value.equals("N")) {
 				bundle = true;
+				logs.debug("This item is bundle");
 			} else if (value.equals("Y")) {
 				bundle = false;
+				logs.debug("This item is not bundle");
 			} else {
 				if (tries < 10)
 					bundleProduct(tries++);
@@ -688,8 +699,12 @@ public class PDP extends SelTestCase {
 					FGGRselectSwatchesSingle();
 				}
 
-			} else if (isGHRY())
+			} else if (isGHRY()) {
 				GHRYselectSwatches(bundle, ProductID);
+			}
+			else if (isBD()) {
+				PDP_BD.BDselectSwatches(bundle, ProductID);
+			}
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed + "select swatch was failed", new Object() {
@@ -715,6 +730,7 @@ public class PDP extends SelTestCase {
 				GHRYselectSwatches(bundle, ProductID);
 			}
 
+
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(
@@ -732,6 +748,10 @@ public class PDP extends SelTestCase {
 			if (isGH()) {
 				selector = PDPSelectors.GHBundleItems.get();
 			}
+			else if (isBD()) {
+				selector = PDPSelectors.BDnumberOfBundleItems.get();
+			}
+			
 			logs.debug("Clicking on any bundle item");
 			if (!SelectorUtil.isNotDisplayed(selector)) {
 				SelectorUtil.initializeSelectorsAndDoActions(selector);
@@ -1563,7 +1583,7 @@ public class PDP extends SelTestCase {
 			for (int index = 0; index < list.size(); index++) {
 				String classValue = SelectorUtil.getAttrString(subStrArr, "class", index);
 				if (!classValue.contains("no-available") && !classValue.contains("disabled")) {
-					String nthSel = subStrArr + ">div";
+					String nthSel = subStrArr ;//+ ">div";
 					WebElement item = getDriver().findElements(By.cssSelector(nthSel)).get(index);
 					JavascriptExecutor jse = (JavascriptExecutor) getDriver();
 					jse.executeScript("arguments[0].scrollIntoView(false)", item);
@@ -1728,10 +1748,12 @@ public class PDP extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			String Str;
-			if (isBD())
+			if (isBD()) {
 				Str = PDPSelectors.BDSwatchesOptions.get();
-			else
+				}
+			else {
 				Str = PDPSelectors.FGGRSwatchesOptions.get();
+			}
 			int numberOfSwatchContainers = SelectorUtil.getAllElements(Str).size();
 			logs.debug("Number of Swatch Containers: " + numberOfSwatchContainers);
 			getCurrentFunctionName(false);
@@ -1783,10 +1805,12 @@ public class PDP extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			String Str;
-			if (!isBD())
+			if (!isBD()) {
 				Str = PDPSelectors.FGGRSwatchesOptions.get();
-			else
+			}
+			else {
 				Str = PDPSelectors.BDSwatchesOptions.get();
+			}
 			String SwatchContainerClass = SelectorUtil.getAttrString(Str, "class", index);
 			logs.debug("SwatchContainerClass: " + SwatchContainerClass);
 			getCurrentFunctionName(false);
@@ -1803,10 +1827,12 @@ public class PDP extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			String Str;
-			if (!isBD())
+			if (!isBD()) {
 				Str = "css,#" + ProductID + ">" + PDPSelectors.FGGRSwatchesOptions.get().replace("css,", "");
-			else
+			}
+			else {
 				Str = "css,#" + ProductID + " " + PDPSelectors.BDSwatchesOptions.get().replace("css,", "");
+			}
 			if (isBD() && isMobile()) {
 				Str = PDPSelectors.BDSwatchesOptions.get();
 			}

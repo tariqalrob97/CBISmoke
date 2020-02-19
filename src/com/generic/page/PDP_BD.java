@@ -1,7 +1,9 @@
 package com.generic.page;
 
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Random;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -264,6 +266,36 @@ public class PDP_BD extends SelTestCase{
 	
 	}
 	
+	public static boolean validatePDP_PC_TopPriceIsDisplayed() throws Exception {
+	try {			
+		boolean isDisplayed = false;
+		isDisplayed = SelectorUtil.isDisplayed(PDPSelectors.BDPDP_PCtopPrice.get());
+	getCurrentFunctionName(false);
+	return isDisplayed;
+} catch (NoSuchElementException e) {
+	logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
+			+ "Top price  not displayed, a selector was not found by selenium", new Object() {
+			}.getClass().getEnclosingMethod().getName()));
+	throw e;
+}
+	
+	}
+	
+	public static String validatePDP_PC_BottomPriceIsDisplayed() throws Exception {
+	try {			
+		String price = "";
+		SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.BDPDP_PCbottomPrice.get());
+		 price = SelectorUtil.textValue.get();
+		getCurrentFunctionName(false);
+	return price;
+} catch (NoSuchElementException e) {
+	logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
+			+ "Bottom price  not displayed, a selector was not found by selenium", new Object() {
+			}.getClass().getEnclosingMethod().getName()));
+	throw e;
+}
+	
+	}
 	
 	public static void clickOnConfigureBtn(String ProductID) throws Exception {
 		try {
@@ -316,6 +348,7 @@ public class PDP_BD extends SelTestCase{
 
 	}
 	
+
 	public static boolean validateTheRightPDP(String targetedItem) throws Exception {
 		boolean isRightItem = false;
 		try {
@@ -353,6 +386,78 @@ public class PDP_BD extends SelTestCase{
 			throw e;
 		}
 	}
+  
+	public static void clickOnNextBtn() throws Exception {
+		try {
+			getCurrentFunctionName(true);
+			logs.debug("Click on next button");
+				SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.BDnextButton.get());
+			getCurrentFunctionName(false);
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
+					+ "Next button selector was not found by seleniuem", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+	}
+	
+	public static void clickStartDesignBtn() throws Exception {
+		try {
+			getCurrentFunctionName(true);
+			logs.debug("Click on start design  button");
+				SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.BDstartDesignBtn.get());
+			getCurrentFunctionName(false);
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
+					+ "start design button selector was not found by seleniuem", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+	}
+	
+	public static void clickOnSaveBtn() throws Exception {
+		try {
+			getCurrentFunctionName(true);
+			logs.debug("Click on save button");
+				SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.BDsaveBtn.get());
+			getCurrentFunctionName(false);
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
+					+ "save button selector was not found by seleniuem", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+	}
+	
+	public static void clickAddToCartBtn() throws Exception {
+		try {
+			getCurrentFunctionName(true);
+			logs.debug("Click on add to cart button");
+				SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.BDAddToCart_PDP_PC.get());
+			getCurrentFunctionName(false);
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
+					+ "Add to cart button selector was not found by seleniuem", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+	}
+	
+	public static boolean isaddToWLGRbtnEnabled() throws Exception {
+		try {
+			getCurrentFunctionName(true);
+			boolean isDisplayed  = false;
+			logs.debug("Validate if Add To WL/GR Is Displayed");
+			isDisplayed = SelectorUtil.isDisplayed(PDPSelectors.BDPDP_PCaddToWLGRBtnEnabled.get());
+			getCurrentFunctionName(false);
+			return isDisplayed;
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
+					+ "Add to WL/GR button selector was not found by seleniuem", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+	}
 	
 	public static void clickAddToCartButton() throws Exception {
 		try {
@@ -370,6 +475,23 @@ public class PDP_BD extends SelTestCase{
 		}
 	}
 	
+	public static boolean isaddToCartbtnEnabled() throws Exception {
+		try {
+			getCurrentFunctionName(true);
+			boolean isDisplayed  = false;
+			logs.debug("Validate if Add To cart Is Displayed");
+			isDisplayed = SelectorUtil.isDisplayed(PDPSelectors.BDAddToCart_PDP_PC.get());
+			getCurrentFunctionName(false);
+			return isDisplayed;
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
+					+ "Add to cart button selector was not found by seleniuem", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+	}
+	
+
 	public static void pickOneQuantity() throws Exception {
 		try {
 			
@@ -388,6 +510,56 @@ public class PDP_BD extends SelTestCase{
 			throw e;
 		}
 	}
+  
+	public static void clickOnPCoptions() throws Exception {
+		try {
+			getCurrentFunctionName(true);
+			List<WebElement> options = SelectorUtil.getAllElements(PDPSelectors.BDPCoptions.get());
+				Random random = new Random();
+				int randomIndex = random.nextInt(options.size() - 1);
+				WebElement element = options.get(randomIndex);
+				if(isMobile()) {
+					Actions action = new Actions(getDriver());
+				    action.moveToElement(element).click().build().perform();
+				}else {
+				    SelectorUtil.clickOnWebElement(element);
+				}
+				Thread.sleep(2000);
+				if(!SelectorUtil.isNotDisplayed(PDPSelectors.BDremovePrevSelectionModal.get())) {
+				SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.BDremovePrevSelectionModalConfirmBtn.get());
+
+				}
+			logs.debug("Click on option");
+			getCurrentFunctionName(false);
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
+					+ "Click on option selector was not found by seleniuem", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+	}
+	
+	
+	
+	public static void selectConfigureSwatches() throws Exception {
+		try {
+			getCurrentFunctionName(true);
+			
+			while (!SelectorUtil.isNotDisplayed(PDPSelectors.BDnextButton.get())) {
+				 PDP_BD.clickOnPCoptions();
+				 Thread.sleep(2500);
+				PDP_BD.clickOnNextBtn();
+			
+				}
+			logs.debug("Select configure swatches ");
+			getCurrentFunctionName(false);
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
+					+ "Select configure swatches has failed, selector was not found by seleniuem", new Object() {
+					}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+	}
 	
 	public static void clickAddToFreeSwatch() throws Exception {
 		try {
@@ -399,6 +571,23 @@ public class PDP_BD extends SelTestCase{
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(
 					ExceptionMsg.PageFunctionFailed + "Add free swatch to cart button selector was not found by selenium",
+new Object() {
+					}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+	}
+
+	public static boolean validateProductIsAddedToCart() throws Exception {
+		try {
+			getCurrentFunctionName(true);
+			boolean isDisplayed;
+				Thread.sleep(1000);
+				isDisplayed = SelectorUtil.isDisplayed(PDPSelectors.BDaddToCartModal.get());
+			getCurrentFunctionName(false);
+			return isDisplayed;
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed + "Add to cart modal selector was not found by selenium",
 					new Object() {
 					}.getClass().getEnclosingMethod().getName()));
 			throw e;

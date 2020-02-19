@@ -22,6 +22,7 @@ public class PDPBase extends SelTestCase {
 	public static final String singlePDP = "Validate PDP Single active elements";
 	public static final String bundlePDP = "Validate PDP Bundle active elements";
 	public static final String vkPDP = "Validate PDP_VK";
+	public static final String pcPDP = "Validate PDP_PC";
 	public static final String personalizedPDP = "Validate PDP Personalized active elements";
 	public static final String slipCoverPDP = "Validate PDP Slip Cover active elements";
 	public static final String COMShopPDP = "Validate PDP COM Shop active elements";
@@ -103,6 +104,8 @@ public class PDPBase extends SelTestCase {
 			
 			if(proprties.contains(FabricPDP)) {
 				FabricPDPValidation.validate(FabricPDPSearchTerm);
+			if (proprties.contains(pcPDP)) {
+				PDP_PC.validate();
 			}
 
 			sassert().assertAll();
