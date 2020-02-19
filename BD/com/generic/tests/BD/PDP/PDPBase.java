@@ -102,12 +102,13 @@ public class PDPBase extends SelTestCase {
 				CSPDPValidation.validate(comShopPDPSearchTerm , desc);
 			}
 			
-			if(proprties.contains(FabricPDP)) {
+			if(proprties.contains(FabricPDP)) 
 				FabricPDPValidation.validate(FabricPDPSearchTerm);
+			
 			if (proprties.contains(pcPDP)) {
 				PDP_PC.validate();
 			}
-
+			
 			sassert().assertAll();
 
 			Common.testPass(CaseDescription);
