@@ -238,6 +238,13 @@ public class PDPSelectors {
     public static final cselector BDconfigureItemsBundle = new cselector("css,.gwt-vk-item-display-panel:nth-child({0}) > div.gwt-vk-item-panel","css,.c-variable-kit-product> div:nth-child({0})>.pw-accordion.c-variable-kit-product__bellows > .pw-accordion__item");
     public static final cselector BDconfigureModalDoneBtn = new cselector("css,div.gwt-submit-cancel-dialog-button-panel > button","css,.c-variable-kit-product__save-button button");
     public static final cselector BDitemsAccordion = new cselector("css,.c-variable-kit-product> div:nth-child({0}) .pw-accordion__item.c-variable-kit-product__bellows-item:nth-child({1}) > button");
+
+    
+    //Fabric
+    public static final cselector FabricAddtoCartBtn = new cselector("css,#gwt-product-detail-widget-id-475942 .gwt-bundle-add-to-cart-btn >button","css,#gwt-product-detail-widget-id-526932 .gwt-bundle-add-to-cart-btn > button","css,.u-margin-start-negative-md .u-margin-bottom-md .u-padding-start-md button");
+    public static final cselector FabricAddFreeSwatchtoCartBtn = new cselector("css,#gwt-product-detail-widget-id-475951 .gwt-bundle-add-to-cart-btn >button","css,#gwt-product-detail-widget-id-527000 .gwt-bundle-add-to-cart-btn >button","css,.t-product-details__fabric-swatch-content .t-product-details__swatch-qty-cart .u-width-2of3 .u-padding-start-md > button");
+    public static final cselector pickOneFreeSwatch = new cselector("css,#gwt-product-detail-widget-id-475951 .csb-quantity-ctl > #incrementId","css,#gwt-product-detail-widget-id-527000 .csb-quantity-ctl > #incrementId","css,div.t-product-details__swatch-qty-cart.u-flexbox > div:nth-child(1) > div > div > div > div > button.pw-button.pw--icon-only.increment-quantity.u-padding-0.u-border-0");
+
     public static final cselector BDnextButton = new cselector("css,div.tabcontent.tabopen > div > div > div.tabs-button-panel > button.button.secondary.step-button.next","css,div.bellows--is-open  button.js--next");
     public static final cselector BDPCoptions = new cselector("css,div.tabcontent.tabopen > div > div > div.gwt-pc-option-content-panel > div > div.gwt-option-values-panel > div > div > div > div > img","css,div.bellows--is-open > div.bellows__content-wrapper > div > div.js-configure-fabric__fabric-swatches > div.c-swatch-msg-container > div > div > ul > li img");
     public static final cselector BDremovePrevSelectionModal = new cselector("css,.gwt-DialogBox.ok-cancel-dlog.remove-prev-selection-conf-dialog","css,section.pinny.c-sheet.c--dialog.pinny--is-open");
@@ -249,7 +256,7 @@ public class PDPSelectors {
     public static final cselector BDsaveBtn = new cselector("css,button.js-save-btn");
     public static final cselector BDPDP_PCaddToWLGRBtnEnabled = new cselector("css,button.js-add-to-wishlist.js-add");
     public static final cselector BDAddToCart_PDP_PC = new cselector("css,div.t-pdp__actions> button.js-add-to-cart.js--add");
-	public static final cselector BDaddToCartModal = new cselector("css,.gwt-DialogBox.ok-cancel-dlog.gwt_addtocart_div");
+	  public static final cselector BDaddToCartModal = new cselector("css,.gwt-DialogBox.ok-cancel-dlog.gwt_addtocart_div");
     public static final cselector BDPDP_PCtopPrice = new cselector("css,.gwt-now-price-holder","css,.js-price.c--large");
     public static final cselector BDPDP_PCbottomPrice = new cselector("css,.gwt-right-bottom-product-options .gwt-now-price-holder","css,.js-custom-design-conteiner .js-price.c--large");
 
