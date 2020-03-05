@@ -4,6 +4,7 @@ import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 import java.util.NoSuchElementException;
 import com.generic.page.CheckOut;
+import com.generic.page.Login;
 import com.generic.page.Registration;
 import com.generic.setup.ExceptionMsg;
 import com.generic.setup.GlobalVariables;
@@ -23,15 +24,10 @@ public class RegisteredCheckoutSingleAddress extends SelTestCase {
 			String orderTax;
 			String orderShipping;
 
-			String fName = "FirstVisa";
-			String lName = "LastVisa";
-			String userMail = RandomUtilities.getRandomEmail();
-			String userPassword = "TestITG226";
-
 			int productsCountStepTWO = 0;
 
-			// Perform Registration
-			Registration.registerFreshUser(userMail, userPassword, fName, lName);
+			//Login Step
+			Login.logIn(userDetalis.get("mail"),userDetalis.get("password"));
 
 			// Add products to cart
 			CheckOut.addRandomProductTocart(productsCount);
