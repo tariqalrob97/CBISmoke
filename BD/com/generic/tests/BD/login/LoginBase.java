@@ -26,6 +26,8 @@ public class LoginBase extends SelTestCase {
 	public static final String testDataSheet = SheetVariables.loginSheet;
 	private static XmlTest testObject;
 	private static ThreadLocal<SASLogger> Testlogs = new ThreadLocal<SASLogger>();
+	public static final String fieldsValidationMsg = "Please enter a valid Email Address. " + 
+			"Please enter Current Password.";
 
 	@BeforeTest
 	public static void initialSetUp(XmlTest test) throws Exception {
@@ -91,11 +93,11 @@ public class LoginBase extends SelTestCase {
 				String passwordMessage = Login.getPasswrdErrorMsg();
 
 				String failureMessage = MessageFormat.format(LoggingMsg.ACTUAL_EXPECTED_ERROR,
-						emailMessage + "<br>" + passwordMessage, fieldsValidation);
+						emailMessage + "<br>" + passwordMessage, fieldsValidationMsg);
 
-				sassert().assertTrue(fieldsValidation.contains(emailMessage),
+				sassert().assertTrue(fieldsValidationMsg.contains(emailMessage),
 						"Mail Validation error: " + failureMessage);
-				sassert().assertTrue(fieldsValidation.contains(passwordMessage),
+				sassert().assertTrue(fieldsValidationMsg.contains(passwordMessage),
 						"Password Validation error" + failureMessage);
 				sassert().assertTrue(!Login.checkUserAccount(), LoggingMsg.USER_IS_LOGGED_IN);
 			}

@@ -3,7 +3,7 @@ package com.generic.tests.GR.e2e;
 import java.text.MessageFormat;
 import java.util.NoSuchElementException;
 
-import com.generic.page.PDP;
+import com.generic.page.PDP.*;
 import com.generic.page.PLP;
 import com.generic.setup.ExceptionMsg;
 import com.generic.setup.PDPs;
@@ -24,7 +24,7 @@ public class PDP_e2e extends SelTestCase {
 			 */
 			PDPs.navigateToRandomPDP();
 			Thread.sleep(2500);
-			PDP.clickAddToCartButtonNoBundle();
+			PDP_cart.clickAddToCartButtonNoBundle();
 			Thread.sleep(2500);
 
 			getCurrentFunctionName(false);

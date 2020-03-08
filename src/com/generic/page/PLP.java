@@ -10,6 +10,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
+import com.generic.page.PDP.*;
 import com.generic.selector.HomePageSelectors;
 import com.generic.selector.PLPSelectors;
 import com.generic.setup.Common;
@@ -56,9 +57,11 @@ public class PLP extends SelTestCase {
 				}else {		
 			     productName = pickRecommendedOption();
 				}
+				Thread.sleep(2000);
 				result = verifyPickedProduct(productName);
 			} else {
 				clickSearch(SearchTerm);
+				Thread.sleep(2000);
 				result = verifySearchResultPage();
 			}
 			getCurrentFunctionName(false);
@@ -111,7 +114,7 @@ public class PLP extends SelTestCase {
 			else if (isGH() || isRY())
 				sortByProductName();
       }
-
+			Thread.sleep(3000);
 			List<String> H2LsortedProductsNames = getfirst3ProductsNames();
 
 			result = result && compareOperationResults(L2HproductsNames, H2LsortedProductsNames);
@@ -359,8 +362,10 @@ public class PLP extends SelTestCase {
 			if (isBD()) {
 				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.BDFilterContainerContents.get(),
 						actions.Click);
-				List<WebElement> filters = SelectorUtil.getAllElements((PLPSelectors.firstFilterBD.get()));
-				filters.get(1).click();
+				SelectorUtil.initializeSelectorsAndDoActions(PLPSelectors.firstFilterBD.get(),
+						actions.Click);
+				//List<WebElement> filters = SelectorUtil.getAllElements((PLPSelectors.firstFilterBD.get()));
+				//filters.get(1).click();
 				
 
 			} // BALLARD DESIGNS
@@ -882,7 +887,7 @@ private static void sortByCustomerRating() throws Exception {
 			Thread.sleep(2500);
 
 			if (isBD())
-				result = SelectorUtil.isImgLoaded(PLPSelectors.productsImagesBD.get());
+				result = SelectorUtil.isImgLoaded(PLPSelectors.productsImagesGR.get());
 
 			else if (isGR())
 				result = SelectorUtil.isImgLoaded(PLPSelectors.productsImagesGR.get());
@@ -963,8 +968,7 @@ private static void sortByCustomerRating() throws Exception {
 				SelectorSS = PLPSelectors.GHRecommendedOption.get();
 			} else if (isBD()) {
 				SelectorSS = PLPSelectors.BDrecommendedOption.get();
-			}
-			else {
+			}else {
 				SelectorSS = PLPSelectors.recommendedOption.get();
 			}
 			
@@ -1203,7 +1207,13 @@ if ((e.getMessage() != null) && e.getMessage().contains("element click intercept
    
 			if (isGH()) {
 				getDriver().get(randomElement.getAttribute("href"));
-			} else
+			}
+//			else if (isBD()) {
+//				randomElement = menuFirstLevelElements.get(2);
+//				Actions actions = new Actions(SelTestCase.getDriver());
+//				actions.moveToElement(randomElement).clickAndHold().perform();
+//			} 
+			else
 				SelectorUtil.clickOnWebElement(randomElement);
 
 			if (isCLP()) {
@@ -1277,7 +1287,13 @@ if ((e.getMessage() != null) && e.getMessage().contains("element click intercept
 			List<WebElement> menuFirstLevelElements;
    
 			if (isMobile() || isiPad()) {
-				SelectorUtil.initializeSelectorsAndDoActions(HomePageSelectors.shopMenuRY.get());
+				
+				if(isMobile())
+		   	    SelectorUtil.initializeSelectorsAndDoActions(HomePageSelectors.shopMenuRY.get());
+				else {
+					WebElement element =  SelectorUtil.getElement(HomePageSelectors.shopMenuRY.get());
+					element.click();
+				}
 
 				if (isMobile()) { // Expand the menu options on mobile
 					List<WebElement> expandIcons= SelectorUtil.getAllElements(HomePageSelectors.expandShopMenuRY.get());

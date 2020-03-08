@@ -8,6 +8,8 @@ import java.util.NoSuchElementException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+
+import com.generic.page.PDP.*;
 import com.generic.selector.HomePageSelectors;
 import com.generic.setup.SelTestCase;
 import com.generic.util.SelectorUtil;
@@ -213,7 +215,7 @@ if(isBD()){
 			getCurrentFunctionName(true);
 			logs.debug("Clicking on Close Button");
 		if(isBD()){
-			SelectorUtil.initializeSelectorsAndDoActions(HomePageSelectors.navIconBD.get());
+			SelectorUtil.initializeSelectorsAndDoActions(HomePageSelectors.BDcloseAccountMenu.get());
 		}
 		else{
 			SelectorUtil.initializeSelectorsAndDoActions(HomePageSelectors.navIcon.get());
@@ -272,7 +274,7 @@ if(isBD()){
 			getCurrentFunctionName(true);
 			List<WebElement> accountMenuElements = getAccountMenuItems();
 			logs.debug("Validate account menu links." + accountMenuElements);
-			boolean isDisplayed = true;
+			boolean isDisplayed = false;
 			for (WebElement element : accountMenuElements) {
 				isDisplayed = element.isDisplayed();
 			}
@@ -347,7 +349,7 @@ if(isBD()){
 				SelectorUtil.initializeSelectorsAndDoActions(subStrArr);
 			} else {
 				logs.debug("Hovering on Mini Cart");
-				PDP.hoverMiniCart();
+				PDP_cart.hoverMiniCart();
 			}
 
 			getCurrentFunctionName(false);
@@ -363,9 +365,8 @@ if(isBD()){
 		try {
 			getCurrentFunctionName(true);
 			if(isBD()){
-		SelectorUtil.initializeSelectorsAndDoActions(HomePageSelectors.miniCartTextBD.get());
-		}
-		else if(isGH()) {
+		    SelectorUtil.initializeSelectorsAndDoActions(HomePageSelectors.miniCartTextBD.get());
+		}else if(isGH()) {
 			SelectorUtil.initializeSelectorsAndDoActions(HomePageSelectors.GHminiCartText.get());
 		}else if(isRY()) {
 			SelectorUtil.initializeSelectorsAndDoActions(HomePageSelectors.RYminiCartText.get());
@@ -477,6 +478,9 @@ if(isBD()){
 			if (isRY()) {
 				logs.debug(MessageFormat.format(LoggingMsg.CLICKING_SEL, HomePageSelectors.searchIconOpenRY));
 				SelectorUtil.initializeSelectorsAndDoActions(HomePageSelectors.searchIconOpenRY.get());
+			}else if(isBD()) {
+				logs.debug(MessageFormat.format(LoggingMsg.CLICKING_SEL, HomePageSelectors.BDsearchIconOpen));
+				SelectorUtil.initializeSelectorsAndDoActions(HomePageSelectors.BDsearchIconOpen.get());
 			} else {
 				logs.debug(MessageFormat.format(LoggingMsg.CLICKING_SEL, HomePageSelectors.searchIconOpen));
 				WebElement element = SelectorUtil.getElement(HomePageSelectors.searchIconOpen.get());
@@ -513,20 +517,20 @@ if(isBD()){
 		try {
 			getCurrentFunctionName(true);
 			boolean isDisplayed;
-			logs.debug("Validate if logo exist");
-			if(isBD()){
-				isDisplayed = SelectorUtil.isDisplayed(HomePageSelectors.BDsearchIconField.get());
-		}
-		else{
+			logs.debug("Validate if search icon field opened");
+//			if(isBD()){
+//				isDisplayed = SelectorUtil.isDisplayed(HomePageSelectors.BDsearchIconField.get());
+//		}
+//		else{
 				isDisplayed = SelectorUtil.isDisplayed(HomePageSelectors.searchIconField.get());
-		}
+		//}
 			
 			getCurrentFunctionName(false);
 			return isDisplayed;
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(
 					ExceptionMsg.PageFunctionFailed
-							+ "Create a new gift registrey has failed, a selector is not found by selelnium ",
+							+ "Search icon selector is not found by selelnium ",
 					new Object() {
 					}.getClass().getEnclosingMethod().getName()));
 			throw e;
@@ -537,7 +541,7 @@ if(isBD()){
 		try {
 			getCurrentFunctionName(true);
 			boolean isNotDisplayed;
-			logs.debug("Validate if logo exist");
+			logs.debug("Validate if search icon field closed");
 			if(isBD()){
 			isNotDisplayed = SelectorUtil.isNotDisplayed(HomePageSelectors.BDsearchIconField.get());
 		}
@@ -563,12 +567,12 @@ if(isBD()){
 			getCurrentFunctionName(true);
 			List<String> subStrArr = new ArrayList<String>();
 			String valuesArr = "placeholder";
-			if(isBD()){
-			subStrArr.add(HomePageSelectors.BDsearchIconField.get());
-		}
-		else{
+//			if(isBD()){
+//			subStrArr.add(HomePageSelectors.BDsearchIconField.get());
+//		}
+//		else{
 		subStrArr.add(HomePageSelectors.searchIconField.get());
-		}
+	//	}
 			String placeHolderText = SelectorUtil.getAttr(subStrArr, valuesArr);
 			getCurrentFunctionName(false);
 			return placeHolderText;
@@ -615,8 +619,8 @@ if(isBD()){
 	public static boolean isLoadedModuleHeroImg() throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			boolean loaded = SelectorUtil.isImgLoaded(HomePageSelectors.moduleHeroImg);
-			if(isBD() ){
+			boolean loaded = false;
+			if(isBD()){
 			loaded = SelectorUtil.isImgLoaded(HomePageSelectors.moduleHeroImgBD);
 			}
 		else {
@@ -660,14 +664,16 @@ if(isBD()){
 			for (int i = 0; i < elements.size(); i++) {	
 				JavascriptExecutor jse = (JavascriptExecutor) getDriver();
 				jse.executeScript("arguments[0].scrollIntoView(false)", elements.get(i));
-				if (!elements.get(i).isDisplayed())
+				if (!elements.get(i).isDisplayed()) {
 					loaded = false;
+					
+					}
 			}
 			getCurrentFunctionName(false);
 			return loaded;
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed
-					+ "List validation has failed, a selector cant be found bu selenium", new Object() {
+					+ "List validation has failed, a selector cant be found by selenium", new Object() {
 					}.getClass().getEnclosingMethod().getName()));
 			throw e;
 		}
@@ -721,7 +727,7 @@ if(isBD()){
 		try {
 			getCurrentFunctionName(true);
 			List<WebElement> espots = new ArrayList<WebElement>();
-			if (isBD()) {
+		if (isBD()) {
 			espots = SelectorUtil.getAllElements(HomePageSelectors.espotsBD.get());
 		} else if (isGH()) {
 			espots = SelectorUtil.getAllElements(HomePageSelectors.GHespots.get());
@@ -1006,6 +1012,7 @@ if(isBD()){
 					SelectorUtil.clickOnWebElement(randomElement);
 
 					Thread.sleep(1000);
+					if(!isBD())
 					SelectorUtil.waitGWTLoadedEventPWA();
 					String currentPageUrl = SelectorUtil.getCurrentPageUrl();
 					// Get the current page URL.

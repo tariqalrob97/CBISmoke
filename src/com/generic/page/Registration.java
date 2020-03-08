@@ -46,7 +46,7 @@ public class Registration extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			logs.debug(MessageFormat.format(LoggingMsg.TYPING_ELEMENT_VALUE, "firstname ", firstName));
-			if (isGH() || isRY() || isBD()) {
+			if (isGH() || isRY() || isBD() || isGR()) {
 				if (isMobile()) {
 					List<WebElement> fields = SelectorUtil.getAllElements(RegistrationSelectors.firstNameGH.get());
 					SelectorUtil.writeToFieldPWA(fields.get(0),firstName);

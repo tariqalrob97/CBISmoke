@@ -23,6 +23,7 @@ import com.generic.setup.SelTestCase;
 import com.generic.util.RandomUtilities;
 import com.generic.util.SelectorUtil;
 import com.generic.page.PayPal;
+import com.generic.page.PDP.*;
 
 public class CheckOut extends SelTestCase {
 
@@ -369,7 +370,7 @@ public class CheckOut extends SelTestCase {
 				}
 				
 				Thread.sleep(2000);
-				PDP.addProductsToCart();
+				PDP_cart.addProductsToCart();
 
 				URI url = new URI(getURL());
 				getDriver().get("https://" + url.getHost());
@@ -962,7 +963,7 @@ public class CheckOut extends SelTestCase {
 				Thread.sleep(3000);
 				PDPs.navigateToRandomPDP();
 				Thread.sleep(3000);
-				PDP.clickAddToCartButtonNoBundle();
+				PDP_cart.clickAddToCartButtonNoBundle();
 				Thread.sleep(3500);
 			}
 			getCurrentFunctionName(false);

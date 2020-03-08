@@ -30,9 +30,9 @@ public class PDPBase extends SelTestCase {
 
 
 
-	public static final String singlePDPSearchTerm = "Woven Rug";
-	public static final String BundlePDPSearchTerm = "Collection";
-	public static final String personalizedPDPSearchTerm = "Resort Cotton";
+	public static final String singlePDPSearchTerm = "WN151";
+	public static final String BundlePDPSearchTerm = "LC558";
+	public static final String personalizedPDPSearchTerm = "FH239";
 	public static final String slipCoverPDPSearchTerm = "sa083";
 	public static final String comShopPDPSearchTerm = "uc033";
 	public static final String FabricPDPSearchTerm = "Red Fabric";

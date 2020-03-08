@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import com.generic.page.PDP.*;
 import com.generic.selector.GiftRegistrySelectors;
 import com.generic.setup.ExceptionMsg;
 import com.generic.setup.SelTestCase;
@@ -476,7 +477,7 @@ public class GiftRegistry extends SelTestCase {
 			SelectorUtil.waitGWTLoadedEventPWA();
 
 			if(isBD() && isMobile()) {
-				PDP.selectSwatches();
+				PDP_selectSwatches.selectSwatches();
 				// Click on save to gift registry button.
 				if(isBD()) {
 					SelectorUtil.initializeSelectorsAndDoActions(GiftRegistrySelectors.BDsaveToGR.get());
@@ -670,7 +671,7 @@ public class GiftRegistry extends SelTestCase {
 			PDP.NavigateToPDP(singlePDPSearchTerm);
 
 			logs.debug("Select product swatched.");
-			PDP.selectSwatches();
+			PDP_selectSwatches.selectSwatches();
 
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {

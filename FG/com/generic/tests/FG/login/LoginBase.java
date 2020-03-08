@@ -83,6 +83,7 @@ public class LoginBase extends SelTestCase {
 			if (proprties.equals("Success login")) {
 				Testlogs.get().debug("Validate Success login");
 				Login.fillLoginFormAndClickSubmit(userMail, (String) userPassword);
+				Thread.sleep(2000);
 				sassert().assertTrue(Login.checkUserAccount(), LoggingMsg.USER_IS_NOT_LOGGED_IN_SUCCESSFULLY);
 			}
 			if (proprties.equals("emptyData")) {
