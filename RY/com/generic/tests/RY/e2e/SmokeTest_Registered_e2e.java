@@ -65,8 +65,8 @@ public class SmokeTest_Registered_e2e extends SelTestCase {
 		int productsCount = Integer.parseInt(productsNumber);
 
 		try {
-
-			Registeration_e2e.Validate();
+			
+			Login_e2e.Validate(userdetails.get("mail"),userdetails.get("password"));
 			HomePage_e2e.Validate();
 			Search_PLP_e2e.Validate();
 			PDP_e2e.Validate();
