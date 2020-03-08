@@ -1,6 +1,6 @@
 package com.generic.tests.BD.PDP;
 
-import com.generic.page.PDP;
+import com.generic.page.PDP.*;
 import com.generic.page.PDP_BD;
 import com.generic.selector.PDPSelectors;
 import com.generic.setup.SelTestCase;
@@ -40,8 +40,8 @@ public class PDP_PC  extends SelTestCase{
 			sassert().assertTrue(PDP_BD.isaddToWLGRbtnEnabled(), "Add to WL/GR button is not enabled");
 		    sassert().assertTrue(PDP_BD.isaddToCartbtnEnabled(), "Add to Cart button is not enabled");
 		}else {
-		    sassert().assertTrue(PDP.validateAddToWLGRIsEnabled(bundle, ProductID), "Add to WL/GR button is not enabled");
-		    sassert().assertTrue(PDP.validateAddToCartIsEnabled(bundle, ProductID), "Add to Cart button is not enabled");
+		    sassert().assertTrue(PDP_WL.validateAddToWLGRIsEnabled(bundle, ProductID), "Add to WL/GR button is not enabled");
+		    sassert().assertTrue(PDP_cart.validateAddToCartIsEnabled(bundle, ProductID), "Add to Cart button is not enabled");
 		}
 		String bottomPrice ;
 
@@ -52,7 +52,7 @@ public class PDP_PC  extends SelTestCase{
 		if(isMobile())
 			PDP_BD.clickAddToCartBtn();
 		else
-		    PDP.clickAddToCartButton();
+			PDP_cart.clickAddToCartButton();
 		sassert().assertTrue(PDP_BD.validateProductIsAddedToCart(), "Product is not added successfully");
 
 		getCurrentFunctionName(false);

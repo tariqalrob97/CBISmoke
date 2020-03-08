@@ -1,7 +1,7 @@
 package com.generic.tests.BD.PDP;
 
 import com.generic.page.HomePage;
-import com.generic.page.PDP;
+import com.generic.page.PDP.*;
 import com.generic.page.PDP_BD;
 import com.generic.setup.SelTestCase;
 
@@ -44,16 +44,16 @@ public class PDP_VK extends SelTestCase{
 
 	
 		Thread.sleep(2500);
-		sassert().assertTrue(PDP.validateAddToWLGRIsEnabled(bundle, ProductID), "Add to WL/GR button is not enabled");
-		sassert().assertTrue(PDP.validateAddToCartIsEnabled(bundle, ProductID), "Add to Cart button is not enabled");
+		sassert().assertTrue(PDP_WL.validateAddToWLGRIsEnabled(bundle, ProductID), "Add to WL/GR button is not enabled");
+		sassert().assertTrue(PDP_cart.validateAddToCartIsEnabled(bundle, ProductID), "Add to Cart button is not enabled");
 	
 		String bottomPrice ;
 	    bottomPrice = PDP.getBottomPrice(bundle, ProductID);
 		sassert().assertTrue(!bottomPrice.equals("$0.00"),
 				"Bottom price is not updated correctly, Current price: " + bottomPrice);
 		Thread.sleep(2500);
-		PDP.clickAddToCartButton();
-		sassert().assertTrue(PDP.validateProductIsAddedToCart(), "Product is not added successfully");
+		PDP_cart.clickAddToCartButton();
+		sassert().assertTrue(PDP_cart.validateProductIsAddedToCart(), "Product is not added successfully");
 
 		getCurrentFunctionName(false);
 	}

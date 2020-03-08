@@ -6,7 +6,7 @@ import java.util.List;
 import com.generic.page.Cart;
 import com.generic.page.CheckOut;
 import com.generic.setup.SelTestCase;
-import com.generic.page.PDP;
+import com.generic.page.PDP.*;
 
 public class CartValidation extends SelTestCase {
 
@@ -16,10 +16,10 @@ public class CartValidation extends SelTestCase {
 		if (PDP.bundleProduct())
 			PDP.clickBundleItems();
 
-		PDP.addProductsToCart();
+		PDP_cart.addProductsToCart();
 
 		if (!isMobile())
-			PDP.clickAddToCartCloseBtn();
+			PDP_cart.clickAddToCartCloseBtn();
 
 	}
 

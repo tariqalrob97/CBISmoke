@@ -87,6 +87,7 @@ public class LoginBase extends SelTestCase {
 				Testlogs.get().debug("Login mail is: " + userMail);
 				Testlogs.get().debug("Login password is: " + userPassword);
 				Login.fillLoginFormAndClickSubmit(userMail, (String) userPassword);
+				Thread.sleep(2000);
 				sassert().assertTrue(Login.checkUserAccount(), LoggingMsg.USER_IS_NOT_LOGGED_IN_SUCCESSFULLY);
 			}
 

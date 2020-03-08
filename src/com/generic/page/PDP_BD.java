@@ -8,6 +8,7 @@ import java.util.Random;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
+import com.generic.page.PDP.*;
 import com.generic.selector.PDPSelectors;
 import com.generic.setup.ExceptionMsg;
 import com.generic.setup.SelTestCase;
@@ -52,12 +53,12 @@ public class PDP_BD extends SelTestCase{
 					
 					Boolean noOptions = true;
 					if (SelTestCase.isMobile())
-						noOptions = !PDP.getAddToCartClass();
+						noOptions = !PDP_cart.getAddToCartClass();
 					else
-						noOptions = PDP.getSwatchContainersdivClass(0).contains("no-options");
+						noOptions = PDP_selectSwatches.getSwatchContainersdivClass(0).contains("no-options");
 					
 					isPriceShownInOption = !noOptions;
-					PDP.FGGRselectSwatchesSingle();
+					PDP_selectSwatches.FGGRselectSwatchesSingle();
 				}
 			getCurrentFunctionName(false);
 			return isPriceShownInOption;
@@ -68,12 +69,33 @@ public class PDP_BD extends SelTestCase{
 		}
 	}
 	
+	
+	public static boolean isPriceShownInSizeOption() throws Exception {
+		try {
+			getCurrentFunctionName(true);
+			Boolean isShown = false;
+			if(!SelectorUtil.isNotDisplayed(PDPSelectors.BD_size_option.get())) {
+				if (SelectorUtil.getElement(PDPSelectors.BD_size_option.get()).getText().contains("$")) {
+					isShown = true;
+				}else {
+					isShown = false;
+				}
+			}
+			
+			getCurrentFunctionName(false);
+			return isShown;
+	} catch (NoSuchElementException e) {
+		logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed + "select swatch was failed", new Object() {
+		}.getClass().getEnclosingMethod().getName()));
+		throw e;
+	}
+	}
 	public static boolean BDselectSwatchesBundle(String ProductID) throws Exception {
 		try {
 			getCurrentFunctionName(true);
 			boolean isSizeShownAsListbox = false;
-			int numberOfSwatchContainers = PDP.getNumberofSwatchContainersBundle();
-			if ( (numberOfSwatchContainers == 0) || PDP.getSwatchContainersdivClassBundle(0, ProductID).contains("no-options")) {
+			int numberOfSwatchContainers = PDP_selectSwatches.getNumberofSwatchContainersBundle();
+			if ( (numberOfSwatchContainers == 0) || PDP_selectSwatches.getSwatchContainersdivClassBundle(0, ProductID).contains("no-options")) {
 				logs.debug("No options to select");
 			} else {
 				String  ListSelector;
@@ -84,9 +106,10 @@ public class PDP_BD extends SelTestCase{
 
 				for (int i = 0; i < numberOfSwatchContainers; i++) {
 					
-					if (PDP.getSwatchContainersdivClassBundle(i, ProductID).contains("listbox") || !SelectorUtil.isNotDisplayed(PDPSelectors.BDallSizes.get())) {
+					if (PDP_selectSwatches.getSwatchContainersdivClassBundle(i, ProductID).contains("listbox") || !SelectorUtil.isNotDisplayed(PDPSelectors.BDallSizes.get())) {
 						isSizeShownAsListbox = true;
-						PDP.selectNthListBoxFirstValueBundle(ListSelector, i);
+						if(!SelectorUtil.isNotDisplayed(ListSelector))
+						PDP_selectSwatches.selectNthListBoxFirstValueBundle(ListSelector, i);
 					} else {
 							if(isMobile()) {
 								SelectorUtil.initializeSelectorsAndDoActions(MessageFormat.format(PDPSelectors.BDimageOption.get(),1, i + 1, 1));
@@ -95,7 +118,7 @@ public class PDP_BD extends SelTestCase{
 								action.moveToElement(element).click().build().perform();
 					
 							}else {
-								PDP.selectNthOptionFirstSwatchBundle("css,#" + ProductID + " "
+								PDP_selectSwatches.selectNthOptionFirstSwatchBundle("css,#" + ProductID + " "
 									+ MessageFormat.format(PDPSelectors.BDimageOption.get(), i + 1, 1).replace("css,", ""));
 	
 							}
@@ -117,17 +140,19 @@ public class PDP_BD extends SelTestCase{
 	public static String getPersonaliztionCost(String ProductID, Boolean bundle) throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			String cost = "";
+			String cost = "Free";
 			String costSelector = PDPSelectors.BDPersonalizationCost.get();
 			if(!isMobile()) {
 				if(bundle)
 			          costSelector  = "css,#" + ProductID + " "
 					+ PDPSelectors.BDPersonalizationCost.get().replace("css,", "");
+				if(!SelectorUtil.isNotDisplayed(costSelector))
 			    cost = SelectorUtil.getElement(costSelector).getText();
 			}else {
+				if(!SelectorUtil.isNotDisplayed(costSelector)) {
 				String text = SelectorUtil.getElement(costSelector).getText();
 				cost = text.substring(text.lastIndexOf("$") + 1);
-			}
+			}}
 			getCurrentFunctionName(false);
 			return cost;
 		} catch (NoSuchElementException e) {
