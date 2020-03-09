@@ -17,6 +17,10 @@ public class Cart_e2e extends SelTestCase {
 			CheckOut.navigatetoCart();
 
 			Thread.sleep(1500);
+			
+			getDriver().navigate().refresh();
+			
+			Thread.sleep(3500);
 
 			// Check addition of products and thier images and prices
 			sassert().assertTrue(Cart.isItemAdded(), "Added item to cart validation has some problems");

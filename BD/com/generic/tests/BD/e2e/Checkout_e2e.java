@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.NoSuchElementException;
 import com.generic.page.CheckOut;
 import com.generic.setup.ExceptionMsg;
+import com.generic.setup.GlobalVariables;
 import com.generic.setup.LoggingMsg;
 import com.generic.setup.SelTestCase;
 
@@ -56,9 +57,10 @@ public class Checkout_e2e extends SelTestCase {
 			CheckOut.fillPayment(paymentDetails);
 			
 			// Saving tax and shipping costs to compare them in the confirmation page
-			orderShipping = CheckOut.getShippingCostsRYInStep4();
-			orderTax = CheckOut.getTaxCostsRYInStep4();
+			orderShipping = CheckOut.getShippingCosts();
+			orderTax = CheckOut.getTaxCosts(GlobalVariables.FG_TAX_CART);
 			orderSubTotal = CheckOut.getSubTotal();
+
 
 			logs.debug(MessageFormat.format(LoggingMsg.SEL_TEXT, "Shippping cost is: " + orderShipping
 					+ " ---- Tax cost is:" + orderTax + " ---- Subtotal is:" + orderSubTotal));
@@ -126,14 +128,15 @@ public class Checkout_e2e extends SelTestCase {
 			CheckOut.fillPayment(paymentDetails);
 
 			// Saving tax and shipping costs to compare them in the confirmation page
-			orderShipping = CheckOut.getShippingCostsRYInStep4();
-			orderTax = CheckOut.getTaxCostsRYInStep4();
+			orderShipping = CheckOut.getShippingCosts();
+			orderTax = CheckOut.getTaxCosts(GlobalVariables.FG_TAX_CART);
 			orderSubTotal = CheckOut.getSubTotal();
+
 
 			logs.debug(MessageFormat.format(LoggingMsg.SEL_TEXT, "Shippping cost is: " + orderShipping
 					+ " ---- Tax cost is:" + orderTax + " ---- Subtotal is:" + orderSubTotal));
 
-			Thread.sleep(2000);
+			Thread.sleep(3000);
 			
 			// Click place order button
 			CheckOut.placeOrder();
