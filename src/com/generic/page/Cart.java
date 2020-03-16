@@ -237,11 +237,18 @@ public class Cart extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			List<WebElement> savedItems = new ArrayList<WebElement>();
+			boolean inDisplayed;
+
 			if (isGHRY())
 				savedItems = SelectorUtil.getAllElements(CartSelectors.GHRYaddedItemsPrice.get());
 			else
 				savedItems = SelectorUtil.getAllElements(CartSelectors.addedItemsPrice.get());
-			boolean inDisplayed = HomePage.isListDisplayed(savedItems);
+
+			if (savedItems.size() > 0)
+				inDisplayed = true;
+			else
+				inDisplayed = false;
+
 			getCurrentFunctionName(false);
 			return inDisplayed;
 		} catch (NoSuchElementException e) {
