@@ -6,9 +6,8 @@ import com.generic.page.PDP_BD;
 import com.generic.setup.SelTestCase;
 
 public class PDP_VK extends SelTestCase{
-	public static void validate() throws Exception {
+	public static void validate(String searchTerm) throws Exception {
 		getCurrentFunctionName(true);
-		String searchTerm = "#MO263";
 		PDP.NavigateToPDP(searchTerm);
 	    Boolean bundle = PDP.bundleProduct();
 			String ProductID = "";
@@ -47,8 +46,15 @@ public class PDP_VK extends SelTestCase{
 		sassert().assertTrue(PDP_WL.validateAddToWLGRIsEnabled(bundle, ProductID), "Add to WL/GR button is not enabled");
 		sassert().assertTrue(PDP_cart.validateAddToCartIsEnabled(bundle, ProductID), "Add to Cart button is not enabled");
 	
+		
+		boolean priceShownInSizeOption = PDP_BD.isPriceShownInSizeOption();
+	
 		String bottomPrice ;
-	    bottomPrice = PDP.getBottomPrice(bundle, ProductID);
+		if(priceShownInSizeOption) {
+			 bottomPrice = PDP_BD.BDgetBottomPrice(ProductID,bundle);
+		}else {
+			 bottomPrice = PDP.getBottomPrice(bundle, ProductID);
+		}
 		sassert().assertTrue(!bottomPrice.equals("$0.00"),
 				"Bottom price is not updated correctly, Current price: " + bottomPrice);
 		Thread.sleep(2500);

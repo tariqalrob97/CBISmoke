@@ -16,7 +16,7 @@ public class CheckOutSelectors
 	
 	//Step 1 Multiple Addresses
 	public static final cselector multipleAddressesTab = new cselector( "css,.shipping-address .gwt-TabBarItem .gwt-HTML","css,.t-checkout-step1__tabs .pw-tabs__tab a");
-	public static final cselector addAddressButton = new cselector( "css,.order-item-shipping-panel .button","css,.t-cart__product-list .add-address-button:nth-child(odd)");
+	public static final cselector addAddressButton = new cselector( "css,.order-item-shipping-panel .button","css,.t-cart__product-list .add-address-button");
 	public static final cselector saveAddressButton = new cselector("css,.okCancelPanel .button.primary","css,.m-address_widget_modal button.pw--primary");
 	public static final cselector firstStepNextButton = new cselector( "css,.next-botton-panel .primary-button","css,.c-checkout-accordion__next-cancel-panel .pw--primary");
 	public static final cselector firstName =new cselector( "css,.add-address-dialog .AddrFNameSpot input","css,.m-address_widget_modal .c-custom-input-fname input");

@@ -249,15 +249,15 @@ public class PDP_BD extends SelTestCase{
 						if (!isMobile() && !bundle)
 						SelectorUtil.initializeSelectorsAndDoActions(MessageFormat.format(PDPSelectors.BDconfigureItems.get(),productNo)+":nth-child("+index+")");
 						if(isMobile() && bundle && index==1) {
-						SelectorUtil.initializeSelectorsAndDoActions(MessageFormat.format(PDPSelectors.BDitemsAccordion.get(),productNo,index));
+					//	SelectorUtil.initializeSelectorsAndDoActions(MessageFormat.format(PDPSelectors.BDitemsAccordion.get(),productNo,index));
 						}
 					}
 					if(isMobile()) {
-						if(bundle) 
+						if(bundle) {
 							selectOption(MessageFormat.format(PDPSelectors.BDnthConfigureItemOptionBundle.get(),productNo, i + 1));
-						else 
+						}else {
 						    SelectorUtil.initializeSelectorsAndDoActions(MessageFormat.format(PDPSelectors.BDnthConfigureItemOption.get(),productNo+1, i + 1));
-					}else {
+						}}else {
 						if(bundle) 
 						    selectOption(MessageFormat.format(PDPSelectors.BDnthConfigureItemOptionBundle.get(),productNo, i + 2));
 						else 
@@ -360,9 +360,8 @@ public class PDP_BD extends SelTestCase{
 		try {
 			getCurrentFunctionName(true);
 			Thread.sleep(1000);
-			String valuesArr = "FFF1";
 			if (!SelectorUtil.isNotDisplayed(Selector)) {
-				SelectorUtil.initializeSelectorsAndDoActions(Selector, valuesArr);
+				SelectorUtil.initializeSelectorsAndDoActions(Selector);
 			}
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
