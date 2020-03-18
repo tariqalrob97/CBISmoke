@@ -4,7 +4,7 @@ import com.generic.setup.cselector;
 
 public class CartSelectors{
 	
-	public static final cselector paypalCheckoutBtn=new cselector("css,#checkout-with-paypal-button","css,button > div > div > img");
+	public static final cselector paypalCheckoutBtn=new cselector("css,.checkout-with-paypal-button-holder > #checkout-with-paypal-button","css,button > div > div > img");
 	public static final cselector shipping = new cselector("css,.shipping > span","css, tr.t-cart__summary-shipping-charges > td.pw-ledger__value");
 	public static final cselector tax = new cselector("css,.tax > span","css, table > tbody > tr:nth-child(2) > td.pw-ledger__value");
 	public static final cselector paymentPageCheckNextBtn=new cselector("css,div.gwt-accordion.checkout-steps.tabopen > div:nth-child(2) > div.gwt-accordion-tab-content.tabopen > div > div > div > div > div.next-botton-panel > button","css, div.c-checkout-accordion__next-cancel-panel > button");  

@@ -37,6 +37,7 @@ public class CheckOut extends SelTestCase {
 			public static final String firstName = "firstName";
 			public static final String adddressLine = "adddressLine";
 			public static final String city = "city";
+			public static final String state = "state";
 			public static final String zipcode = "postal";
 			public static final String phone = "phone";
 		}
@@ -105,6 +106,7 @@ public class CheckOut extends SelTestCase {
 		public static void typeCity(String city) throws Exception {
 			try {
 				getCurrentFunctionName(true);
+				if(!SelectorUtil.isNotDisplayed(CheckOutSelectors.city.get()))
 				SelectorUtil.initializeSelectorsAndDoActions(CheckOutSelectors.city.get(), city);
 				getCurrentFunctionName(false);
 			} catch (NoSuchElementException e) {
@@ -161,6 +163,7 @@ public class CheckOut extends SelTestCase {
 		public static void selectState(String state) throws Exception {
 			try {
 				getCurrentFunctionName(true);
+				if(!SelectorUtil.isNotDisplayed(CheckOutSelectors.state.get()))
 				SelectorUtil.initializeSelectorsAndDoActions(CheckOutSelectors.state.get(), state);
 				getCurrentFunctionName(false);
 			} catch (NoSuchElementException e) {
@@ -490,7 +493,8 @@ public class CheckOut extends SelTestCase {
 				shippingAddress.typeStreetAddress(RandomUtilities.getRandomName(), false);
 				shippingAddress.typeZipCode(addressDetalis.get(CheckOut.shippingAddress.keys.zipcode), false);
 				shippingAddress.typePhone(RandomUtilities.getRandomPhone(), false);
-
+				shippingAddress.selectState(addressDetalis.get(CheckOut.shippingAddress.keys.state));
+				shippingAddress.typeCity(addressDetalis.get(CheckOut.shippingAddress.keys.city));
 				// Save address button
 				SelectorUtil.initializeSelectorsAndDoActions(CheckOutSelectors.saveAddressButton.get(), "");
 			}
@@ -803,7 +807,8 @@ public class CheckOut extends SelTestCase {
 	public static void placeOrder() throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			SelectorUtil.initializeSelectorsAndDoActions(CheckOutSelectors.placeSecureOrderButton.get());
+			SelectorUtil.initializeSelectorsAndDoActions(CheckOutSelectors.placeSecureOrderButton.get(),
+					"ForceAction,click");
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(

@@ -7,6 +7,7 @@ import java.util.NoSuchElementException;
 
 import org.openqa.selenium.WebElement;
 
+import com.generic.selector.CheckOutSelectors;
 import com.generic.selector.RegistrationSelectors;
 import com.generic.setup.Common;
 import com.generic.setup.ExceptionMsg;
@@ -36,6 +37,7 @@ public class Registration extends SelTestCase {
 			public static final String firstName = "firstName";
 			public static final String adddressLine = "adddressLine";
 			public static final String city = "city";
+			public static final String state = "state";
 			public static final String zipcode = "postal";
 			public static final String phone = "phone";
 		}
@@ -203,7 +205,8 @@ public class Registration extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			logs.debug(MessageFormat.format(LoggingMsg.CLICKING_SEL, "Register btn"));
-			SelectorUtil.initializeSelectorsAndDoActions(RegistrationSelectors.registerBtn.get());
+			SelectorUtil.initializeSelectorsAndDoActions(RegistrationSelectors.registerBtn.get(),
+					"ForceAction,click");
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(
@@ -266,8 +269,8 @@ public class Registration extends SelTestCase {
 			if (!"".equals(addressDetails.get(shippingAddress.keys.city)))
 				typeCity(addressDetails.get(shippingAddress.keys.city));
 
-			if (!"".equals(addressDetails.get(shippingAddress.keys.city)))
-				typeState(addressDetails.get(shippingAddress.keys.city));
+			if (!"".equals(addressDetails.get(shippingAddress.keys.state)))
+				typeState(addressDetails.get(shippingAddress.keys.state));
 
 			if (!"".equals(addressDetails.get(shippingAddress.keys.zipcode)))
 				typeZipcode(addressDetails.get(shippingAddress.keys.zipcode));

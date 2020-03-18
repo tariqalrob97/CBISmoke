@@ -169,7 +169,7 @@ public class PDPSelectors {
 	public static final cselector BDoptionsContainer = new cselector("css,div.t-product-details__accordion-collection > div:nth-child(1) .c-product-options");
 	public static final cselector BDallSizes = new cselector("css,div>.gwt-ListBox","css,.c-product-options__content.u-border-brand-color.u-border-radius");
 	public static final cselector BDallColors = new cselector("css,.image-picker-option-image-container >img","css,.pw-swatch__chip>.pw-swatch__chip-inner>.c-product-option-items__item-content.gwt-image-picker-option");	
-	public static final cselector BDbottomPriceSingle = new cselector("css,div.gwt-price-panel.gwt-was-now-price-with-promo-holder .gwt-promo-discount-now-label","css,div > div > div > div.t-product-details-price > div > div");
+	public static final cselector BDbottomPriceSingle = new cselector("css,div.gwt-price-panel.gwt-was-now-price-with-promo-holder .gwt-promo-discount-now-label","css,div > div:nth-child(2) > div > div.t-product-details__price");
 	public static final cselector BDaddToCartBtnEnabledSingle = new cselector("css,button.add-to-cart-button","css,button.c-add-to-cart");
 	public static final cselector BDaddToWLGRBtnEnabledSingle = new cselector("css,button.add-to-gift-registry-button","css,button.t-product-details__wishlist-button");
 	public static final cselector BDListBox = new cselector("css,select.gwt-ListBox","css,.c-product-options__content.u-border-brand-color.u-border-radius");

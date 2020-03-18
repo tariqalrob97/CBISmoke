@@ -7,9 +7,8 @@ import com.generic.setup.SelTestCase;
 import com.generic.util.SelectorUtil;
 
 public class PDP_PC  extends SelTestCase{
-	public static void validate() throws Exception {
+	public static void validate(String searchTerm) throws Exception {
 		getCurrentFunctionName(true);
-		String searchTerm = "#UD105";
 		PDP.NavigateToPDP(searchTerm);
 		
 	    Boolean bundle = PDP.bundleProduct();

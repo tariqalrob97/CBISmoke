@@ -32,10 +32,12 @@ public class PDPBase extends SelTestCase {
 
 	public static final String singlePDPSearchTerm = "WN151";
 	public static final String BundlePDPSearchTerm = "LC558";
-	public static final String personalizedPDPSearchTerm = "FH239";
+	public static final String personalizedPDPSearchTerm = "RD313";
 	public static final String slipCoverPDPSearchTerm = "sa083";
 	public static final String comShopPDPSearchTerm = "uc033";
 	public static final String FabricPDPSearchTerm = "Red Fabric";
+	public static final String vkPDPSearchTerm = "MO263";
+	public static final String pcPDPSearchTerm = "UD105";
 
 
 	public static final String wishListGuestValidation = "Wish List Guest Validation";
@@ -91,7 +93,7 @@ public class PDPBase extends SelTestCase {
 				WistListGuestValidation.validate();
 			}
 			if (proprties.contains(vkPDP)) {
-		     	PDP_VK.validate();
+		     	PDP_VK.validate(vkPDPSearchTerm);
 			}
 			
 			if(proprties.contains(slipCoverPDP)) {
@@ -106,7 +108,7 @@ public class PDPBase extends SelTestCase {
 				FabricPDPValidation.validate(FabricPDPSearchTerm);
 			
 			if (proprties.contains(pcPDP)) {
-				PDP_PC.validate();
+				PDP_PC.validate(pcPDPSearchTerm);
 			}
 			
 			sassert().assertAll();

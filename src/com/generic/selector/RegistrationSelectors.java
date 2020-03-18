@@ -28,7 +28,7 @@ public class RegistrationSelectors {
 	public static final cselector confirmPassword = new cselector ("css,#logonPasswordVerify","css,#field-8");												
 	public static final cselector confirmPasswordGH = new cselector ("css,#logonPasswordVerify","css,.t-registration__step1-container input");
 	//Fields of 2nd step
-	public static final cselector firstName =new cselector ("css,#bill_fnbox","css,#field-9");
+	public static final cselector firstName =new cselector ("css,#bill_fnbox","css,#field-10");
 	public static final cselector firstNameBD = new cselector("css,#bill_fnbox","css,#field-10");
 	public static final cselector firstNameGH =new cselector ("css,#bill_fnbox","css,.c-custom-form .c-custom-input-container input");
 	public static final cselector lastName =new cselector ( "css,#bill_lnbox","css,#field-12");
