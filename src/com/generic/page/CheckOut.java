@@ -2,7 +2,6 @@ package com.generic.page;
 
 import java.net.URI;
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -14,7 +13,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 import com.generic.selector.CartSelectors;
 import com.generic.selector.CheckOutSelectors;
-import com.generic.selector.PayPalSelectors;
 import com.generic.setup.ExceptionMsg;
 import com.generic.setup.GlobalVariables;
 import com.generic.setup.LoggingMsg;
@@ -22,7 +20,6 @@ import com.generic.setup.PDPs;
 import com.generic.setup.SelTestCase;
 import com.generic.util.RandomUtilities;
 import com.generic.util.SelectorUtil;
-import com.generic.page.PayPal;
 import com.generic.page.PDP.*;
 
 public class CheckOut extends SelTestCase {
@@ -212,12 +209,17 @@ public class CheckOut extends SelTestCase {
 				Thread.sleep(1000);
 				Set<String> winIds = getDriver().getWindowHandles();
 				Iterator<String> iter = winIds.iterator();
+				
 				logs.debug("number of windows:" + winIds.size());
+				
 				String main = iter.next();
 				logs.debug("main window " + main);
+				
 				String paypal = iter.next();
 				logs.debug("paypal window " + paypal);
+				
 				getDriver().switchTo().window(paypal);
+				
 				getCurrentFunctionName(false);
 				return main;
 			} catch (NoSuchElementException e) {
@@ -713,16 +715,20 @@ public class CheckOut extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			int taxIndex = 1;
+			int expectedElementstoBeFound =8;
+			int RYMobileTaxIndex =1;
+			int MobileTaxIndex =2;
+			
 			List<WebElement> elements =SelectorUtil.getAllElements(CheckOutSelectors.shippingAndTaxCost.get()); 
 			
 			if (isRY() && !isMobile()) {
-				taxIndex = 1 + grTaxIndex;
+				taxIndex = RYMobileTaxIndex + grTaxIndex;
 			}
 			
 			if (isMobile()) {
-				taxIndex = 2 + grTaxIndex;
+				taxIndex = MobileTaxIndex + grTaxIndex;
 				
-				if(elements.size()==8 && isFG())
+				if(elements.size()==expectedElementstoBeFound && isFG())
 					taxIndex++;
 			}
 			
