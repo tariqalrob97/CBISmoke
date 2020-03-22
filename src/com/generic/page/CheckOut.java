@@ -235,7 +235,8 @@ public class CheckOut extends SelTestCase {
 		public static void typeCVV(String CVV) throws Exception {
 			try {
 				getCurrentFunctionName(true);				
-				if (isFG() || isGR() || isBD()) {
+			/*	
+				if (isGR()) {
 					// Switch to cvv iframe
 					Thread.sleep(2800);
 
@@ -243,7 +244,19 @@ public class CheckOut extends SelTestCase {
 					waitforCvvFrame();
 
 					getDriver().switchTo().frame(GlobalVariables.CVV_Iframe_ID);
-					SelectorUtil.initializeSelectorsAndDoActions(CheckOutSelectors.cvv.get(), CVV);
+					SelectorUtil.initializeSelectorsAndDoActions(CheckOutSelectors.cvv2.get(), CVV);
+
+					Thread.sleep(2000);
+
+					// Switch to default frame
+					getDriver().switchTo().defaultContent();
+					
+				} 
+ */
+				
+				if (isFG() || isBD() || isGR()) {
+						
+				SelectorUtil.initializeSelectorsAndDoActions(CheckOutSelectors.cvv.get(), CVV);
 
 
 				} else if(isGH() || isRY()) {
@@ -251,11 +264,7 @@ public class CheckOut extends SelTestCase {
 
 				}
 				
-				Thread.sleep(2000);
-
-				// Switch to default frame
-				getDriver().switchTo().defaultContent();
-
+				
 				getCurrentFunctionName(false);
 			} catch (NoSuchElementException e) {
 				logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed + "CVV typing failed", new Object() {
@@ -569,7 +578,7 @@ public class CheckOut extends SelTestCase {
 			boolean state = false;
 			Thread.sleep(1000);
 
-			if (isFG()) {
+			if (isFG() || isBD()) {
 				state = SelectorUtil.isDisplayed(CheckOutSelectors.stepTwoIdentifier.get());
 			} else if (isGR()) {
 				state = SelectorUtil.isDisplayed(CheckOutSelectors.stepTwoIdentifierGR.get());
