@@ -398,7 +398,11 @@ if(isBD()){
 			WebElement element = SelectorUtil.getElement(HomePageSelectors.GHminiCartClose.get());
 			Actions actions = new Actions(SelTestCase.getDriver());
 			actions.moveToElement(element).click().perform();
-		}else {
+		}
+		else if(isFG()) {
+			SelectorUtil.initializeSelectorsAndDoActions(HomePageSelectors.miniCartCloseFG.get());
+		}
+		else {
 			SelectorUtil.initializeSelectorsAndDoActions(HomePageSelectors.miniCartClose.get());
 		}
 
