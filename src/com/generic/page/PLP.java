@@ -961,7 +961,7 @@ public class PLP extends SelTestCase {
 			}
 			if (isGH() && isDesktop() || isRY() && isMobile())
 				SelectorUtil.clickOnWebElement(recommendedProduct);
-			// for GH and Mobile
+
 			else if(isGH() && isMobile()) {
 				SelectorUtil.initializeSelectorsAndDoActions(SelectorSS);
 				}
