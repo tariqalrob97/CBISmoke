@@ -30,6 +30,7 @@ public class PLP extends SelTestCase {
 			getCurrentFunctionName(true);
 			boolean result;
 			String productName;
+			// add {}
 			if (isiPad()) {
 				disableMonetate();
 			}
@@ -893,7 +894,7 @@ public class PLP extends SelTestCase {
 			getCurrentFunctionName(true);
 			boolean result;
 			String productTitle;
-
+			// For Product Title
 			productTitle = PDP.getTitle();
 
 			result = (productName.toLowerCase().contains(productTitle.toLowerCase()))
@@ -960,6 +961,7 @@ public class PLP extends SelTestCase {
 			}
 			if (isGH() && isDesktop() || isRY() && isMobile())
 				SelectorUtil.clickOnWebElement(recommendedProduct);
+			// for GH and Mobile
 			else if(isGH() && isMobile()) {
 				SelectorUtil.initializeSelectorsAndDoActions(SelectorSS);
 				}

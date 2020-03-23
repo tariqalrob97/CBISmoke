@@ -360,6 +360,7 @@ public class PDP extends SelTestCase {
 				SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.titleGH.get());
 
 			} 
+			// For BD
 			else if (isBD()) {
 				SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.BDtitle.get());
 			}
