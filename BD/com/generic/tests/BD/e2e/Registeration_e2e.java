@@ -18,6 +18,7 @@ public class Registeration_e2e extends SelTestCase {
 			String password = "P@ssword1";
 			
 			Registration.goToRegistrationForm();
+			Common.refreshBrowser();
 			
 			Thread.sleep(2000);
 			Registration.typeEmailAddress(email);

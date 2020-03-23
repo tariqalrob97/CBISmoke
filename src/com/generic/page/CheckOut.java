@@ -1053,6 +1053,30 @@ public class CheckOut extends SelTestCase {
 
 	}
 	
+	
+	public static boolean checkIfOrderPlaced() throws Exception {
+		getCurrentFunctionName(true);
 
+		try {
+			boolean state = true;
+			try {
+				if (SelectorUtil.isDisplayed(CheckOutSelectors.placeSecureOrderButton.get())) {
+					state = false;
+					logs.debug("button is still displayed");
+				}
+				
+			} catch (Exception e) {
+				state = true;
+			}
+
+			getCurrentFunctionName(false);
+			logs.debug("Order state is" +state);
+			return state;
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
+			}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+	}
 
 }
