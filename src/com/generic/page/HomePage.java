@@ -385,17 +385,21 @@ public class HomePage extends SelTestCase {
 		try {
 			getCurrentFunctionName(true);
 			logs.debug("Clicking on Mini Cart clsoe icon");
-			if (isBD()) {
-				logs.debug("Clicking on Mini Cart clsoe icon");
-				SelectorUtil.initializeSelectorsAndDoActions(HomePageSelectors.miniCartCloseBD.get());
-			} else if (isGH() || isRY()) {
-				WebElement element = SelectorUtil.getElement(HomePageSelectors.GHminiCartClose.get());
-				Actions actions = new Actions(SelTestCase.getDriver());
-				actions.moveToElement(element).click().perform();
-			} else {
-				SelectorUtil.initializeSelectorsAndDoActions(HomePageSelectors.miniCartClose.get());
-			}
-
+			if(isBD()){
+		logs.debug("Clicking on Mini Cart clsoe icon");
+		SelectorUtil.initializeSelectorsAndDoActions(HomePageSelectors.miniCartCloseBD.get());
+		}
+		else if(isGH() || isRY()) {
+			WebElement element = SelectorUtil.getElement(HomePageSelectors.GHminiCartClose.get());
+			Actions actions = new Actions(SelTestCase.getDriver());
+			actions.moveToElement(element).click().perform();
+		}
+		else if(isFG()) {
+			SelectorUtil.initializeSelectorsAndDoActions(HomePageSelectors.miniCartCloseFG.get());
+		}
+		else {
+			SelectorUtil.initializeSelectorsAndDoActions(HomePageSelectors.miniCartClose.get());
+		}
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(

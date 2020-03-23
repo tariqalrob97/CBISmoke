@@ -44,6 +44,8 @@ public class HomePageSelectors
 	// adding this
 	public static final cselector miniCartTextBD = new cselector("css,.empty-cart-sign-in-container > .gwt-HTML.inst-copy","css,#pw-sheet-0 > div.pw-sheet__wrapper > div > div.pw-sheet__content > div > div > div > div");
 	public static final cselector miniCartClose = new cselector("css,button.pw-button.c-icon-label-button");
+	public static final cselector miniCartCloseFG = new cselector("css,button.pw-button.c-icon-label-button","css,button.pw-button");
+	//#pwa-shop-nav-button
 	// adding this
 	public static final cselector miniCartCloseBD = new cselector("css,button.pw-button.c-icon-label-button");
 	public static final cselector miniCartProductContainer = new cselector("css,.mini-cart-items-container","css,.m-mini-cart__content-products");
