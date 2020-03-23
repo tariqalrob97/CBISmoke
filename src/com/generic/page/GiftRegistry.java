@@ -371,27 +371,34 @@ public class GiftRegistry extends SelTestCase {
 			logs.debug("Start checking the number of items in the cart");
 			int numberOfItemAddedToCart = 0;
 			String str;
-			if (isBD()) {
-				str = SelectorUtil.getElement(GiftRegistrySelectors.miniCartTextBD.get()).getText();
-				logs.debug("Step 1 : for BD " + str);
-			} else {
-				str = SelectorUtil.getElement(GiftRegistrySelectors.miniCartText.get()).getText();
-				logs.debug("Step 2 : for others " + str);
+
+			if(isBD()) {
+			str = SelectorUtil.getElement(GiftRegistrySelectors.miniCartTextBD.get()).getText();
+			logs.debug("Step 1 : for BD first " + str);
 			}
-			str = str.replaceAll("[^-?0-9]+", "");
-			if (isGR() && isMobile() && !SelectorUtil.isElementExist(By.cssSelector(str))) {
+			else {
+			str = SelectorUtil.getElement(GiftRegistrySelectors.miniCartText.get()).getText();
+			logs.debug("Step 2 : for others first" + str);
+			}
+		    str = str.replaceAll("[^-?0-9]+", "");
+		    if (!(isBD() && isMobile())) {
+			if (isGR() && isMobile()) {
 				logs.debug("GR and Mobile and Minicart is not exsist");
 				numberOfItemAddedToCart = 0;
-			} else {
-				if (str.contains("NO ITEMS")) {
+			}
+			else {
+				if (str.contains("NO ITEMS") || str.contains("")) {
+					logs.debug("Step 2 : for ---GR--- first" + str);
 					numberOfItemAddedToCart = 0;
-				}
-				if (isGH())
-					str = str.replace("CART (", "").replace(" items)", "");
+			    }
+				else if (isGH()) {
+					str = str.replace("CART (", "").replace(" items)","");
+
 				numberOfItemAddedToCart = Integer.parseInt(str);
+				}
 				logs.debug(" Minicart is exsist");
 			}
-
+		}
 			logs.debug("Number of items before add to cart: " + numberOfItemAddedToCart);
 
 			if (registryName.equals("") || registryName == null) {
@@ -482,21 +489,27 @@ public class GiftRegistry extends SelTestCase {
 				logs.debug("Start checking the number of items in the cart");
 				numberOfItemAddedToCart = 0;
 
-				if (isBD()) {
-					// str = GiftRegistrySelectors.miniCartTextBD.get();
-					str = SelectorUtil.getElement(GiftRegistrySelectors.miniCartTextBD.get()).getText();
-					logs.debug("Step 1 : for BD " + str);
-					// str = "NO ITEMS IN THE CART.";
-				} else {
-					// str = GiftRegistrySelectors.miniCartText.get();
-					str = SelectorUtil.getElement(GiftRegistrySelectors.miniCartText.get()).getText();
-					logs.debug("Step 2 : for others " + str);
+				
+				if(!isMobile()) {
+				if(isBD()) {
+				//str = GiftRegistrySelectors.miniCartTextBD.get();
+				str = SelectorUtil.getElement(GiftRegistrySelectors.miniCartTextBD.get()).getText();
+				logs.debug("Step 1 : for BD " + str);
+				//str = "NO ITEMS IN THE CART."; 
+				}
+				else {
+				//str = GiftRegistrySelectors.miniCartText.get();
+				str = SelectorUtil.getElement(GiftRegistrySelectors.miniCartText.get()).getText();
+				logs.debug("Step 2 : for others " + str);
 				}
 				str = str.replaceAll("[^-?0-9]+", "");
 				if (isGR() && isMobile() && !SelectorUtil.isElementExist(By.cssSelector(str))) {
 					logs.debug("GR and Mobile and Minicart is not exsist");
 					numberOfItemAddedToCart = 0;
-				} else {
+
+				}
+				}
+				else {
 					if (str.contains("NO ITEMS")) {
 						numberOfItemAddedToCart = 0;
 					}
@@ -579,6 +592,21 @@ public class GiftRegistry extends SelTestCase {
 				Thread.sleep(1500);
 				SelectorUtil.waitGWTLoadedEventPWA();
 			}
+			if(isGH() && isMobile()) {
+			PDP_selectSwatches.selectSwatches();
+			SelectorUtil.initializeSelectorsAndDoActions(GiftRegistrySelectors.GHaddtoGR.get());
+			SelectorUtil.initializeSelectorsAndDoActions(GiftRegistrySelectors.GHadditemtoGR.get());
+			}
+			else if (isFG() && isMobile()) {
+			PDP_selectSwatches.selectSwatches();
+			SelectorUtil.initializeSelectorsAndDoActions(GiftRegistrySelectors.saveToGR.get());
+			SelectorUtil.initializeSelectorsAndDoActions(GiftRegistrySelectors.FGadditemtoGR.get());
+			}
+			else if(isGR() && isMobile()) {
+			PDP_selectSwatches.selectSwatches();
+			SelectorUtil.initializeSelectorsAndDoActions(GiftRegistrySelectors.saveToGR.get());
+			SelectorUtil.initializeSelectorsAndDoActions(GiftRegistrySelectors.FGadditemtoGR.get());	
+			}
 			// Validate product added to gift registry modal.
 			validateAddToGRModal();
 			if (isGH())
@@ -600,9 +628,10 @@ public class GiftRegistry extends SelTestCase {
 			// Click on add to cart.
 			if (isGH()) {
 				SelectorUtil.initializeSelectorsAndDoActions(GiftRegistrySelectors.GHAddGRProductToCart.get());
-			}
-			if (isBD()) {
+				}
+			else if(isBD()) {
 				SelectorUtil.initializeSelectorsAndDoActions(GiftRegistrySelectors.BDaddGRProductToCart.get());
+
 			} else {
 				SelectorUtil.initializeSelectorsAndDoActions(GiftRegistrySelectors.addGRProductToCart.get());
 			}
@@ -652,6 +681,7 @@ public class GiftRegistry extends SelTestCase {
 			getCurrentFunctionName(true);
 
 			logs.debug("Navigate to PDP by search on:" + singlePDPSearchTerm);
+			Thread.sleep(2000);
 			PDP.NavigateToPDP(singlePDPSearchTerm);
 
 			logs.debug("Select product swatched.");
