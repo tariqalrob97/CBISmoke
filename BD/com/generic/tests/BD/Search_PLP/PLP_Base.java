@@ -56,11 +56,13 @@ public class PLP_Base extends SelTestCase {
 		try {
 
 			if (Proprties.contains(plpTest)) {
-				if (isMobile())
+				if (isMobile()) {
 					PLP.navigateToRandomPLPMobileIpad();
+				}
 
-				else
+				else {
 					PLP.navigateToRandomPLPDesktop();
+				}
 
 				sassert().assertTrue(PLP.VerifyPLP(), "Serach validation failed");
 			}
