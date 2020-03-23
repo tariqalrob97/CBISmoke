@@ -889,7 +889,7 @@ public class Registration extends SelTestCase {
 		// register new user and validate the results
 		Registration.fillRegistrationFirstStep(email, email, password, password);
 
-		Thread.sleep(1500);
+		Thread.sleep(6500);
 		Registration.fillRegistrationSecondStep(firstName, lastName, companyName, addressDetails);
 
 		// Success message needs to be updated on excel to (Welcome to your account at )

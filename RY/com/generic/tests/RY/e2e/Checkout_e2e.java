@@ -102,7 +102,8 @@ public class Checkout_e2e extends SelTestCase {
 
 			// Clicking begin secure checkout
 			CheckOut.clickBeginSecureCheckoutButton();
-			Thread.sleep(1500);
+			Thread.sleep(6500);
+			
 			if (!CheckOut.checkIfInStepTwo()) {
 				// Proceed to step 2
 				CheckOut.proceedToStepTwo();
@@ -136,6 +137,19 @@ public class Checkout_e2e extends SelTestCase {
 			
 			// Click place order button
 			CheckOut.placeOrder();
+			
+			Thread.sleep(6500);
+			
+			if (isMobile() && !CheckOut.checkIfOrderPlaced() ) {
+
+				// Fill payment details in the last step
+				CheckOut.fillPayment(paymentDetails);
+
+				// Click place order button
+				CheckOut.placeOrder();
+
+			}
+
 
 			Thread.sleep(3500);
 
