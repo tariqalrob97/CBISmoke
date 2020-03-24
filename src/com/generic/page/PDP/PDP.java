@@ -359,9 +359,15 @@ public class PDP extends SelTestCase {
 			if (isGHRY()) {
 				SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.titleGH.get());
 
-			} else {
+			} 
+
+			else if (isBD()) {
+				SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.BDtitle.get());
+			}
+			else {
 				SelectorUtil.initializeSelectorsAndDoActions(PDPSelectors.title.get());
 			}
+
 			getCurrentFunctionName(false);
 			return SelectorUtil.textValue.get();
 		} catch (NoSuchElementException e) {

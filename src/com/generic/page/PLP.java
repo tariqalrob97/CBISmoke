@@ -30,8 +30,10 @@ public class PLP extends SelTestCase {
 			getCurrentFunctionName(true);
 			boolean result;
 			String productName;
-			if (isiPad())
+			// add {}
+			if (isiPad()) {
 				disableMonetate();
+			}
 
 			if (!isGH()) {
 				if (isRY()) {
@@ -863,18 +865,18 @@ public class PLP extends SelTestCase {
 			boolean result = false;
 			Thread.sleep(2500);
 
-			if (isBD())
+			if (isBD()) {
+				result = SelectorUtil.isImgLoaded(PLPSelectors.productsImagesBD.get());
+			}
+			else if (isGR()) {
 				result = SelectorUtil.isImgLoaded(PLPSelectors.productsImagesGR.get());
-
-			else if (isGR())
-				result = SelectorUtil.isImgLoaded(PLPSelectors.productsImagesGR.get());
-
-			else if (isGH() || isRY())
+			}
+			else if (isGH() || isRY()) {
 				result = SelectorUtil.isImgLoaded(PLPSelectors.productsImagesGH.get());
-
-			else if (isFG())
+			}
+			else if (isFG()) {
 				result = SelectorUtil.isImgLoaded(PLPSelectors.productsImages.get());
-
+			}
 			getCurrentFunctionName(false);
 			return result;
 		} catch (NoSuchElementException e) {
@@ -892,12 +894,8 @@ public class PLP extends SelTestCase {
 			getCurrentFunctionName(true);
 			boolean result;
 			String productTitle;
-
-			if (isRY()) {
-				productTitle = PDP.getImageSrcID();
-			} else {
-				productTitle = PDP.getTitle();
-			}
+			// For Product Title
+			productTitle = PDP.getTitle();
 
 			result = (productName.toLowerCase().contains(productTitle.toLowerCase()))
 					|| (productTitle.toLowerCase().contains(productName.toLowerCase()));
@@ -963,8 +961,13 @@ public class PLP extends SelTestCase {
 			}
 			if (isGH() && isDesktop() || isRY() && isMobile())
 				SelectorUtil.clickOnWebElement(recommendedProduct);
-			else
-				recommendedProduct.click();
+
+			else if(isGH() && isMobile()) {
+				SelectorUtil.initializeSelectorsAndDoActions(SelectorSS);
+				}
+				else {
+					recommendedProduct.click();
+				}
 
 			getCurrentFunctionName(false);
 
@@ -1034,13 +1037,18 @@ public class PLP extends SelTestCase {
 			getCurrentFunctionName(true);
 			String SelectorSS;
 
-			if (isGHRY() || isBD())
+			if (isGHRY() || isBD()) {
 				SelectorSS = PLPSelectors.GHproductsImages.get();
-
-			else if (isGR())
+			}
+			else if (isBD()) {
+				SelectorSS = PLPSelectors.productsImagesBD.get();
+			}
+			else if (isGR()) {
 				SelectorSS = PLPSelectors.productsImagesGR.get();
-			else
+			}
+			else {
 				SelectorSS = PLPSelectors.productsImages.get();
+			}
 			String itemTitle = SelectorUtil.getAttrString(SelectorSS, "alt");
 			if (isBD())
 				itemTitle = SelectorUtil.getElement(PLPSelectors.BDproductTitle.get()).getText();
@@ -1180,8 +1188,9 @@ public class PLP extends SelTestCase {
 				getDriver().get(randomElement.getAttribute("href"));
 			}
 
-			else
+			else {
 				SelectorUtil.clickOnWebElement(randomElement);
+			}
 
 			if (isCLP()) {
 				// Navigate to a PLP
