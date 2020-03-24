@@ -57,6 +57,14 @@ public class GuestCheckoutMultipleAddress extends SelTestCase {
 
 			// Proceed to step 4
 			CheckOut.proceedToStepFour();
+			
+			Thread.sleep(3500);
+			
+			// Current PWA issue
+			if (!CheckOut.checkIfinStepFour()) {
+				CheckOut.proceedToStepFour();
+
+			}
 
 			Thread.sleep(2000);
 
@@ -73,6 +81,19 @@ public class GuestCheckoutMultipleAddress extends SelTestCase {
 
 			// Click place order button
 			CheckOut.placeOrder();
+			
+			Thread.sleep(3000);
+			
+			if (isMobile() && !CheckOut.checkIfOrderPlaced() ) {
+
+				// Fill payment details in the last step
+				CheckOut.fillPayment(paymentDetails);
+
+				// Click place order button
+				CheckOut.placeOrder();
+
+			}
+
 
 			Thread.sleep(2000);
 
