@@ -20,23 +20,16 @@ public class GuestCheckoutMultipleAddress extends SelTestCase {
 			String orderShipping;
 
 			// Add products to cart
-			//CheckOut.addRandomProductTocart(productsCount);
-			Thread.sleep(80000);
-			
+			CheckOut.addRandomProductTocart(productsCount);
 			
 			// Navigating to Cart by URL
 			CheckOut.navigatetoCart();
-			
-			Thread.sleep(8000);
-
 
 			// Clicking begin secure checkout
 			CheckOut.clickBeginSecureCheckoutButton();
 
 			// Clicking begin secure checkout
 			CheckOut.clickGuestCheckoutButton();
-
-			Thread.sleep(8500);
 
 			// Clicking multiple addresses tab
 			CheckOut.clickMultipleAddressesTab();
