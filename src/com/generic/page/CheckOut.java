@@ -235,8 +235,8 @@ public class CheckOut extends SelTestCase {
 		public static void typeCVV(String CVV) throws Exception {
 			try {
 				getCurrentFunctionName(true);				
-			/*	
-				if (isGR()) {
+			
+			//	if (isGR()) {
 					// Switch to cvv iframe
 					Thread.sleep(2800);
 
@@ -251,19 +251,19 @@ public class CheckOut extends SelTestCase {
 					// Switch to default frame
 					getDriver().switchTo().defaultContent();
 					
-				} 
- */
+		//		} 
+ 
 				
-				if (isFG() || isBD() || isGR()) {
+	//			if (isFG() || isBD() || isGR()) {
 						
-				SelectorUtil.initializeSelectorsAndDoActions(CheckOutSelectors.cvv.get(), CVV);
+	//			SelectorUtil.initializeSelectorsAndDoActions(CheckOutSelectors.cvv.get(), CVV);
 
 
-				} else if(isGH() || isRY()) {
-					SelectorUtil.initializeSelectorsAndDoActions(CheckOutSelectors.cvvGH.get(), CVV);
-
-				}
-				
+//				} else if(isGH() || isRY()) {
+//					SelectorUtil.initializeSelectorsAndDoActions(CheckOutSelectors.cvvGH.get(), CVV);
+//
+//				}
+//				
 				
 				getCurrentFunctionName(false);
 			} catch (NoSuchElementException e) {
