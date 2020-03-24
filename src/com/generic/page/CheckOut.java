@@ -1078,5 +1078,29 @@ public class CheckOut extends SelTestCase {
 			throw e;
 		}
 	}
+	
+	public static boolean checkIfinStepFour() throws Exception {
+		getCurrentFunctionName(true);
+
+		try {
+			boolean state = false;
+			try {
+				if (SelectorUtil.isDisplayed(CheckOutSelectors.creditCardField.get())) {
+					state = true;
+					logs.debug("Now in Step 4");
+				}
+				
+			} catch (Exception e) {
+				state = false;
+			}
+
+			getCurrentFunctionName(false);
+			return state;
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
+			}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+	}
 
 }

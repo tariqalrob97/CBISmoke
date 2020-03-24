@@ -20,10 +20,15 @@ public class GuestCheckoutMultipleAddress extends SelTestCase {
 			String orderShipping;
 
 			// Add products to cart
-			CheckOut.addRandomProductTocart(productsCount);
-
+			//CheckOut.addRandomProductTocart(productsCount);
+			Thread.sleep(80000);
+			
+			
 			// Navigating to Cart by URL
 			CheckOut.navigatetoCart();
+			
+			Thread.sleep(8000);
+
 
 			// Clicking begin secure checkout
 			CheckOut.clickBeginSecureCheckoutButton();
@@ -31,7 +36,7 @@ public class GuestCheckoutMultipleAddress extends SelTestCase {
 			// Clicking begin secure checkout
 			CheckOut.clickGuestCheckoutButton();
 
-			Thread.sleep(1500);
+			Thread.sleep(8500);
 
 			// Clicking multiple addresses tab
 			CheckOut.clickMultipleAddressesTab();
@@ -57,6 +62,14 @@ public class GuestCheckoutMultipleAddress extends SelTestCase {
 			CheckOut.proceedToStepFour();
 			
 			Thread.sleep(3500);
+			
+			// Current PWA issue
+			if (!CheckOut.checkIfinStepFour()) {
+				CheckOut.proceedToStepFour();
+
+			}
+			
+			Thread.sleep(3500);
 
 			// Fill payment details in the last step
 			CheckOut.fillPayment(paymentDetails);
@@ -72,6 +85,18 @@ public class GuestCheckoutMultipleAddress extends SelTestCase {
 
 			// Click place order button
 			CheckOut.placeOrder();
+			
+			Thread.sleep(3000);
+			
+			if (isMobile() && !CheckOut.checkIfOrderPlaced() ) {
+
+				// Fill payment details in the last step
+				CheckOut.fillPayment(paymentDetails);
+
+				// Click place order button
+				CheckOut.placeOrder();
+
+			}
 
 			Thread.sleep(2500);
 
