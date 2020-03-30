@@ -877,7 +877,6 @@ public class CheckOut extends SelTestCase {
 	public static void closePromotionalModal() throws Exception {
 		try {
 			getCurrentFunctionName(true);
-			if (!getBrowserName().contains(GlobalVariables.browsers.iPad)) {
 				try {
 					WebDriverWait wait = new WebDriverWait(getDriver(), 25);
 					WebElement closeElement = wait.until(
@@ -887,7 +886,6 @@ public class CheckOut extends SelTestCase {
 					logs.debug("Promotional message didn't show up");
 
 				}
-			}
 			getCurrentFunctionName(false);
 		} catch (NoSuchElementException e) {
 			logs.debug(MessageFormat.format(ExceptionMsg.PageFunctionFailed, new Object() {
