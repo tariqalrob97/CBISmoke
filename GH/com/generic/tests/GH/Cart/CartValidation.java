@@ -65,47 +65,63 @@ public class CartValidation extends SelTestCase {
 		Cart.clickMoveToWishListBtnForSavedItem();
 
 	    Thread.sleep(3000);
-	    String WLName = PDP_WL.getWishListName();
-	    if(isMobile()) {
-			Cart.createNewWL(WLName);
-			Thread.sleep(1000);
-			Cart.clickOnSelectWLConfirmationBtn();
-	    }else {
-			sassert().assertTrue(PDP_WL.validateNameYourNewWLModalIsDisplayed(), "Name your new wish list modal is not dispayed");
-			Cart.createNewWL(WLName);
-			Cart.validateSelectWishListModalIsDisplayed();
-			sassert().assertTrue(PDP_WL.validateCreatedWLisSelectedByDefault(WLName), "created wish list is not selected by default");
-			PDP_WL.clickOnCreateNewWLConfirmationBtn();
-	    }
+	     String WLName = PDP_WL.getWishListName();
+
+		if (isRY()) {
+			if (isMobile()) {
+				Cart.createNewWL(WLName);
+				Thread.sleep(1000);
+				Cart.clickOnSelectWLConfirmationBtn();
+			} else {
+				sassert().assertTrue(PDP_WL.validateNameYourNewWLModalIsDisplayed(),
+						"Name your new wish list modal is not dispayed");
+				Cart.createNewWL(WLName);
+				Cart.validateSelectWishListModalIsDisplayed();
+				sassert().assertTrue(PDP_WL.validateCreatedWLisSelectedByDefault(WLName),
+						"created wish list is not selected by default");
+				PDP_WL.clickOnCreateNewWLConfirmationBtn();
+			}
+		}
 	    
 		Thread.sleep(3000);
-		//Save total again 
+		// Save total again
 		String totalPriceAfterMove = Cart.getTotalPrice();
-		
-		//Compare total values
-		sassert().assertTrue(!totalPriceBeforeMove.equals(totalPriceAfterMove), "Move item to wish list validation has some problems");
-		
-		if(isMobile()){
-			Thread.sleep(5000);
-			Cart.navigatetoWishList();
-			Cart.selectWLByName(WLName);
-		}else {
-			Cart.validateAddedToWLModalIsDisplayed();
-			Cart.clickOnViewListBtn();
+
+		// Compare total values
+		sassert().assertTrue(!totalPriceBeforeMove.equals(totalPriceAfterMove),
+				"Move item to wish list validation has some problems");
+
+		if (isRY()) {
+			if (isMobile()) {
+				Thread.sleep(5000);
+				Cart.navigatetoWishList();
+				Cart.selectWLByName(WLName);
+			} else {
+				Cart.validateAddedToWLModalIsDisplayed();
+				Cart.clickOnViewListBtn();
+			}
+			Thread.sleep(2000);
+			sassert().assertTrue(Cart.verifySavedItemToWL(), "Saved list validation has some problems");
+
+			Thread.sleep(2000);
+			Cart.moveItemsToCartFromWishlist();
+
+			Cart.clickOnCheckout();
+			Thread.sleep(2000);
 		}
-		Thread.sleep(2000);
-		sassert().assertTrue(Cart.verifySavedItemToWL(), "Saved list validation has some problems");
-		
-		Thread.sleep(2000);
-		Cart.moveItemsToCartFromWishlist();
-		
-		Cart.clickOnCheckout();
-		Thread.sleep(2000);
-		//Deletion and total before and after
+		else {
+			Thread.sleep(3000);
+
+			if(isMobile())
+			Cart.clickMovetoCartFromSavedForLater();
+			Thread.sleep(4000);
+
+		}
+		// Deletion and total before and after
 		String totalPriceBeforeDelete = Cart.getTotalPrice();
-		
+
 		Cart.clickRemoveBtnForSavedItem();
-		
+
 		Thread.sleep(2000);
 		
 		String totalPriceAfterDelete = Cart.getTotalPrice();

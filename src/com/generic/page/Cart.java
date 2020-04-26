@@ -143,6 +143,25 @@ public class Cart extends SelTestCase {
 			throw e;
 		}
 	}
+	
+	// Done CBI
+	public static void clickMovetoCartFromSavedForLater() throws Exception {
+		try {
+			getCurrentFunctionName(true);
+			List<WebElement> buttons= SelectorUtil.getAllElements(CartSelectors.moveToCartFromSaveForLaterButton.get());
+			buttons.get(1).click();
+			getCurrentFunctionName(false);
+		} catch (NoSuchElementException e) {
+			logs.debug(MessageFormat.format(
+					ExceptionMsg.PageFunctionFailed,
+					new Object() {
+					}.getClass().getEnclosingMethod().getName()));
+			throw e;
+		}
+	}
+	
+	
+	
 
 	// Done CBI
 	public static String getTotalPrice() throws Exception {
